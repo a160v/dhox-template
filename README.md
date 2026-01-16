@@ -11,7 +11,7 @@ Built-in features with astro blog:
 - Markdown & MDX support
 
 Extra features implemented:
-- 4 Themes	Light, Dark, Sepia (for readability)
+- 3 Themes	Light, Dark, Sepia (for readability)
 - Dock bar	Glassmorphic dock bar with auto-hide on scroll (replaces the nav bar)
 - Animations	Fade-in reveals, hover effects, page transitions
 - Typography	Inter font with Apple-like sizing scale
