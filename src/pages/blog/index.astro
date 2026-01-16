@@ -19,7 +19,7 @@ const [featuredPost, ...restPosts] = posts;
   title={`Blog – ${SITE_TITLE}`}
   description={`Blog – ${SITE_DESCRIPTION}`}
 >
-  <main>
+  <main id="main-content">
     <header class="blog-header reveal">
       <TagNav />
     </header>
@@ -27,7 +27,11 @@ const [featuredPost, ...restPosts] = posts;
     {
       featuredPost && (
         <article class="featured-post reveal">
-          <a href={`/blog/${featuredPost.id}/`} class="featured-link">
+          <a
+            href={`/blog/${featuredPost.id}/`}
+            class="featured-link"
+            aria-label={`Read article: ${featuredPost.data.title}`}
+          >
             {featuredPost.data.heroImage && (
               <div class="featured-image">
                 <Image
@@ -63,7 +67,11 @@ const [featuredPost, ...restPosts] = posts;
               class="post-card reveal"
               style={`animation-delay: ${index * 80}ms`}
             >
-              <a href={`/blog/${post.id}/`} class="post-link">
+              <a
+                href={`/blog/${post.id}/`}
+                class="post-link"
+                aria-label={`Read article: ${post.data.title}`}
+              >
                 {post.data.heroImage && (
                   <div class="post-image">
                     <Image

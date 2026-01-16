@@ -71,6 +71,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     </script>
   </head>
   <body>
+    <!-- Skip link for keyboard navigation -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <slot />
     <Dock />
 
@@ -86,18 +88,19 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         const observer = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              const delay = parseInt(entry.target.dataset.revealDelay || "0");
+              const target = entry.target as HTMLElement;
+              const delay = parseInt(target.dataset.revealDelay || "0");
               setTimeout(() => {
-                entry.target.classList.add("revealed");
+                target.classList.add("revealed");
               }, delay);
-              observer.unobserve(entry.target);
+              observer.unobserve(target);
             }
           });
         }, observerOptions);
 
         const elements = document.querySelectorAll(".reveal:not(.revealed)");
         elements.forEach((el, index) => {
-          el.dataset.revealDelay = String(index * 80);
+          (el as HTMLElement).dataset.revealDelay = String(index * 80);
           observer.observe(el);
         });
       }
@@ -110,7 +113,3 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     </script>
   </body>
 </html>
-
-<style is:global>
-  /* ViewTransitions handles the fade - no need for manual opacity animation */
-</style>
