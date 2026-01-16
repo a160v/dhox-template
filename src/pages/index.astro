@@ -10,23 +10,21 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
         <span class="name">Aleks Vangjelofski</span>
       </h1>
 
-      <p class="hero-subtitle animate-fade-in-up delay-1">
-        Welcome to my corner of the internet.
+      <p class="hero-tagline animate-fade-in-up delay-1">Policy meets code.</p>
+
+      <p class="hero-bio animate-fade-in-up delay-2">
+        I work at the intersection of <strong
+          >technology, policy, and international coordination</strong
+        >. Currently studying European Transformation at the College of Europe,
+        with experience spanning startups, EU digital regulation, and software
+        development.
       </p>
-
-      <div class="hero-cta animate-fade-in-up delay-2">
-        <a href="/about" class="btn btn-primary">About me</a>
-        <a href="/blog" class="btn btn-secondary">Read the blog</a>
-      </div>
     </div>
-
-    <!-- <div class="decorative-gradient"></div> -->
   </main>
 </BaseLayout>
 
 <style>
   .hero-container {
-    /* Subtract body's dock padding to prevent extra scrollable whitespace on mobile */
     min-height: calc(100vh - var(--dock-height) - var(--space-8));
     min-height: calc(100dvh - var(--dock-height) - var(--space-8));
     display: flex;
@@ -44,16 +42,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
   }
 
   .hero-title {
-    margin-bottom: var(--space-6);
-  }
-
-  .greeting {
-    display: block;
-    font-size: var(--text-xl);
-    font-weight: 400;
-    color: var(--color-text-muted);
-    margin-bottom: var(--space-2);
-    letter-spacing: 0;
+    margin-bottom: var(--space-4);
   }
 
   .name {
@@ -70,55 +59,25 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
     background-clip: text;
   }
 
-  .hero-subtitle {
-    font-size: var(--text-xl);
+  .hero-tagline {
+    font-size: var(--text-2xl);
     color: var(--color-text-muted);
-    margin-bottom: var(--space-10);
-    line-height: 1.6;
+    font-weight: 500;
+    margin-bottom: var(--space-6);
+    letter-spacing: -0.02em;
   }
 
-  .hero-cta {
-    display: flex;
-    gap: var(--space-4);
-    justify-content: center;
-    flex-wrap: wrap;
+  .hero-bio {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0 auto;
   }
 
-  /* Button hover shadow override for homepage accent */
-  .btn-primary:hover {
-    box-shadow: 0 10px 20px rgba(0, 113, 227, 0.2);
-  }
-
-  /* Decorative animated gradient */
-  .decorative-gradient {
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(
-      circle at 30% 30%,
-      rgba(var(--gradient-accent-rgb, 0, 113, 227), 0.08) 0%,
-      transparent 50%
-    );
-    animation: gradientMove 20s ease-in-out infinite;
-    pointer-events: none;
-  }
-
-  @keyframes gradientMove {
-    0%,
-    100% {
-      transform: translate(0, 0) rotate(0deg);
-    }
-    25% {
-      transform: translate(10%, 5%) rotate(5deg);
-    }
-    50% {
-      transform: translate(-5%, 10%) rotate(-5deg);
-    }
-    75% {
-      transform: translate(-10%, -5%) rotate(3deg);
-    }
+  .hero-bio strong {
+    color: var(--color-text);
+    font-weight: 600;
   }
 
   /* Animation initial states */
@@ -126,9 +85,25 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
     opacity: 0;
   }
 
+  .delay-1 {
+    animation-delay: 0.1s;
+  }
+
+  .delay-2 {
+    animation-delay: 0.2s;
+  }
+
   @media (max-width: 640px) {
     .hero-container {
       padding: var(--space-6);
+    }
+
+    .hero-tagline {
+      font-size: var(--text-xl);
+    }
+
+    .hero-bio {
+      font-size: var(--text-base);
     }
   }
 </style>

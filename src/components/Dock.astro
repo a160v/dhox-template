@@ -1,5 +1,4 @@
 ---
-// Apple-style bottom dock navigation
 import { SITE_CONFIG } from "../consts";
 
 const currentPath = Astro.url.pathname;
@@ -118,14 +117,6 @@ function isActive(href: string): boolean {
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
-    transition:
-      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-      opacity 0.3s ease;
-  }
-
-  .dock.hidden {
-    transform: translateX(-50%) translateY(calc(100% + var(--space-8)));
-    opacity: 0;
   }
 
   .dock-container {
@@ -368,6 +359,29 @@ function isActive(href: string): boolean {
 
   // Initialize Dock - called on page load and ViewTransitions navigation
   function initDock() {
+    // Update active state based on current URL (needed for ViewTransitions)
+    const currentPath = window.location.pathname;
+    const dockItems = document.querySelectorAll(".dock-item[href]");
+
+    dockItems.forEach((item) => {
+      const href = item.getAttribute("href");
+      if (!href || href.startsWith("mailto:")) return;
+
+      // Check if this item should be active
+      let isActive = false;
+      if (href === "/") {
+        isActive = currentPath === "/";
+      } else {
+        isActive = currentPath.startsWith(href);
+      }
+
+      if (isActive) {
+        item.classList.add("active");
+      } else {
+        item.classList.remove("active");
+      }
+    });
+
     // Initialize theme and icon
     const initialTheme = getStoredTheme();
     setTheme(initialTheme);
@@ -383,26 +397,6 @@ function isActive(href: string): boolean {
     // Font toggle button
     const fontToggle = document.getElementById("font-toggle");
     fontToggle?.addEventListener("click", cycleFont);
-
-    // Dock hide/show on scroll
-    let lastScrollY = window.scrollY;
-    const dock = document.getElementById("dock");
-
-    window.addEventListener(
-      "scroll",
-      () => {
-        const currentScrollY = window.scrollY;
-
-        if (currentScrollY > lastScrollY && currentScrollY > 100) {
-          dock?.classList.add("hidden");
-        } else {
-          dock?.classList.remove("hidden");
-        }
-
-        lastScrollY = currentScrollY;
-      },
-      { passive: true }
-    );
   }
 
   // Run on initial load

@@ -2,17 +2,20 @@
 import type { CollectionEntry } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import FormattedDate from "../components/FormattedDate.astro";
+import TableOfContents from "../components/TableOfContents.astro";
 
-type Props = CollectionEntry<"blog">["data"];
+type Props = CollectionEntry<"blog">["data"] & {
+  headings?: { depth: number; slug: string; text: string }[];
+};
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
-
-// Calculate reading time (rough estimate)
-const content = Astro.slots.has("default")
-  ? await Astro.slots.render("default")
-  : "";
-const wordCount = content.split(/\s+/).length;
-const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  headings = [],
+  tags = [],
+} = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -20,59 +23,56 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200));
     <article class="blog-post">
       <!-- Header -->
       <header class="post-header reveal">
+        <h1 class="post-title">{title}</h1>
+        {description && <p class="post-description">{description}</p>}
         <div class="post-meta">
+          <a
+            href={tags.length > 0 ? `/blog/tag/${tags[0]}` : "/blog"}
+            class="post-type"
+          >
+            {
+              tags.length > 0
+                ? tags
+                    .map((tag) => tag.charAt(0).toUpperCase() + tag.slice(1))
+                    .join(", ")
+                : "Article"
+            }
+          </a>
+          <span class="separator">·</span>
           <time datetime={pubDate.toISOString()}>
             <FormattedDate date={pubDate} />
           </time>
-          <span class="separator">·</span>
-          <span class="reading-time">{readingTime} min read</span>
         </div>
-        <h1 class="post-title">{title}</h1>
-        {description && <p class="post-description">{description}</p>}
       </header>
 
-      <!-- Hero Image -->
-      {
-        heroImage && (
-          <div class="hero-image reveal">
-            <img src={heroImage.src} alt={title} />
-          </div>
-        )
-      }
+      <!-- Content Wrapper -->
+      <div class="content-wrapper">
+        <div class="prose reveal">
+          <!-- Table of Contents Accordion -->
+          {headings.length > 0 && <TableOfContents headings={headings} />}
 
-      <!-- Content -->
-      <div class="prose reveal">
-        {
-          updatedDate && (
-            <p class="updated-notice">
-              <em>
-                Last updated on <FormattedDate date={updatedDate} />
-              </em>
-            </p>
-          )
-        }
-        <slot />
+          {
+            updatedDate && (
+              <p class="updated-notice">
+                <em>
+                  Last updated on <FormattedDate date={updatedDate} />
+                </em>
+              </p>
+            )
+          }
+          <slot />
+        </div>
       </div>
 
       <!-- Footer -->
       <footer class="post-footer reveal">
-        <a href="/blog" class="back-link">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <line x1="19" y1="12" x2="5" y2="12"></line>
-            <polyline points="12 19 5 12 12 5"></polyline>
-          </svg>
-          <span>Back to Blog</span>
-        </a>
+        <nav class="breadcrumb-classic" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span class="separator">›</span>
+          <a href="/blog">Blog</a>
+          <span class="separator">›</span>
+          <span class="current" aria-current="page">{title}</span>
+        </nav>
       </footer>
     </article>
   </main>
@@ -83,6 +83,7 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200));
     padding-top: var(--space-12);
     padding-bottom: var(--space-16);
     max-width: 680px;
+    margin: 0 auto;
   }
 
   .blog-post {
@@ -95,6 +96,20 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200));
     margin-bottom: var(--space-10);
   }
 
+  .post-title {
+    font-size: clamp(var(--text-2xl), 5vw, var(--text-4xl));
+    line-height: 1.15;
+    margin-bottom: var(--space-4);
+    font-weight: 700;
+  }
+
+  .post-description {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    margin: 0 0 var(--space-6) 0;
+    line-height: 1.6;
+  }
+
   .post-meta {
     display: flex;
     align-items: center;
@@ -102,47 +117,66 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200));
     gap: var(--space-2);
     font-size: var(--text-sm);
     color: var(--color-text-muted);
-    margin-bottom: var(--space-4);
   }
 
-  .separator {
+  .breadcrumb-classic {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .breadcrumb-classic a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .breadcrumb-classic a:hover {
+    color: var(--color-accent);
+  }
+
+  .breadcrumb-classic .separator {
+    opacity: 0.5;
+    font-size: var(--text-xs);
+  }
+
+  .breadcrumb-classic .current {
+    color: var(--color-text);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+  }
+
+  .post-type {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    transition: color var(--transition-fast);
+  }
+
+  .post-type:hover {
+    color: var(--color-accent);
+  }
+
+  .post-meta .separator {
     opacity: 0.5;
   }
 
-  .post-title {
-    font-size: clamp(var(--text-2xl), 5vw, var(--text-4xl));
-    line-height: 1.15;
-    margin-bottom: var(--space-4);
-  }
-
-  .post-description {
-    font-size: var(--text-lg);
-    color: var(--color-text-muted);
-    margin: 0;
-    max-width: 540px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  /* Hero Image */
-  .hero-image {
-    margin-bottom: var(--space-10);
-    margin-left: calc(var(--space-6) * -1);
-    margin-right: calc(var(--space-6) * -1);
-  }
-
-  .hero-image img {
+  /* One Column Content */
+  .content-wrapper {
     width: 100%;
-    height: auto;
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-xl);
   }
 
-  /* Prose */
   .prose {
-    margin-bottom: var(--space-12);
+    width: 100%;
   }
 
+  /* Prose Styling */
   .updated-notice {
     font-size: var(--text-sm);
     color: var(--color-text-muted);
@@ -156,20 +190,12 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200));
   .post-footer {
     padding-top: var(--space-8);
     border-top: 1px solid var(--color-border);
+    margin-top: var(--space-12);
   }
 
   @media (max-width: 640px) {
     main {
       padding-top: var(--space-8);
-    }
-
-    .hero-image {
-      margin-left: calc(var(--space-4) * -1);
-      margin-right: calc(var(--space-4) * -1);
-    }
-
-    .hero-image img {
-      border-radius: var(--radius-lg);
     }
   }
 </style>

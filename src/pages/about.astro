@@ -1,11 +1,95 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Timeline from "../components/Timeline.astro";
 import { SITE_TITLE, SOCIAL_LINKS, AUTHOR_EMAIL } from "../consts";
+
+// About page content - edit this data to update your story
+// (Also mirrored in /src/content/about.md for reference)
+const aboutData = {
+  title: "My Story: A Wildcard's Journey",
+  subtitle:
+    "It's not linear, and it doesn't fit into a single job title. But it makes perfect sense once you understand what drives me.",
+  intro:
+    "Let me tell you my story. It's not linear, and it doesn't fit into a single job title. But it makes perfect sense once you understand what drives me: <strong>diving headfirst into complex problems at the intersection of technology, policy, and international coordination</strong>.",
+
+  timeline: [
+    {
+      date: "2024 – 2025",
+      title: "Coming Full Circle",
+      variant: "default",
+      content:
+        "Enrolled in the <strong>Master of Arts in European Transformation and Integration</strong> at the College of Europe in Tirana, Albania, focusing my thesis on Digital Transformation of Public Administration.",
+    },
+    {
+      date: "2023 – 2024",
+      title: "Becoming Bilingual in Policy and Code",
+      variant: "default",
+      content:
+        "Completed a 9-week coding bootcamp at <strong>Le Wagon in Zurich</strong>. Worked as Software Consultant at <strong>Imperium Code</strong>, supporting research on <strong>Article 40 of the Digital Services Act</strong>.",
+    },
+    {
+      date: "2021 – 2022",
+      title: "Berlin: Thriving in Chaos",
+      variant: "default",
+      content:
+        "At <strong>Gorillas Technologies</strong>, became Product Operations Manager during hypergrowth. Reduced country launch time from 8 weeks to 4 weeks—a <strong>50% improvement</strong>.",
+    },
+    {
+      date: "2019 – 2020",
+      title: "The Entrepreneurial Detour",
+      variant: "default",
+      content:
+        "Pursued digital entrepreneurship at <strong>Université Sorbonne Paris Nord</strong>. Worked at <strong>Fempo</strong> as IT Project Coordinator, deploying Odoo ERP. Moved to Berlin to found a startup.",
+    },
+    {
+      date: "2017 – 2019",
+      title: "Master's in International Public Management",
+      variant: "default",
+      content:
+        "Continued at <strong>Sciences Po Paris</strong> for a Master of Arts. Served as Event Manager at Young European Federalists (JEF).",
+    },
+    {
+      date: "2016",
+      title: "Cultural Immersion in China",
+      variant: "default",
+      content:
+        "Studied Modern Chinese Culture and language at <strong>Nanjing University</strong>. Volunteered as an English teacher with AIESEC.",
+    },
+    {
+      date: "2014 – 2017",
+      title: "The Foundation",
+      variant: "default",
+      content:
+        "Started at <strong>Sciences Po Paris</strong>, obtaining a Bachelor of Arts in Social Sciences and Humanities, focusing on Central and Eastern European Studies.",
+    },
+  ],
+
+  skills: [
+    "<strong>EU governance and legislative processes</strong>, particularly EU digital policy",
+    "<strong>Policy monitoring and analysis</strong>, synthesising complex regulatory frameworks into clear insights",
+    "<strong>Stakeholder coordination</strong> in multi-actor and multicultural environments",
+    "<strong>Clear written communication</strong>—translating technical and policy complexity into accessible language",
+  ],
+
+  languages: [
+    { name: "Italian", level: "native" },
+    { name: "Albanian", level: "native" },
+    { name: "Macedonian", level: "native" },
+    { name: "English", level: "C2" },
+    { name: "French", level: "C2" },
+    { name: "Spanish", level: "B1" },
+    { name: "German", level: "A2" },
+    { name: "Chinese", level: "A2" },
+  ],
+
+  conclusion:
+    "I thrive at the intersection of technology, policy, and international coordination. I'm at my best with complex, ambiguous problems requiring simultaneous understanding of multiple domains. <strong>I'm a wildcard, and being hard to categorise is my greatest strength.</strong>",
+};
 ---
 
 <BaseLayout
   title={`About – ${SITE_TITLE}`}
-  description="A wildcard's journey through technology, policy, and international coordination"
+  description={aboutData.subtitle || "About me"}
 >
   <main>
     <article class="about">
@@ -29,252 +113,69 @@ import { SITE_TITLE, SOCIAL_LINKS, AUTHOR_EMAIL } from "../consts";
             </svg>
           </div>
         </div>
-        <h1 class="about-title">My Story: A Wildcard's Journey</h1>
-        <p class="about-subtitle">
-          It's not linear, and it doesn't fit into a single job title. But it
-          makes perfect sense once you understand what drives me.
-        </p>
+        <h1 class="about-title">{aboutData.title}</h1>
+        <p class="about-subtitle">{aboutData.subtitle}</p>
       </header>
 
       <!-- Introduction -->
       <section class="bio reveal">
-        <p class="lead">
-          Let me tell you my story. It's not linear, and it doesn't fit into a
-          single job title. But it makes perfect sense once you understand what
-          drives me: <strong
-            >diving headfirst into complex problems at the intersection of
-            technology, policy, and international coordination</strong
-          >.
-        </p>
+        <p
+          class="lead"
+          set:html={aboutData.intro?.replace(
+            /\*\*(.*?)\*\*/g,
+            "<strong>$1</strong>"
+          )}
+        />
       </section>
 
-      <!-- The Foundation -->
-      <section class="story-section reveal">
-        <h2>The Foundation</h2>
-        <p>
-          I started at <strong>Sciences Po Paris</strong>, obtaining a Bachelor
-          of Arts in Social Sciences and Humanities on the Dijon campus
-          (2014-2017) focusing on Central and Eastern European Studies. The
-          curriculum gave me a solid grounding in law, economics, history,
-          political science, and sociology: learning to look at problems from a
-          multidisciplinary angle.
-        </p>
-        <p>
-          In my third year, while classmates headed to London or Brussels, I
-          went to <strong>Nanjing University in China</strong> to study Modern Chinese
-          Culture and language, even volunteering as an English teacher with AIESEC.
-          This was a real cultural shock, but in a positive way.
-        </p>
-        <p>
-          I continued at Sciences Po Paris for my <strong
-            >Master of Arts in International Public Management</strong
-          > (2017-2019), gaining deep knowledge of policy issues across international,
-          national, and local levels, and learning to design, implement, and analyse
-          policies from diverse expert perspectives. I served as Event Manager at
-          Young European Federalists (JEF), already blending policy advocacy with
-          practical organisation.
-        </p>
-      </section>
-
-      <!-- The Entrepreneurial Detour -->
-      <section class="story-section reveal">
-        <h2>The Entrepreneurial Detour</h2>
-        <p>
-          After my master's, I faced a challenge: I wasn't an EU citizen yet, so
-          breaking into Brussels wasn't straightforward. Instead, I pursued
-          digital entrepreneurship, enrolling in the <strong
-            >Diplôme Universitaire Étudiant Entrepreneur</strong
-          > at Université Sorbonne Paris Nord (2019-2020) while working at <strong
-            >Fempo</strong
-          >, a fashion e-commerce startup in Paris, as IT Project Coordinator. I
-          deployed their Odoo ERP system, managing everything from defining
-          business processes to training users.
-        </p>
-        <p>
-          By late 2019, I moved to Berlin to found my own startup. But plans
-          change—when things didn't materialise as expected, I adapted quickly
-          and joined <strong>Gorillas Technologies GmbH</strong> in December 2020.
-        </p>
-      </section>
-
-      <!-- Berlin: Thriving in Chaos -->
-      <section class="story-section reveal">
-        <h2>Berlin: Thriving in Chaos</h2>
-        <p>
-          At Gorillas, I started as IT Project Coordinator, managing the
-          deployment of an Odoo ERP system across twenty-plus dark stores in
-          three countries. I coordinated two external agencies, managed an
-          eighty-thousand-euro budget, and kept 120 users aligned across
-          technical and business teams.
-        </p>
-        <p>
-          By April 2021, I became <strong>Product Operations Manager</strong>—my
-          element. The company was expanding internationally at breakneck speed,
-          and I became the person who made it work. I conducted twenty-five
-          interviews to map global supply chain processes, standardised
-          operations, and coordinated product rollouts across multiple EU and
-          non-EU countries (UK, US).
-        </p>
-
-        <div class="highlight-box">
-          <p>
-            <strong>Key achievement:</strong> Streamlining infrastructure development
-            for country launches, reducing time from eight weeks to four weeks—a <strong
-              >fifty percent improvement</strong
-            >.
-          </p>
-        </div>
-
-        <p>
-          I constantly travelled to support launches, coordinated between
-          headquarters directors, regional teams, and product developers, and
-          maintained monthly on-call activity with DevOps.
-        </p>
-        <p>
-          This taught me something fundamental: <strong
-            >I thrive in chaos</strong
-          >. I'm at my best coordinating multiple stakeholders across countries
-          and functions, translating complex requirements into clear guidance,
-          solving problems without precedent.
-        </p>
-        <p>
-          I briefly worked at <strong>Arive GmbH</strong> (April-September 2022) as
-          Product Manager, even designing a mobile-first web app in digital healthcare
-          while coordinating a team of five and managing KPIs for senior leadership.
-        </p>
-      </section>
-
-      <!-- Becoming Bilingual in Policy and Code -->
-      <section class="story-section reveal">
-        <h2>Becoming Bilingual in Policy and Code</h2>
-        <p>
-          By 2023, I wanted to understand technology from a developer's
-          perspective. So I enrolled in a nine-week full-time intensive coding
-          bootcamp at <strong>Le Wagon in Zurich</strong>, learning HTML, CSS,
-          JavaScript ES6, SQL, Ruby on Rails, and modern web development. This
-          wasn't career change—it was <strong
-            >becoming truly bilingual in policy and technology</strong
-          >.
-        </p>
-        <p>
-          This knowledge immediately paid off at <strong>Imperium Code</strong> (February
-          2023-August 2024), where I worked as Software Consultant, covering both
-          project management and software development. I supported international,
-          multi-stakeholder projects in highly regulated digital environments, translating
-          regulatory requirements into technical solutions, coordinating across technical
-          and non-technical teams, and managing everything from feasibility assessment
-          to deployment.
-        </p>
-
-        <div class="highlight-box">
-          <p>
-            <strong>Standout project:</strong> Contributing to research on Article
-            40 of the Digital Services Act, supporting data access for academic scrutiny
-            of platform governance through the Meta Content Library and API on behalf
-            of a partner American university.
-          </p>
-        </div>
-
-        <p>
-          This required understanding EU digital regulation, working with
-          platform APIs, coordinating between American and European
-          institutions, and translating between regulatory language and
-          technical specifications.
-        </p>
-      </section>
-
-      <!-- Coming Full Circle -->
-      <section class="story-section reveal">
-        <h2>Coming Full Circle</h2>
-        <p>
-          By 2024, I had an unusual combination: policy education from Sciences
-          Po, entrepreneurship training, operational experience from Berlin
-          startups, technical skills from coding, and deep exposure to EU
-          digital regulation. Time to bring it together.
-        </p>
-        <p>
-          I enrolled in the <strong
-            >Master of Arts in European Transformation and Integration</strong
-          > at the College of Europe in Tirana, Albania (September 2024-June 2025),
-          focusing my thesis on Digital Transformation of Public Administration in
-          Albania. This adds analytical depth and institutional knowledge to my practical
-          experience, deepening my understanding of EU governance structures, legislative
-          processes, and political dynamics shaping digital policy.
-        </p>
+      <!-- Timeline -->
+      <section class="timeline-section reveal">
+        <Timeline entries={aboutData.timeline || []} />
       </section>
 
       <!-- What I Bring -->
       <section class="story-section reveal">
         <h2>What I Bring</h2>
         <ul class="skills-list">
-          <li>
-            <strong>EU governance and legislative processes</strong>,
-            particularly EU digital policy
-          </li>
-          <li>
-            <strong>Policy monitoring and analysis</strong>, synthesising
-            complex regulatory frameworks into clear insights
-          </li>
-          <li>
-            <strong>Stakeholder coordination</strong> in multi-actor and multicultural
-            environments—whether coordinating nine-country rollouts, bridging technical
-            and policy teams, or facilitating transatlantic institutional communication
-          </li>
-          <li>
-            <strong>Clear written communication</strong>—translating technical
-            and policy complexity into accessible language for diverse
-            audiences, from warehouse workers to C-suite executives
-          </li>
+          {
+            aboutData.skills?.map((skill: string) => (
+              <li
+                set:html={skill.replace(
+                  /\*\*(.*?)\*\*/g,
+                  "<strong>$1</strong>"
+                )}
+              />
+            ))
+          }
         </ul>
 
         <div class="languages-box">
           <h3>Languages</h3>
           <p>
-            <span class="lang-tag native">Italian</span>
-            <span class="lang-tag native">Albanian</span>
-            <span class="lang-tag native">Macedonian</span>
-            <span class="lang-tag c2">English (C2)</span>
-            <span class="lang-tag c2">French (C2)</span>
-            <span class="lang-tag b1">Spanish (B1)</span>
-            <span class="lang-tag a2">German (A2)</span>
-            <span class="lang-tag a2">Chinese (A2)</span>
+            {
+              aboutData.languages?.map(
+                (lang: { name: string; level: string }) => (
+                  <span class={`lang-tag ${lang.level.toLowerCase()}`}>
+                    {lang.name}
+                    {lang.level !== "native" ? ` (${lang.level})` : ""}
+                  </span>
+                )
+              )
+            }
           </p>
         </div>
       </section>
 
-      <!-- What This All Means -->
+      <!-- Conclusion -->
       <section class="story-section final-section reveal">
         <h2>What This All Means</h2>
-        <p>
-          I thrive at the intersection of technology, policy, and international
-          coordination. I'm at my best with complex, ambiguous problems
-          requiring simultaneous understanding of multiple domains—translating
-          between technical teams and policy stakeholders, coordinating
-          implementation across regulatory environments, turning abstract
-          requirements into concrete solutions.
-        </p>
-        <p>
-          When citizenship constraints blocked my original Brussels path, I
-          found another route through entrepreneurship and technology. When
-          startup plans didn't materialise, I pivoted immediately. Each detour
-          added another dimension to my skill set.
-        </p>
-        <p>
-          I'm not the world's leading expert in any single narrow domain. But
-          I'm very good at a wide range of things, and <strong
-            >exceptional at combining them</strong
-          > to solve problems that don't fit neat categories. I get things done in
-          uncertain, fast-changing environments where the rulebook is still being
-          written.
-        </p>
-        <p class="conclusion">
-          That's my story. It's not linear, doesn't fit one job title, and
-          probably looks chaotic from outside. But from inside, it makes perfect
-          sense. <strong
-            >I'm a wildcard, and being hard to categorise is my greatest
-            strength.</strong
-          >
-        </p>
+        <p
+          class="conclusion"
+          set:html={aboutData.conclusion?.replace(
+            /\*\*(.*?)\*\*/g,
+            "<strong>$1</strong>"
+          )}
+        />
       </section>
 
       <!-- Connect Section -->
@@ -367,7 +268,7 @@ import { SITE_TITLE, SOCIAL_LINKS, AUTHOR_EMAIL } from "../consts";
   main {
     padding-top: var(--space-12);
     padding-bottom: var(--space-16);
-    max-width: 700px;
+    max-width: 850px;
   }
 
   .about {
@@ -415,17 +316,28 @@ import { SITE_TITLE, SOCIAL_LINKS, AUTHOR_EMAIL } from "../consts";
   /* Bio intro */
   .bio {
     margin-bottom: var(--space-10);
+    text-align: center;
   }
 
   .lead {
     font-size: var(--text-xl);
     line-height: 1.7;
     color: var(--color-text);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Timeline section */
+  .timeline-section {
+    margin-bottom: var(--space-12);
   }
 
   /* Story sections */
   .story-section {
     margin-bottom: var(--space-12);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .story-section h2 {
@@ -440,11 +352,7 @@ import { SITE_TITLE, SOCIAL_LINKS, AUTHOR_EMAIL } from "../consts";
     margin-bottom: var(--space-4);
   }
 
-  .story-section p:last-child {
-    margin-bottom: 0;
-  }
-
-  /* Skills list - page-specific */
+  /* Skills list */
   .skills-list {
     list-style: none;
     padding: 0;
@@ -469,7 +377,7 @@ import { SITE_TITLE, SOCIAL_LINKS, AUTHOR_EMAIL } from "../consts";
     border-radius: 50%;
   }
 
-  /* Languages - page-specific */
+  /* Languages */
   .languages-box {
     margin-top: var(--space-8);
     padding: var(--space-5);
@@ -526,14 +434,16 @@ import { SITE_TITLE, SOCIAL_LINKS, AUTHOR_EMAIL } from "../consts";
 
   .conclusion {
     font-size: var(--text-lg);
-    margin-top: var(--space-6);
   }
 
-  /* Connect section - page-specific layout */
+  /* Connect section */
   .connect {
     padding-top: var(--space-10);
     margin-top: var(--space-12);
     border-top: 1px solid var(--color-border);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .connect h2 {
