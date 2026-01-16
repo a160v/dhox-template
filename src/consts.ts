@@ -1,12 +1,38 @@
-// Place any global data in this file.
-// You can import this data from anywhere in your site by using the `import` keyword.
+// ==========================================
+// SITE CONFIGURATION
+// Centralized config for the entire website
+// ==========================================
 
-export const SITE_TITLE = "Aleks";
-export const SITE_DESCRIPTION = "Personal website and blog";
-export const AUTHOR_NAME = "Aleks";
-export const AUTHOR_EMAIL = "hello@example.com"; // Update with your actual email
+export const SITE_CONFIG = {
+  // Basic Site Info
+  title: "About blog",
+  description: "Personal website and blog",
+  url: "https://example.com", // TODO: Update with your deployed URL
 
-export const SOCIAL_LINKS = {
-  github: "https://github.com/a160v",
-  linkedin: "https://www.linkedin.com/in/e-aleks/",
+  // Author Info
+  author: {
+    name: "Aleks",
+    email: "hello@example.com", // TODO: Update with your email
+  },
+
+  // Social Links
+  social: {
+    github: "https://github.com/a160v",
+    linkedin: "https://linkedin.com/in/e-aleks/",
+    // Add more as needed:
+    // mastodon: "https://mastodon.social/@yourusername",
+  },
+
+  // Navigation
+  nav: {
+    // Tags shown in blog submenu (must match tags used in blog posts)
+    blogTags: ["blog", "notes", "talks"],
+  },
 };
+
+// Legacy exports for backwards compatibility
+export const SITE_TITLE = SITE_CONFIG.title;
+export const SITE_DESCRIPTION = SITE_CONFIG.description;
+export const AUTHOR_NAME = SITE_CONFIG.author.name;
+export const AUTHOR_EMAIL = SITE_CONFIG.author.email;
+export const SOCIAL_LINKS = SITE_CONFIG.social;

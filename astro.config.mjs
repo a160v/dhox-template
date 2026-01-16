@@ -6,6 +6,7 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
+	// Update this URL in src/consts.ts when deploying
 	site: 'https://example.com',
 	integrations: [mdx(), sitemap()],
 });

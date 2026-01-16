@@ -13,11 +13,10 @@ Built-in features with astro blog:
 Extra features implemented:
 - 3 Themes	Light, Dark, Sepia (for readability)
 - Dock bar	Glassmorphic dock bar with auto-hide on scroll (replaces the nav bar)
-- Animations	Fade-in reveals, hover effects, page transitions
-- Typography	Inter font with Apple-like sizing scale
-- Blog	Markdown posts with reading time
+- Animations: fade-in reveals, hover effects, page transitions
+- Blog Markdown posts with reading time
 - Icons	SVG icons with color adaptation (credit https://www.radix-ui.com/icons)
-- Font switcher between default, creative, and futuristic fonts
+- Font switcher and 3 different typography options: Inter, Creative, Futuristic
 
 ## 🚀 Project Structure
 

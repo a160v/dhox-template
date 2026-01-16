@@ -1,4 +1,5 @@
 ---
+import { ViewTransitions } from "astro:transitions";
 import Dock from "../components/Dock.astro";
 import "../styles/global.css";
 
@@ -24,6 +25,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
 
+    <!-- RSS & Sitemap -->
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="RSS Feed"
+      href="/rss.xml"
+    />
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
@@ -38,6 +48,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Smooth page transitions -->
+    <ViewTransitions />
 
     <!-- Prevent FOUC for themes -->
     <script is:inline>
@@ -61,59 +74,43 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <slot />
     <Dock />
 
-    <!-- Scroll reveal animation -->
-    <script is:inline>
-      (function () {
-        // Run immediately - don't wait for DOMContentLoaded since body is already loaded
-        function initReveal() {
-          const observerOptions = {
-            root: null,
-            rootMargin: "50px 0px -10% 0px",
-            threshold: 0.01,
-          };
+    <!-- Scroll reveal animation - re-runs on ViewTransitions navigation -->
+    <script>
+      function initReveal() {
+        const observerOptions = {
+          root: null,
+          rootMargin: "50px 0px -10% 0px",
+          threshold: 0.01,
+        };
 
-          const observer = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-              if (entry.isIntersecting) {
-                // Add small stagger based on element's position in DOM
-                const delay = entry.target.dataset.revealDelay || 0;
-                setTimeout(function () {
-                  entry.target.classList.add("revealed");
-                }, delay);
-                observer.unobserve(entry.target);
-              }
-            });
-          }, observerOptions);
-
-          const elements = document.querySelectorAll(".reveal");
-          elements.forEach(function (el, index) {
-            // Add stagger delay for elements in sequence
-            el.dataset.revealDelay = index * 80;
-            observer.observe(el);
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const delay = parseInt(entry.target.dataset.revealDelay || "0");
+              setTimeout(() => {
+                entry.target.classList.add("revealed");
+              }, delay);
+              observer.unobserve(entry.target);
+            }
           });
-        }
+        }, observerOptions);
 
-        // Initialize when DOM is ready
-        if (document.readyState === "loading") {
-          document.addEventListener("DOMContentLoaded", initReveal);
-        } else {
-          initReveal();
-        }
-      })();
+        const elements = document.querySelectorAll(".reveal:not(.revealed)");
+        elements.forEach((el, index) => {
+          el.dataset.revealDelay = String(index * 80);
+          observer.observe(el);
+        });
+      }
+
+      // Run on initial load
+      initReveal();
+
+      // Re-run on ViewTransitions navigation
+      document.addEventListener("astro:page-load", initReveal);
     </script>
   </body>
 </html>
 
 <style is:global>
-  /* Page transition */
-  body {
-    opacity: 0;
-    animation: pageLoad 0.5s ease forwards;
-  }
-
-  @keyframes pageLoad {
-    to {
-      opacity: 1;
-    }
-  }
+  /* ViewTransitions handles the fade - no need for manual opacity animation */
 </style>

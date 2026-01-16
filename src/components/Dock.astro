@@ -1,5 +1,7 @@
 ---
 // Apple-style bottom dock navigation
+import { SITE_CONFIG } from "../consts";
+
 const currentPath = Astro.url.pathname;
 
 interface DockItem {
@@ -13,7 +15,7 @@ const dockItems: DockItem[] = [
   { href: "/about", label: "About", imgSrc: "/person.svg" },
   { href: "/blog", label: "Blog", imgSrc: "/pencil-2.svg" },
   {
-    href: "mailto:hello@example.com",
+    href: `mailto:${SITE_CONFIG.author.email}`,
     label: "Email",
     imgSrc: "/chat-bubble.svg",
   },
@@ -27,7 +29,7 @@ function isActive(href: string): boolean {
 }
 ---
 
-<nav class="dock" id="dock">
+<nav class="dock" id="dock" transition:persist>
   <div class="dock-container">
     {
       dockItems.map((item) => (
@@ -364,38 +366,48 @@ function isActive(href: string): boolean {
     setFont(nextFont);
   }
 
-  // Initialize theme, font, and icon on page load
-  const initialTheme = getStoredTheme();
-  setTheme(initialTheme);
+  // Initialize Dock - called on page load and ViewTransitions navigation
+  function initDock() {
+    // Initialize theme and icon
+    const initialTheme = getStoredTheme();
+    setTheme(initialTheme);
 
-  const initialFont = getStoredFont();
-  setFont(initialFont);
+    // Initialize font
+    const initialFont = getStoredFont();
+    setFont(initialFont);
 
-  // Theme toggle button - cycles through themes on click
-  const themeToggle = document.getElementById("theme-toggle");
-  themeToggle?.addEventListener("click", cycleTheme);
+    // Theme toggle button - cycles through themes on click
+    const themeToggle = document.getElementById("theme-toggle");
+    themeToggle?.addEventListener("click", cycleTheme);
 
-  // Font toggle button
-  const fontToggle = document.getElementById("font-toggle");
-  fontToggle?.addEventListener("click", cycleFont);
+    // Font toggle button
+    const fontToggle = document.getElementById("font-toggle");
+    fontToggle?.addEventListener("click", cycleFont);
 
-  // Dock hide/show on scroll
-  let lastScrollY = window.scrollY;
-  const dock = document.getElementById("dock");
+    // Dock hide/show on scroll
+    let lastScrollY = window.scrollY;
+    const dock = document.getElementById("dock");
 
-  window.addEventListener(
-    "scroll",
-    () => {
-      const currentScrollY = window.scrollY;
+    window.addEventListener(
+      "scroll",
+      () => {
+        const currentScrollY = window.scrollY;
 
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        dock?.classList.add("hidden");
-      } else {
-        dock?.classList.remove("hidden");
-      }
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          dock?.classList.add("hidden");
+        } else {
+          dock?.classList.remove("hidden");
+        }
 
-      lastScrollY = currentScrollY;
-    },
-    { passive: true }
-  );
+        lastScrollY = currentScrollY;
+      },
+      { passive: true }
+    );
+  }
+
+  // Run on initial load
+  initDock();
+
+  // Re-run on ViewTransitions navigation
+  document.addEventListener("astro:page-load", initDock);
 </script>
