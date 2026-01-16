@@ -4,7 +4,11 @@ import { Image } from "astro:assets";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
 import TagNav from "../../components/TagNav.astro";
+import Footer from "../../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
+
+// Breadcrumb data for footer
+const breadcrumbs = [{ label: "Home", href: "/" }, { label: "Blog" }];
 
 // Get all posts sorted by date
 const posts = (await getCollection("blog")).sort(
@@ -104,6 +108,8 @@ const [featuredPost, ...restPosts] = posts;
         </div>
       )
     }
+
+    <Footer breadcrumbs={breadcrumbs} />
   </main>
 </BaseLayout>
 

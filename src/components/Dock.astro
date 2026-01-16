@@ -89,23 +89,6 @@ function isActive(href: string): boolean {
           />
         </span>
       </button>
-
-      <!-- Font Switcher Button -->
-      <button
-        class="dock-item font-toggle"
-        id="font-toggle"
-        aria-label="Change font"
-      >
-        <span class="dock-icon">
-          <img
-            src="/font-style.svg"
-            alt="Font style"
-            class="nav-icon"
-            width="24"
-            height="24"
-          />
-        </span>
-      </button>
     </div>
   </div>
 </nav>
@@ -196,9 +179,8 @@ function isActive(href: string): boolean {
     ); /* Green/Teal */
   }
 
-  /* Settings Icons (Theme/Font) */
-  :global(.dock-item.theme-toggle),
-  :global(.dock-item.font-toggle) {
+  /* Settings Icons (Theme) */
+  :global(.dock-item.theme-toggle) {
     background: linear-gradient(
       180deg,
       #636366 0%,
@@ -330,33 +312,6 @@ function isActive(href: string): boolean {
     setTheme(nextTheme);
   }
 
-  // --- Font Logic ---
-  const fontCycle = ["default", "creative", "futuristic"] as const;
-  type Font = (typeof fontCycle)[number];
-
-  function getStoredFont(): Font {
-    const stored = localStorage.getItem("font") as Font | null;
-    if (stored && fontCycle.includes(stored)) return stored;
-    return "default";
-  }
-
-  function setFont(font: Font) {
-    if (font === "default") {
-      document.documentElement.removeAttribute("data-font");
-    } else {
-      document.documentElement.setAttribute("data-font", font);
-    }
-    localStorage.setItem("font", font);
-  }
-
-  function cycleFont() {
-    const currentFont = getStoredFont();
-    const currentIndex = fontCycle.indexOf(currentFont);
-    const nextIndex = (currentIndex + 1) % fontCycle.length;
-    const nextFont = fontCycle[nextIndex];
-    setFont(nextFont);
-  }
-
   // Initialize Dock - called on page load and ViewTransitions navigation
   function initDock() {
     // Update active state based on current URL (needed for ViewTransitions)
@@ -386,17 +341,9 @@ function isActive(href: string): boolean {
     const initialTheme = getStoredTheme();
     setTheme(initialTheme);
 
-    // Initialize font
-    const initialFont = getStoredFont();
-    setFont(initialFont);
-
     // Theme toggle button - cycles through themes on click
     const themeToggle = document.getElementById("theme-toggle");
     themeToggle?.addEventListener("click", cycleTheme);
-
-    // Font toggle button
-    const fontToggle = document.getElementById("font-toggle");
-    fontToggle?.addEventListener("click", cycleFont);
   }
 
   // Run on initial load

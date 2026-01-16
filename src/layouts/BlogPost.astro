@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import TableOfContents from "../components/TableOfContents.astro";
+import Footer from "../components/Footer.astro";
 
 type Props = CollectionEntry<"blog">["data"] & {
   headings?: { depth: number; slug: string; text: string }[];
@@ -16,6 +17,13 @@ const {
   headings = [],
   tags = [],
 } = Astro.props;
+
+// Breadcrumb data for footer
+const breadcrumbs = [
+  { label: "Home", href: "/" },
+  { label: "Blog", href: "/blog" },
+  { label: title },
+];
 ---
 
 <BaseLayout title={title} description={description}>
@@ -61,18 +69,10 @@ const {
         }
         <slot />
       </div>
-
-      <!-- Footer -->
-      <footer class="post-footer reveal">
-        <nav class="breadcrumb-classic" aria-label="Breadcrumb">
-          <a href="/">Home</a>
-          <span class="separator">›</span>
-          <a href="/blog">Blog</a>
-          <span class="separator">›</span>
-          <span class="current" aria-current="page">{title}</span>
-        </nav>
-      </footer>
     </article>
+
+    <!-- Footer with breadcrumb and datetime -->
+    <Footer breadcrumbs={breadcrumbs} />
   </main>
 </BaseLayout>
 
@@ -117,38 +117,6 @@ const {
     color: var(--color-text-muted);
   }
 
-  .breadcrumb-classic {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-  }
-
-  .breadcrumb-classic a {
-    color: var(--color-text-muted);
-    text-decoration: none;
-    transition: color var(--transition-fast);
-  }
-
-  .breadcrumb-classic a:hover {
-    color: var(--color-accent);
-  }
-
-  .breadcrumb-classic .separator {
-    opacity: 0.5;
-    font-size: var(--text-xs);
-  }
-
-  .breadcrumb-classic .current {
-    color: var(--color-text);
-    font-weight: 500;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 300px;
-  }
-
   .post-type {
     color: var(--color-text-muted);
     text-decoration: none;
@@ -177,13 +145,6 @@ const {
     background: var(--color-surface);
     border-radius: var(--radius-lg);
     margin-bottom: var(--space-8);
-  }
-
-  /* Footer */
-  .post-footer {
-    padding-top: var(--space-8);
-    border-top: 1px solid var(--color-border);
-    margin-top: var(--space-12);
   }
 
   @media (max-width: 640px) {

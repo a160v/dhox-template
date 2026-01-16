@@ -8,6 +8,7 @@ import { Image } from "astro:assets";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import FormattedDate from "../../../components/FormattedDate.astro";
 import TagNav from "../../../components/TagNav.astro";
+import Footer from "../../../components/Footer.astro";
 import { SITE_TITLE, SITE_CONFIG } from "../../../consts";
 
 export async function getStaticPaths() {
@@ -25,6 +26,14 @@ const allPosts = (await getCollection("blog")).sort(
 );
 
 const posts = allPosts.filter((post) => post.data.tags?.includes(tag));
+
+// Breadcrumb data for footer
+const tagLabel = tag.charAt(0).toUpperCase() + tag.slice(1);
+const breadcrumbs = [
+  { label: "Home", href: "/" },
+  { label: "Blog", href: "/blog" },
+  { label: tagLabel },
+];
 ---
 
 <BaseLayout
@@ -77,6 +86,8 @@ const posts = allPosts.filter((post) => post.data.tags?.includes(tag));
         </div>
       )
     }
+
+    <Footer breadcrumbs={breadcrumbs} />
   </main>
 </BaseLayout>
 

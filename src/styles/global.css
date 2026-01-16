@@ -1,19 +1,9 @@
 /* ==========================================
-   FONT IMPORTS
-   ========================================== */
-@import url("https://fonts.googleapis.com/css2?family=Glass+Antiqua&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Audiowide&display=swap");
-
-/* ==========================================
    CSS CUSTOM PROPERTIES (Theme Tokens)
    ========================================== */
 :root {
   /* Font Families */
-  --font-default:
-    "Atkinson Hyperlegible", -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-creative: "Glass Antiqua", cursive;
-  --font-futuristic: "Audiowide", cursive;
-  --font-sans: var(--font-default);
+  --font-sans: "Atkinson Hyperlegible", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
 
   /* Font Sizes */
@@ -49,23 +39,11 @@
   --radius-2xl: 1.5rem;
   --radius-full: 9999px;
 
-  /* Transitions
-   * Duration format: [time]ms or [time]s (e.g., 150ms = 0.15 seconds, 1s = 1 second)
-   * 
-   * Easing functions:
-   *   - "ease" = gentle start and end, faster in the middle
-   *   - "ease-in" = starts slow, speeds up
-   *   - "ease-out" = starts fast, slows down
-   *   - "ease-in-out" = slow at both ends
-   *   - cubic-bezier() = custom curve for fine control
-   *
-   * To make animations faster: decrease the ms value
-   * To make animations slower: increase the ms value
-   */
-  --transition-fast: 100ms ease; /* Quick hover effects - 0.1 seconds */
-  --transition-base: 200ms ease-out; /* Standard interactions - 0.2 seconds */
-  --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1); /* Smooth UI changes - 0.3 seconds */
-  --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1); /* Bouncy dock icons - 0. seconds */
+  /* Transitions */
+  --transition-fast: 100ms ease;
+  --transition-base: 200ms ease-out;
+  --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
 
   /* Shadows */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -85,24 +63,16 @@
   --color-accent-hover: #0077ed;
   --color-border: rgba(0, 0, 0, 0.08);
   --color-code-bg: #f5f5f7;
+
   /* Dock Colors (Apple Style) */
-  --dock-bg: rgba(245, 245, 247, 0.2); /* Highly translucent for glass effect */
+  --dock-bg: rgba(245, 245, 247, 0.2);
   --dock-border: rgba(255, 255, 255, 0.2);
-  --dock-item-hover: transparent; /* Handled by transform */
+  --dock-item-hover: transparent;
   --dock-item-active: transparent;
 
   /* Layout */
   --max-width: 720px;
-  --dock-height: 80px; /* Taller to accommodate squaricles + dots */
-}
-
-/* Font Variations */
-:root[data-font="creative"] {
-  --font-sans: var(--font-creative);
-}
-
-:root[data-font="futuristic"] {
-  --font-sans: var(--font-futuristic);
+  --dock-height: 80px;
 }
 
 /* ==========================================
