@@ -42,12 +42,18 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <!-- Prevent FOUC for themes -->
     <script is:inline>
       (function () {
-        const theme =
-          localStorage.getItem("theme") ||
-          (window.matchMedia("(prefers-color-scheme: dark)").matches
-            ? "dark"
-            : "light");
-        document.documentElement.setAttribute("data-theme", theme);
+        // Initialize theme & font
+        const theme = localStorage.getItem("theme");
+        if (theme) {
+          document.documentElement.setAttribute("data-theme", theme);
+        } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+
+        const font = localStorage.getItem("font");
+        if (font) {
+          document.documentElement.setAttribute("data-font", font);
+        }
       })();
     </script>
   </head>

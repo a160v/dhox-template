@@ -5,19 +5,23 @@ const currentPath = Astro.url.pathname;
 interface DockItem {
   href: string;
   label: string;
-  icon: string;
+  imgSrc: string;
 }
 
 const dockItems: DockItem[] = [
-  { href: '/', label: 'Home', icon: 'home' },
-  { href: '/about', label: 'About', icon: 'person' },
-  { href: '/blog', label: 'Blog', icon: 'article' },
-  { href: 'mailto:hello@example.com', label: 'Email', icon: 'email' },
+  { href: "/", label: "Home", imgSrc: "/home.svg" },
+  { href: "/about", label: "About", imgSrc: "/person.svg" },
+  { href: "/blog", label: "Blog", imgSrc: "/pencil-2.svg" },
+  {
+    href: "mailto:hello@example.com",
+    label: "Email",
+    imgSrc: "/chat-bubble.svg",
+  },
 ];
 
 function isActive(href: string): boolean {
-  if (href === '/') {
-    return currentPath === '/';
+  if (href === "/") {
+    return currentPath === "/";
   }
   return currentPath.startsWith(href);
 }
@@ -25,82 +29,83 @@ function isActive(href: string): boolean {
 
 <nav class="dock" id="dock">
   <div class="dock-container">
-    {dockItems.map((item) => (
-      <a 
-        href={item.href} 
-        class:list={['dock-item', { active: isActive(item.href) }]}
-        aria-label={item.label}
+    {
+      dockItems.map((item) => (
+        <a
+          href={item.href}
+          class:list={["dock-item", { active: isActive(item.href) }]}
+          aria-label={item.label}
+        >
+          <span class="dock-icon">
+            <img
+              src={item.imgSrc}
+              alt={item.label}
+              class="nav-icon"
+              width="24"
+              height="24"
+            />
+          </span>
+        </a>
+      ))
+    }
+
+    <div class="separator"></div>
+
+    <div class="dock-extras">
+      <!-- Theme Cycler Button (Light → Reader → Dark → Light...) -->
+      <button
+        class="dock-item theme-toggle"
+        id="theme-toggle"
+        aria-label="Change theme"
       >
         <span class="dock-icon">
-          {item.icon === 'home' && (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-              <polyline points="9 22 9 12 15 12 15 22"></polyline>
-            </svg>
-          )}
-          {item.icon === 'person' && (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-          )}
-          {item.icon === 'article' && (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
-              <polyline points="10 9 9 9 8 9"></polyline>
-            </svg>
-          )}
-          {item.icon === 'email' && (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-              <polyline points="22,6 12,13 2,6"></polyline>
-            </svg>
-          )}
+          <!-- Sun icon for Light mode -->
+          <img
+            src="/sun.svg"
+            alt="Light mode"
+            class="theme-icon"
+            id="icon-light"
+            width="24"
+            height="24"
+          />
+          <!-- Eye icon for Reader/Sepia mode -->
+          <img
+            src="/eye-open.svg"
+            alt="Reader mode"
+            class="theme-icon"
+            id="icon-sepia"
+            width="24"
+            height="24"
+          />
+          <!-- Moon icon for Dark mode -->
+          <img
+            src="/moon.svg"
+            alt="Dark mode"
+            class="theme-icon"
+            id="icon-dark"
+            width="24"
+            height="24"
+          />
         </span>
-        <span class="dock-label">{item.label}</span>
-      </a>
-    ))}
-    
-    <!-- Theme Switcher -->
-    <button class="dock-item theme-toggle" id="theme-toggle" aria-label="Change theme">
-      <span class="dock-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="theme-icon sun">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-      </span>
-      <span class="dock-label">Theme</span>
-    </button>
-  </div>
-  
-  <!-- Theme Picker Popup -->
-  <div class="theme-picker" id="theme-picker">
-    <button class="theme-option" data-theme="light">
-      <span class="theme-preview light"></span>
-      <span>Light</span>
-    </button>
-    <button class="theme-option" data-theme="dark">
-      <span class="theme-preview dark"></span>
-      <span>Dark</span>
-    </button>
-    <button class="theme-option" data-theme="sepia">
-      <span class="theme-preview sepia"></span>
-      <span>Sepia</span>
-    </button>
-    <button class="theme-option" data-theme="warm">
-      <span class="theme-preview warm"></span>
-      <span>Warm</span>
-    </button>
+      </button>
+
+      <!-- Font Switcher Button -->
+      <button
+        class="dock-item font-toggle"
+        id="font-toggle"
+        aria-label="Change font"
+      >
+        <span class="dock-icon">
+          <img
+            src="/font-style.svg"
+            alt="Font style"
+            class="nav-icon"
+            width="24"
+            height="24"
+          />
+        </span>
+      </button>
+    </div>
   </div>
 </nav>
 
@@ -111,7 +116,9 @@ function isActive(href: string): boolean {
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    transition:
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.3s ease;
   }
 
   .dock.hidden {
@@ -122,221 +129,273 @@ function isActive(href: string): boolean {
   .dock-container {
     display: flex;
     align-items: center;
-    gap: var(--space-1);
+    gap: var(--space-3);
     padding: var(--space-2) var(--space-3);
     background: var(--dock-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--dock-border);
-    border-radius: var(--radius-2xl);
-    box-shadow: var(--shadow-xl);
+    border-radius: 20px; /* macOS style radius */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .separator {
+    width: 1px;
+    height: 32px;
+    background-color: var(--color-text);
+    margin: 0 var(--space-1);
+    opacity: 0.1;
+  }
+
+  .dock-extras {
+    display: flex;
+    gap: var(--space-3);
   }
 
   .dock-item {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: var(--space-1);
-    padding: var(--space-2) var(--space-3);
-    border-radius: var(--radius-xl);
-    color: var(--color-text-muted);
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px; /* Squaricle */
+    color: white; /* Icons are always white inside color blocks */
     text-decoration: none;
-    transition: all var(--transition-base);
-    background: transparent;
+    transition:
+      transform var(--transition-base),
+      box-shadow var(--transition-base);
+    background: linear-gradient(135deg, #8e8e93, #636366); /* Default grey */
     border: none;
     cursor: pointer;
     font-family: inherit;
+    position: relative;
+    padding: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Specific App Gradients */
+  :global(a[href="/"].dock-item) {
+    background: linear-gradient(
+      180deg,
+      #30d2ff 0%,
+      #007aff 100%
+    ); /* Finder Blue */
+  }
+  :global(a[href="/about"].dock-item) {
+    background: linear-gradient(
+      180deg,
+      #ff9f0a 0%,
+      #ff6b00 100%
+    ); /* Warm Orange */
+  }
+  :global(a[href="/blog"].dock-item) {
+    background: linear-gradient(
+      180deg,
+      #bf5af2 0%,
+      #5e5ce6 100%
+    ); /* Purple/Indigo */
+  }
+  :global(a[href^="mailto"].dock-item) {
+    background: linear-gradient(
+      180deg,
+      #34c759 0%,
+      #30b0c7 100%
+    ); /* Green/Teal */
+  }
+
+  /* Settings Icons (Theme/Font) */
+  :global(.dock-item.theme-toggle),
+  :global(.dock-item.font-toggle) {
+    background: linear-gradient(
+      180deg,
+      #636366 0%,
+      #2c2c2e 100%
+    ); /* System Grey */
   }
 
   .dock-item:hover {
-    color: var(--color-text);
-    background: var(--color-border);
-    transform: translateY(-2px);
+    transform: scale(1.15) translateY(-5px);
+    z-index: 10;
   }
 
   .dock-item.active {
-    color: var(--color-accent);
+    /* bg handled by gradient */
   }
+
+  /* Active Indicator Dot */
+  .dock-item.active::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background-color: var(--color-text);
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+
+  /* Navigation icons color adaptation */
+  .nav-icon {
+    box-sizing: border-box;
+    padding: 8px; /* Room inside the squaricle */
+    width: 100%;
+    height: 100%;
+    transition: filter var(--transition-base);
+    filter: invert(1) brightness(10); /* Force White Icons everywhere */
+  }
+
+  /* Theme icons needs to be white too inside grey blocks */
+  .theme-icon {
+    position: absolute;
+    opacity: 0;
+    transition:
+      transform var(--transition-spring),
+      opacity var(--transition-base);
+    transform: scale(0.5);
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    filter: invert(1) brightness(10);
+  }
+
+  /* In dark mode, icons are already white, but the filters above force it. 
+     We need to ensure content is white regardless of theme because backgrounds are colored. */
+  :global([data-theme="dark"]) .nav-icon,
+  :global([data-theme="dark"]) .theme-icon {
+    filter: invert(1) brightness(10);
+  }
+
+  /* Except light mode... svg's are likely black. 
+     invert(1) makes them white. 
+     So we always want invert(1) on these black SVGs. */
 
   .dock-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
+    width: 100%;
+    height: 100%;
     transition: transform var(--transition-spring);
+    position: relative;
   }
 
-  .dock-item:hover .dock-icon {
-    transform: scale(1.15);
-  }
-
-  .dock-label {
-    font-size: var(--text-xs);
-    font-weight: 500;
-    opacity: 0.8;
-  }
-
-  /* Theme Picker */
-  .theme-picker {
-    position: absolute;
-    bottom: calc(100% + var(--space-3));
-    left: 50%;
-    transform: translateX(-50%) scale(0.95);
-    display: flex;
-    gap: var(--space-2);
-    padding: var(--space-3);
-    background: var(--dock-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--dock-border);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-xl);
-    opacity: 0;
-    pointer-events: none;
-    transition: all var(--transition-smooth);
-  }
-
-  .theme-picker.visible {
+  .theme-icon.visible {
     opacity: 1;
-    pointer-events: auto;
-    transform: translateX(-50%) scale(1);
+    transform: scale(1);
   }
 
-  .theme-option {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-2);
-    background: transparent;
-    border: 2px solid transparent;
-    border-radius: var(--radius-lg);
-    cursor: pointer;
-    font-family: inherit;
-    font-size: var(--text-xs);
-    color: var(--color-text-muted);
-    transition: all var(--transition-base);
-  }
-
-  .theme-option:hover {
-    color: var(--color-text);
-    border-color: var(--color-border);
-  }
-
-  .theme-option.active {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-  }
-
-  .theme-preview {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-md);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .theme-preview.light { background: linear-gradient(135deg, #FAFAFA, #FFFFFF); }
-  .theme-preview.dark { background: linear-gradient(135deg, #000000, #1C1C1E); }
-  .theme-preview.sepia { background: linear-gradient(135deg, #FFF4E6, #FCF0E3); }
-  .theme-preview.warm { background: linear-gradient(135deg, #FAF8F5, #F5F2EF); }
-
-  /* Responsive */
+  /* Responsive - keep same design on mobile as it's compact now */
   @media (max-width: 480px) {
     .dock-container {
-      gap: 0;
       padding: var(--space-2);
+      border-radius: 16px;
+      gap: var(--space-2);
     }
-
     .dock-item {
-      padding: var(--space-2);
-    }
-
-    .dock-label {
-      display: none;
-    }
-
-    .dock-icon {
-      width: 24px;
-      height: 24px;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
     }
   }
 </style>
 
 <script>
-  // Theme Management
-  const themes = ['light', 'dark', 'sepia', 'warm'] as const;
-  type Theme = typeof themes[number];
+  // Theme cycle: Light → Sepia (Reader) → Dark → Light...
+  const themeCycle = ["light", "sepia", "dark"] as const;
+  type Theme = (typeof themeCycle)[number];
 
   function getStoredTheme(): Theme {
-    const stored = localStorage.getItem('theme') as Theme | null;
-    if (stored && themes.includes(stored)) return stored;
-    
-    // Check system preference
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
-    return 'light';
+    const stored = localStorage.getItem("theme") as Theme | null;
+    if (stored && themeCycle.includes(stored)) return stored;
+    return "light"; // Default to light
   }
 
   function setTheme(theme: Theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-    updateActiveThemeOption(theme);
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+    updateThemeIcon(theme);
   }
 
-  function updateActiveThemeOption(theme: Theme) {
-    document.querySelectorAll('.theme-option').forEach((option) => {
-      const isActive = option.getAttribute('data-theme') === theme;
-      option.classList.toggle('active', isActive);
+  function updateThemeIcon(theme: Theme) {
+    // Hide all icons
+    document.querySelectorAll(".theme-icon").forEach((icon) => {
+      icon.classList.remove("visible");
     });
+
+    // Show the icon for current theme
+    const activeIcon = document.getElementById(`icon-${theme}`);
+    activeIcon?.classList.add("visible");
   }
 
-  // Initialize theme
-  setTheme(getStoredTheme());
+  function cycleTheme() {
+    const currentTheme = getStoredTheme();
+    const currentIndex = themeCycle.indexOf(currentTheme);
+    const nextIndex = (currentIndex + 1) % themeCycle.length;
+    const nextTheme = themeCycle[nextIndex];
+    setTheme(nextTheme);
+  }
 
-  // Theme toggle button
-  const themeToggle = document.getElementById('theme-toggle');
-  const themePicker = document.getElementById('theme-picker');
+  // --- Font Logic ---
+  const fontCycle = ["default", "creative", "futuristic"] as const;
+  type Font = (typeof fontCycle)[number];
 
-  themeToggle?.addEventListener('click', (e) => {
-    e.stopPropagation();
-    themePicker?.classList.toggle('visible');
-  });
+  function getStoredFont(): Font {
+    const stored = localStorage.getItem("font") as Font | null;
+    if (stored && fontCycle.includes(stored)) return stored;
+    return "default";
+  }
 
-  // Theme option buttons
-  document.querySelectorAll('.theme-option').forEach((option) => {
-    option.addEventListener('click', () => {
-      const theme = option.getAttribute('data-theme') as Theme;
-      if (theme) {
-        setTheme(theme);
-        themePicker?.classList.remove('visible');
-      }
-    });
-  });
-
-  // Close picker when clicking outside
-  document.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement;
-    if (!target.closest('.theme-picker') && !target.closest('.theme-toggle')) {
-      themePicker?.classList.remove('visible');
+  function setFont(font: Font) {
+    if (font === "default") {
+      document.documentElement.removeAttribute("data-font");
+    } else {
+      document.documentElement.setAttribute("data-font", font);
     }
-  });
+    localStorage.setItem("font", font);
+  }
+
+  function cycleFont() {
+    const currentFont = getStoredFont();
+    const currentIndex = fontCycle.indexOf(currentFont);
+    const nextIndex = (currentIndex + 1) % fontCycle.length;
+    const nextFont = fontCycle[nextIndex];
+    setFont(nextFont);
+  }
+
+  // Initialize theme, font, and icon on page load
+  const initialTheme = getStoredTheme();
+  setTheme(initialTheme);
+
+  const initialFont = getStoredFont();
+  setFont(initialFont);
+
+  // Theme toggle button - cycles through themes on click
+  const themeToggle = document.getElementById("theme-toggle");
+  themeToggle?.addEventListener("click", cycleTheme);
+
+  // Font toggle button
+  const fontToggle = document.getElementById("font-toggle");
+  fontToggle?.addEventListener("click", cycleFont);
 
   // Dock hide/show on scroll
   let lastScrollY = window.scrollY;
-  const dock = document.getElementById('dock');
+  const dock = document.getElementById("dock");
 
-  window.addEventListener('scroll', () => {
-    const currentScrollY = window.scrollY;
-    
-    if (currentScrollY > lastScrollY && currentScrollY > 100) {
-      dock?.classList.add('hidden');
-      themePicker?.classList.remove('visible');
-    } else {
-      dock?.classList.remove('hidden');
-    }
-    
-    lastScrollY = currentScrollY;
-  }, { passive: true });
+  window.addEventListener(
+    "scroll",
+    () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        dock?.classList.add("hidden");
+      } else {
+        dock?.classList.remove("hidden");
+      }
+
+      lastScrollY = currentScrollY;
+    },
+    { passive: true }
+  );
 </script>

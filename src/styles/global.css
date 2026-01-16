@@ -1,20 +1,22 @@
-/*
-  Apple-inspired design system
-  Multi-theme support: Light, Dark, Sepia, Warm
-*/
-
 /* ==========================================
    FONT IMPORTS
    ========================================== */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Glass+Antiqua&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
 
 /* ==========================================
    CSS CUSTOM PROPERTIES (Theme Tokens)
    ========================================== */
 :root {
-  /* Typography */
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    sans-serif;
+  /* Font Families */
+  --font-default: 'IBM Plex Sans', sans-serif;
+  --font-serif: 'PT Serif', serif;
+  --font-creative: 'Glass Antiqua', cursive;
+  --font-futuristic: 'Audiowide', cursive;
+
+  /* Default to base font */
+  --font-sans: var(--font-default);
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
 
   /* Font Sizes */
@@ -77,27 +79,47 @@
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 8px 10px -6px rgba(0, 0, 0, 0.1);
 
-  /* Layout */
+  /* Font Families */
+  --font-default: 'Atkinson Hyperlegible', sans-serif;
+  --font-creative: 'Glass Antiqua', cursive;
+  --font-futuristic: 'Audiowide', cursive;
+
+  /* Default to base font */
+  --font-sans: var(--font-default);
+
+  /* Colors - Semantic Light Theme (Default) */
+  --color-bg: #ffffff;
+  --color-surface: #f5f5f7;
+  --color-text: #1d1d1f;
+  --color-text-muted: #86868b;
+  --color-accent: #0071e3;
+  --color-accent-hover: #0077ed;
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-code-bg: #f5f5f7;
+  /* Dock Colors (Apple Style) */
+  --dock-bg: rgba(245, 245, 247, 0.2); /* Highly translucent for glass effect */
+  --dock-border: rgba(255, 255, 255, 0.2);
+  --dock-item-hover: transparent; /* Handled by transform */
+  --dock-item-active: transparent;
+
+/* Layout */
   --max-width: 720px;
-  --dock-height: 64px;
+  --dock-height: 80px; /* Taller to accommodate squaricles + dots */
+}
+
+/* Font Variations */
+:root[data-font="creative"] {
+  --font-sans: var(--font-creative);
+}
+
+:root[data-font="futuristic"] {
+  --font-sans: var(--font-futuristic);
 }
 
 /* ==========================================
    THEME: LIGHT (Default)
    ========================================== */
-[data-theme="light"],
-:root {
-  --color-bg: #fafafa;
-  --color-surface: #ffffff;
-  --color-text: #1d1d1f;
-  --color-text-muted: #6e6e73;
-  --color-accent: #0071e3;
-  --color-accent-hover: #0077ed;
-  --color-border: rgba(0, 0, 0, 0.08);
-  --color-code-bg: #f5f5f7;
-  --dock-bg: rgba(255, 255, 255, 0.95);
-  --dock-border: rgba(0, 0, 0, 0.12);
-}
+/* The light theme variables are now defined directly in :root */
 
 /* ==========================================
    THEME: DARK
@@ -110,9 +132,13 @@
   --color-accent: #2997ff;
   --color-accent-hover: #40a9ff;
   --color-border: rgba(255, 255, 255, 0.1);
-  --color-code-bg: #2c2c2e;
-  --dock-bg: rgba(28, 28, 30, 0.72);
+  --color-code-bg: #1c1c1e;
+  
+  /* Dock Dark Mode */
+  --dock-bg: rgba(30, 30, 30, 0.2);
   --dock-border: rgba(255, 255, 255, 0.1);
+  --dock-item-hover: transparent;
+  --dock-item-active: transparent;
 }
 
 /* ==========================================
@@ -127,24 +153,12 @@
   --color-accent-hover: #b01345;
   --color-border: rgba(61, 61, 61, 0.1);
   --color-code-bg: #f5e6d3;
-  --dock-bg: rgba(252, 240, 227, 0.85);
-  --dock-border: rgba(61, 61, 61, 0.15);
-}
-
-/* ==========================================
-   THEME: WARM
-   ========================================== */
-[data-theme="warm"] {
-  --color-bg: #faf8f5;
-  --color-surface: #ffffff;
-  --color-text: #2c2c2c;
-  --color-text-muted: #7a7a7a;
-  --color-accent: #c97f5f;
-  --color-accent-hover: #d4907a;
-  --color-border: rgba(44, 44, 44, 0.08);
-  --color-code-bg: #f5f2ef;
-  --dock-bg: rgba(255, 255, 255, 0.8);
-  --dock-border: rgba(201, 127, 95, 0.2);
+  
+  /* Dock Sepia Mode */
+  --dock-bg: rgba(252, 240, 227, 0.3);
+  --dock-border: rgba(61, 61, 61, 0.1);
+  --dock-item-hover: transparent;
+  --dock-item-active: transparent;
 }
 
 /* ==========================================
