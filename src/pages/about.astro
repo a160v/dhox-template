@@ -1,63 +1,566 @@
 ---
-import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
-import Layout from '../layouts/BlogPost.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE_TITLE, SOCIAL_LINKS, AUTHOR_EMAIL } from "../consts";
 ---
 
-<Layout
-	title="About Me"
-	description="Lorem ipsum dolor sit amet"
-	pubDate={new Date('August 08 2021')}
-	heroImage={AboutHeroImage}
+<BaseLayout
+  title={`About – ${SITE_TITLE}`}
+  description="A wildcard's journey through technology, policy, and international coordination"
 >
-	<p>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-		labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo
-		viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam
-		adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus
-		et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus
-		vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque
-		sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
-	</p>
+  <main>
+    <article class="about">
+      <!-- Hero Section -->
+      <header class="about-header reveal">
+        <div class="avatar-container">
+          <div class="avatar-placeholder">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="64"
+              height="64"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+        </div>
+        <h1 class="about-title">My Story: A Wildcard's Journey</h1>
+        <p class="about-subtitle">
+          It's not linear, and it doesn't fit into a single job title. But it
+          makes perfect sense once you understand what drives me.
+        </p>
+      </header>
 
-	<p>
-		Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non
-		tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non
-		blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna
-		porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis
-		massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc.
-		Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis
-		bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra
-		massa massa ultricies mi.
-	</p>
+      <!-- Introduction -->
+      <section class="bio reveal">
+        <p class="lead">
+          Let me tell you my story. It's not linear, and it doesn't fit into a
+          single job title. But it makes perfect sense once you understand what
+          drives me: <strong
+            >diving headfirst into complex problems at the intersection of
+            technology, policy, and international coordination</strong
+          >.
+        </p>
+      </section>
 
-	<p>
-		Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl
-		suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet
-		nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae
-		turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem
-		dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat
-		semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus
-		vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum
-		facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam
-		vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla
-		urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
-	</p>
+      <!-- The Foundation -->
+      <section class="story-section reveal">
+        <h2>The Foundation</h2>
+        <p>
+          I started at <strong>Sciences Po Paris</strong>, obtaining a Bachelor
+          of Arts in Social Sciences and Humanities on the Dijon campus
+          (2014-2017) focusing on Central and Eastern European Studies. The
+          curriculum gave me a solid grounding in law, economics, history,
+          political science, and sociology: learning to look at problems from a
+          multidisciplinary angle.
+        </p>
+        <p>
+          In my third year, while classmates headed to London or Brussels, I
+          went to <strong>Nanjing University in China</strong> to study Modern Chinese
+          Culture and language, even volunteering as an English teacher with AIESEC.
+          This was a real cultural shock, but in a positive way.
+        </p>
+        <p>
+          I continued at Sciences Po Paris for my <strong
+            >Master of Arts in International Public Management</strong
+          > (2017-2019), gaining deep knowledge of policy issues across international,
+          national, and local levels, and learning to design, implement, and analyse
+          policies from diverse expert perspectives. I served as Event Manager at
+          Young European Federalists (JEF), already blending policy advocacy with
+          practical organisation.
+        </p>
+      </section>
 
-	<p>
-		Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper
-		viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc
-		scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur
-		gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus
-		pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim
-		blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id
-		cursus metus aliquam eleifend mi.
-	</p>
+      <!-- The Entrepreneurial Detour -->
+      <section class="story-section reveal">
+        <h2>The Entrepreneurial Detour</h2>
+        <p>
+          After my master's, I faced a challenge: I wasn't an EU citizen yet, so
+          breaking into Brussels wasn't straightforward. Instead, I pursued
+          digital entrepreneurship, enrolling in the <strong
+            >Diplôme Universitaire Étudiant Entrepreneur</strong
+          > at Université Sorbonne Paris Nord (2019-2020) while working at <strong
+            >Fempo</strong
+          >, a fashion e-commerce startup in Paris, as IT Project Coordinator. I
+          deployed their Odoo ERP system, managing everything from defining
+          business processes to training users.
+        </p>
+        <p>
+          By late 2019, I moved to Berlin to found my own startup. But plans
+          change—when things didn't materialise as expected, I adapted quickly
+          and joined <strong>Gorillas Technologies GmbH</strong> in December 2020.
+        </p>
+      </section>
 
-	<p>
-		Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta
-		nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam
-		tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci
-		ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar
-		proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
-	</p>
-</Layout>
+      <!-- Berlin: Thriving in Chaos -->
+      <section class="story-section reveal">
+        <h2>Berlin: Thriving in Chaos</h2>
+        <p>
+          At Gorillas, I started as IT Project Coordinator, managing the
+          deployment of an Odoo ERP system across twenty-plus dark stores in
+          three countries. I coordinated two external agencies, managed an
+          eighty-thousand-euro budget, and kept 120 users aligned across
+          technical and business teams.
+        </p>
+        <p>
+          By April 2021, I became <strong>Product Operations Manager</strong>—my
+          element. The company was expanding internationally at breakneck speed,
+          and I became the person who made it work. I conducted twenty-five
+          interviews to map global supply chain processes, standardised
+          operations, and coordinated product rollouts across multiple EU and
+          non-EU countries (UK, US).
+        </p>
+
+        <div class="highlight-box">
+          <p>
+            <strong>Key achievement:</strong> Streamlining infrastructure development
+            for country launches, reducing time from eight weeks to four weeks—a <strong
+              >fifty percent improvement</strong
+            >.
+          </p>
+        </div>
+
+        <p>
+          I constantly travelled to support launches, coordinated between
+          headquarters directors, regional teams, and product developers, and
+          maintained monthly on-call activity with DevOps.
+        </p>
+        <p>
+          This taught me something fundamental: <strong
+            >I thrive in chaos</strong
+          >. I'm at my best coordinating multiple stakeholders across countries
+          and functions, translating complex requirements into clear guidance,
+          solving problems without precedent.
+        </p>
+        <p>
+          I briefly worked at <strong>Arive GmbH</strong> (April-September 2022) as
+          Product Manager, even designing a mobile-first web app in digital healthcare
+          while coordinating a team of five and managing KPIs for senior leadership.
+        </p>
+      </section>
+
+      <!-- Becoming Bilingual in Policy and Code -->
+      <section class="story-section reveal">
+        <h2>Becoming Bilingual in Policy and Code</h2>
+        <p>
+          By 2023, I wanted to understand technology from a developer's
+          perspective. So I enrolled in a nine-week full-time intensive coding
+          bootcamp at <strong>Le Wagon in Zurich</strong>, learning HTML, CSS,
+          JavaScript ES6, SQL, Ruby on Rails, and modern web development. This
+          wasn't career change—it was <strong
+            >becoming truly bilingual in policy and technology</strong
+          >.
+        </p>
+        <p>
+          This knowledge immediately paid off at <strong>Imperium Code</strong> (February
+          2023-August 2024), where I worked as Software Consultant, covering both
+          project management and software development. I supported international,
+          multi-stakeholder projects in highly regulated digital environments, translating
+          regulatory requirements into technical solutions, coordinating across technical
+          and non-technical teams, and managing everything from feasibility assessment
+          to deployment.
+        </p>
+
+        <div class="highlight-box">
+          <p>
+            <strong>Standout project:</strong> Contributing to research on Article
+            40 of the Digital Services Act, supporting data access for academic scrutiny
+            of platform governance through the Meta Content Library and API on behalf
+            of a partner American university.
+          </p>
+        </div>
+
+        <p>
+          This required understanding EU digital regulation, working with
+          platform APIs, coordinating between American and European
+          institutions, and translating between regulatory language and
+          technical specifications.
+        </p>
+      </section>
+
+      <!-- Coming Full Circle -->
+      <section class="story-section reveal">
+        <h2>Coming Full Circle</h2>
+        <p>
+          By 2024, I had an unusual combination: policy education from Sciences
+          Po, entrepreneurship training, operational experience from Berlin
+          startups, technical skills from coding, and deep exposure to EU
+          digital regulation. Time to bring it together.
+        </p>
+        <p>
+          I enrolled in the <strong
+            >Master of Arts in European Transformation and Integration</strong
+          > at the College of Europe in Tirana, Albania (September 2024-June 2025),
+          focusing my thesis on Digital Transformation of Public Administration in
+          Albania. This adds analytical depth and institutional knowledge to my practical
+          experience, deepening my understanding of EU governance structures, legislative
+          processes, and political dynamics shaping digital policy.
+        </p>
+      </section>
+
+      <!-- What I Bring -->
+      <section class="story-section reveal">
+        <h2>What I Bring</h2>
+        <ul class="skills-list">
+          <li>
+            <strong>EU governance and legislative processes</strong>,
+            particularly EU digital policy
+          </li>
+          <li>
+            <strong>Policy monitoring and analysis</strong>, synthesising
+            complex regulatory frameworks into clear insights
+          </li>
+          <li>
+            <strong>Stakeholder coordination</strong> in multi-actor and multicultural
+            environments—whether coordinating nine-country rollouts, bridging technical
+            and policy teams, or facilitating transatlantic institutional communication
+          </li>
+          <li>
+            <strong>Clear written communication</strong>—translating technical
+            and policy complexity into accessible language for diverse
+            audiences, from warehouse workers to C-suite executives
+          </li>
+        </ul>
+
+        <div class="languages-box">
+          <h3>Languages</h3>
+          <p>
+            <span class="lang-tag native">Italian</span>
+            <span class="lang-tag native">Albanian</span>
+            <span class="lang-tag native">Macedonian</span>
+            <span class="lang-tag c2">English (C2)</span>
+            <span class="lang-tag c2">French (C2)</span>
+            <span class="lang-tag b1">Spanish (B1)</span>
+            <span class="lang-tag a2">German (A2)</span>
+            <span class="lang-tag a2">Chinese (A2)</span>
+          </p>
+        </div>
+      </section>
+
+      <!-- What This All Means -->
+      <section class="story-section final-section reveal">
+        <h2>What This All Means</h2>
+        <p>
+          I thrive at the intersection of technology, policy, and international
+          coordination. I'm at my best with complex, ambiguous problems
+          requiring simultaneous understanding of multiple domains—translating
+          between technical teams and policy stakeholders, coordinating
+          implementation across regulatory environments, turning abstract
+          requirements into concrete solutions.
+        </p>
+        <p>
+          When citizenship constraints blocked my original Brussels path, I
+          found another route through entrepreneurship and technology. When
+          startup plans didn't materialise, I pivoted immediately. Each detour
+          added another dimension to my skill set.
+        </p>
+        <p>
+          I'm not the world's leading expert in any single narrow domain. But
+          I'm very good at a wide range of things, and <strong
+            >exceptional at combining them</strong
+          > to solve problems that don't fit neat categories. I get things done in
+          uncertain, fast-changing environments where the rulebook is still being
+          written.
+        </p>
+        <p class="conclusion">
+          That's my story. It's not linear, doesn't fit one job title, and
+          probably looks chaotic from outside. But from inside, it makes perfect
+          sense. <strong
+            >I'm a wildcard, and being hard to categorise is my greatest
+            strength.</strong
+          >
+        </p>
+      </section>
+
+      <!-- Connect Section -->
+      <section class="connect reveal">
+        <h2>Let's Connect</h2>
+        <p class="connect-intro">Find me online or reach out via email.</p>
+
+        <div class="social-links">
+          <a
+            href={SOCIAL_LINKS.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link"
+          >
+            <span class="social-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                ></path>
+              </svg>
+            </span>
+            <span class="social-label">
+              <span class="social-name">GitHub</span>
+              <span class="social-handle">@a160v</span>
+            </span>
+          </a>
+
+          <a
+            href={SOCIAL_LINKS.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link"
+          >
+            <span class="social-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                ></path>
+              </svg>
+            </span>
+            <span class="social-label">
+              <span class="social-name">LinkedIn</span>
+              <span class="social-handle">e-aleks</span>
+            </span>
+          </a>
+
+          <a href={`mailto:${AUTHOR_EMAIL}`} class="social-link">
+            <span class="social-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                ></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </span>
+            <span class="social-label">
+              <span class="social-name">Email</span>
+              <span class="social-handle">Get in touch</span>
+            </span>
+          </a>
+        </div>
+      </section>
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  main {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-16);
+    max-width: 700px;
+  }
+
+  .about {
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .about-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .avatar-container {
+    margin-bottom: var(--space-6);
+  }
+
+  .avatar-placeholder {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-surface), var(--color-bg));
+    border: 2px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+  }
+
+  .about-title {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-4);
+    line-height: 1.2;
+  }
+
+  .about-subtitle {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    margin: 0;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Bio intro */
+  .bio {
+    margin-bottom: var(--space-10);
+  }
+
+  .lead {
+    font-size: var(--text-xl);
+    line-height: 1.7;
+    color: var(--color-text);
+  }
+
+  /* Story sections */
+  .story-section {
+    margin-bottom: var(--space-12);
+  }
+
+  .story-section h2 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-4);
+    color: var(--color-text);
+  }
+
+  .story-section p {
+    font-size: var(--text-base);
+    line-height: 1.8;
+    margin-bottom: var(--space-4);
+  }
+
+  .story-section p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Skills list - page-specific */
+  .skills-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-4) 0;
+  }
+
+  .skills-list li {
+    position: relative;
+    padding-left: var(--space-6);
+    margin-bottom: var(--space-3);
+    line-height: 1.7;
+  }
+
+  .skills-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 8px;
+    height: 8px;
+    background: var(--color-accent);
+    border-radius: 50%;
+  }
+
+  /* Languages - page-specific */
+  .languages-box {
+    margin-top: var(--space-8);
+    padding: var(--space-5);
+    background: var(--color-surface);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-border);
+  }
+
+  .languages-box h3 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-3);
+  }
+
+  .languages-box p {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .lang-tag {
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+
+  .lang-tag.native {
+    background: var(--color-accent);
+    color: white;
+  }
+
+  .lang-tag.c2 {
+    background: rgba(0, 113, 227, 0.15);
+    color: var(--color-accent);
+  }
+
+  .lang-tag.b1 {
+    background: var(--color-border);
+    color: var(--color-text);
+  }
+
+  .lang-tag.a2 {
+    background: var(--color-code-bg);
+    color: var(--color-text-muted);
+  }
+
+  /* Final section */
+  .final-section {
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .conclusion {
+    font-size: var(--text-lg);
+    margin-top: var(--space-6);
+  }
+
+  /* Connect section - page-specific layout */
+  .connect {
+    padding-top: var(--space-10);
+    margin-top: var(--space-12);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .connect h2 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-2);
+  }
+
+  .connect-intro {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+  }
+
+  @media (max-width: 640px) {
+    main {
+      padding-top: var(--space-8);
+    }
+
+    .about-title {
+      font-size: var(--text-2xl);
+    }
+
+    .lead {
+      font-size: var(--text-lg);
+    }
+
+    .lang-tag {
+      font-size: var(--text-xs);
+    }
+  }
+</style>

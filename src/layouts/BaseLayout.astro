@@ -1,0 +1,113 @@
+---
+import Dock from "../components/Dock.astro";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+}
+
+const { title, description, ogImage } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Prevent FOUC for themes -->
+    <script is:inline>
+      (function () {
+        const theme =
+          localStorage.getItem("theme") ||
+          (window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+  </head>
+  <body>
+    <slot />
+    <Dock />
+
+    <!-- Scroll reveal animation -->
+    <script is:inline>
+      (function () {
+        // Run immediately - don't wait for DOMContentLoaded since body is already loaded
+        function initReveal() {
+          const observerOptions = {
+            root: null,
+            rootMargin: "50px 0px -10% 0px",
+            threshold: 0.01,
+          };
+
+          const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                // Add small stagger based on element's position in DOM
+                const delay = entry.target.dataset.revealDelay || 0;
+                setTimeout(function () {
+                  entry.target.classList.add("revealed");
+                }, delay);
+                observer.unobserve(entry.target);
+              }
+            });
+          }, observerOptions);
+
+          const elements = document.querySelectorAll(".reveal");
+          elements.forEach(function (el, index) {
+            // Add stagger delay for elements in sequence
+            el.dataset.revealDelay = index * 80;
+            observer.observe(el);
+          });
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initReveal);
+        } else {
+          initReveal();
+        }
+      })();
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* Page transition */
+  body {
+    opacity: 0;
+    animation: pageLoad 0.5s ease forwards;
+  }
+
+  @keyframes pageLoad {
+    to {
+      opacity: 1;
+    }
+  }
+</style>

@@ -1,19 +1,23 @@
-# Astro Starter Kit: Blog
-
-```sh
-npm create astro@latest -- --template blog
-```
-
+# About Blog: a subleme personal theme with a simple blog
 > 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-Features:
+Built-in features with astro blog:
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
+- Minimal styling (make it your own!)
+- 100/100 Lighthouse performance
+- SEO-friendly with canonical URLs and OpenGraph data
+- Sitemap support
+- RSS Feed support
+- Markdown & MDX support
+
+Extra features:
+- Features
+- Feature	Implementation
+- 4 Themes	Light, Dark, Sepia (FT-style), Warm
+- Bottom Dock	Glassmorphism, auto-hide on scroll
+- Animations	Fade-in reveals, hover effects, page transitions
+- Typography	Inter font with Apple-like sizing scale
+- Blog	Markdown posts with reading time
 
 ## 🚀 Project Structure
 
