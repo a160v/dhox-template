@@ -162,6 +162,9 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Prevent horizontal scrolling and overscroll on mobile */
+  overflow-x: hidden;
+  overscroll-behavior: none;
 }
 
 body {
@@ -173,7 +176,11 @@ body {
   transition: background-color var(--transition-smooth),
     color var(--transition-smooth);
   min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for mobile - accounts for browser UI */
   padding-bottom: calc(var(--dock-height) + var(--space-8));
+  /* Prevent horizontal scrolling and overscroll bounce on mobile */
+  overflow-x: hidden;
+  overscroll-behavior: none; /* Prevents pull-to-refresh and rubber banding */
 }
 
 /* ==========================================
@@ -483,14 +490,15 @@ img {
 }
 
 .btn-primary {
-  background: var(--color-accent);
-  color: white;
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
 }
 
 .btn-primary:hover {
-  background: var(--color-accent-hover);
+  background: var(--color-bg);
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 113, 227, 0.2);
+  box-shadow: var(--shadow-lg);
 }
 
 .btn-secondary {

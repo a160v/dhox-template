@@ -7,8 +7,8 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
   <main class="hero-container">
     <div class="hero">
       <h1 class="hero-title animate-fade-in-up">
-        <span class="greeting">Hello, I'm</span>
-        <span class="name">Aleks</span>
+        <span class="greeting">Hello, visitor</span>
+        <span class="name">I am Aleks</span>
       </h1>
 
       <p class="hero-subtitle animate-fade-in-up delay-1">
@@ -16,8 +16,8 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
       </p>
 
       <div class="hero-cta animate-fade-in-up delay-2">
-        <a href="/about" class="btn btn-primary">About Me</a>
-        <a href="/blog" class="btn btn-secondary">Read Blog</a>
+        <a href="/about" class="btn btn-primary">About me</a>
+        <a href="/blog" class="btn btn-secondary">Read my blog</a>
       </div>
     </div>
 
@@ -27,7 +27,9 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 
 <style>
   .hero-container {
-    min-height: 100vh;
+    /* Subtract body's dock padding to prevent extra scrollable whitespace on mobile */
+    min-height: calc(100vh - var(--dock-height) - var(--space-8));
+    min-height: calc(100dvh - var(--dock-height) - var(--space-8));
     display: flex;
     align-items: center;
     justify-content: center;
