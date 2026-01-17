@@ -1,32 +1,24 @@
 ---
 /**
  * TableOfContents Component
- * Collapsible accordion for blog post navigation
- *
- * @features
- * - Automatically generates links from H2/H3 headings
- * - Collapsible implementation using <details>/<summary>
- * - Sticky positioning support (via parent container)
- * - Smooth scroll behavior
- *
- * @usage
- * <TableOfContents headings={[{ depth: 2, slug: "intro", text: "Introduction" }]} />
+ * Collapsible accordion with smooth parchment-like animation
+ * Uses pure CSS checkbox hack for reliable animation
  */
 interface Props {
   headings: { depth: number; slug: string; text: string }[];
 }
 
 const { headings } = Astro.props;
-
-// Filter to h2 and h3 headings for TOC
 const tocItems = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
 const hasTocItems = tocItems.length > 0;
+const checkboxId = `toc-${Math.random().toString(36).substring(2, 9)}`;
 ---
 
 {
   hasTocItems && (
-    <details class="toc-accordion">
-      <summary class="toc-trigger">
+    <div class="toc-accordion">
+      <input type="checkbox" class="toc-checkbox" id={checkboxId} />
+      <label for={checkboxId} class="toc-trigger">
         <span class="toc-label">TABLE OF CONTENTS</span>
         <span class="toc-meta">
           {tocItems.length} sections
@@ -40,33 +32,35 @@ const hasTocItems = tocItems.length > 0;
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-            aria-hidden="true"
           >
             <polyline points="6 9 12 15 18 9" />
           </svg>
         </span>
-      </summary>
+      </label>
 
-      <nav class="toc-content" aria-label="Table of Contents">
+      <div class="toc-content">
         <ul class="toc-list">
-          {tocItems.map((heading) => (
-            <li class={`toc-item depth-${heading.depth}`}>
-              <a
-                href={`#${heading.slug}`}
-                class="toc-link"
-                aria-label={`Go to section: ${heading.text}`}
-              >
+          {tocItems.map((heading, index) => (
+            <li
+              class={`toc-item depth-${heading.depth}`}
+              style={`--i: ${index}`}
+            >
+              <a href={`#${heading.slug}`} class="toc-link">
                 {heading.text}
               </a>
             </li>
           ))}
         </ul>
-      </nav>
-    </details>
+      </div>
+    </div>
   )
 }
 
 <style>
+  .toc-checkbox {
+    display: none;
+  }
+
   .toc-accordion {
     margin-bottom: var(--space-10);
     border: 1px solid var(--color-border);
@@ -82,14 +76,7 @@ const hasTocItems = tocItems.length > 0;
     justify-content: space-between;
     padding: var(--space-4) var(--space-6);
     cursor: pointer;
-    color: var(--color-text);
     font-family: var(--font-sans);
-    transition: background-color var(--transition-fast);
-    list-style: none; /* Remove default arrow */
-  }
-
-  .toc-trigger::-webkit-details-marker {
-    display: none; /* Remove default arrow in Safari */
   }
 
   .toc-trigger:hover {
@@ -113,28 +100,30 @@ const hasTocItems = tocItems.length > 0;
   }
 
   .toc-chevron {
-    transition: transform var(--transition-base);
-  }
-
-  /* Rotate chevron when open */
-  .toc-accordion[open] .toc-chevron {
-    transform: rotate(180deg);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .toc-content {
-    border-top: 1px solid var(--color-border);
+    max-height: 0;
+    overflow: hidden;
     background: var(--color-bg);
-    padding: var(--space-4) 0;
+    border-top: 1px solid transparent;
+    transition: max-height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .toc-list {
     list-style: none;
-    padding: 0;
+    padding: var(--space-4) 0;
     margin: 0;
   }
 
   .toc-item {
-    margin: 0;
+    opacity: 0;
+    transform: translateX(-12px);
+    transition:
+      opacity 0.3s ease-out,
+      transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition-delay: calc(0.1s + var(--i) * 0.05s);
   }
 
   .toc-link {
@@ -143,18 +132,30 @@ const hasTocItems = tocItems.length > 0;
     font-size: var(--text-sm);
     color: var(--color-text-muted);
     text-decoration: none;
-    border-left: 2px solid transparent;
-    transition: all var(--transition-fast);
+    transition: color var(--transition-fast);
   }
 
   .toc-link:hover {
     color: var(--color-accent);
-    background-color: var(--color-surface);
   }
 
-  /* Indentation for H3 */
   .toc-item.depth-3 .toc-link {
     padding-left: var(--space-10);
     font-size: var(--text-xs);
+  }
+
+  /* Open state */
+  .toc-checkbox:checked + .toc-trigger .toc-chevron {
+    transform: rotate(180deg);
+  }
+
+  .toc-checkbox:checked ~ .toc-content {
+    max-height: max-content;
+    border-top-color: var(--color-border);
+  }
+
+  .toc-checkbox:checked ~ .toc-content .toc-item {
+    opacity: 1;
+    transform: translateX(0);
   }
 </style>
