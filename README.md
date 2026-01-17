@@ -2,7 +2,7 @@
 
 ![Dhox Banner](/public/blog-placeholder-about.jpg)
 
-**Dhox** is a minimalist, Apple-inspired personal website template built with [Astro](https://astro.build). Designed for readability, fluidity, and storytelling.
+**Dhox** is a sublime and playful website template with a blog, built with [Astro](https://astro.build). Designed for readability, fluidity, and storytelling.
 
 ## 🌟 Features
 
@@ -83,8 +83,19 @@ tags: ["tech", "life"]
 ```
 
 ## 📄 License
-
 This project is open-source and available under the [MIT License](LICENSE).
+
+## 🌍 Deployment & SEO
+
+This template is optimized for easy deployment on **Vercel**, **Netlify**, or **Cloudflare Pages**.
+
+1.  **Push to GitHub**.
+2.  **Connect to Host** and import your repo.
+3.  **Build it**: it will automatically detect `Astro` and run `npm run build`.
+
+**SEO Check:**
+- `robots.txt` and `sitemap-index.xml` are generated automatically.
+- Submit your `/sitemap-index.xml` to [Google Search Console](https://search.google.com/search-console) after deployment to speed up indexing.
 
 ## 🙏 Credits
 

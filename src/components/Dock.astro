@@ -75,6 +75,18 @@ function isActive(href: string): boolean {
       ))
     }
     {
+      (
+        /* Analogue Clock */
+        <div
+          class="clock-dock-item"
+          aria-label="Central European Time"
+          title="Central European Time"
+        >
+          <AnalogueClock />
+        </div>
+      )
+    }
+    {
       /* Search Action (Only on Blog) */
       currentPath.startsWith("/blog") && (
         <button class="dock-item search-dock-btn" aria-label="Search">
@@ -85,19 +97,6 @@ function isActive(href: string): boolean {
             />
           </span>
         </button>
-      )
-    }
-
-    {
-      (
-        /* Analogue Clock */
-        <div
-          class="clock-dock-item"
-          aria-label="Central European Time"
-          title="Central European Time"
-        >
-          <AnalogueClock />
-        </div>
       )
     }
   </div>

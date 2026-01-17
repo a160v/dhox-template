@@ -10,4 +10,7 @@ export default defineConfig({
 	// Update this URL in src/consts.ts when deploying
 	site: SITE_URL,
 	integrations: [mdx(), sitemap()],
+	build: {
+		inlineStylesheets: 'always',
+	},
 });
