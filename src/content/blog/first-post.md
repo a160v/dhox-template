@@ -1,7 +1,7 @@
 ---
 title: "Welcome to Dhox: A Sublime Astro Theme"
 description: "A minimal, Apple-inspired personal website theme for Astro. Designed for storytelling, built for performance."
-pubDate: "Jul 08 2024"
+pubDate: "Jan 17 2026"
 heroImage: "../../assets/blog-placeholder-about.jpg"
 tags: ["blog", "astro", "design"]
 ---

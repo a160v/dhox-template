@@ -12,8 +12,7 @@
  */
 ---
 
-<div id="search-modal" class="search-modal" aria-hidden="true">
-  <div class="search-overlay" id="search-overlay"></div>
+<dialog id="search-modal" class="search-modal">
   <div class="search-container">
     <header class="search-header">
       <svg
@@ -38,9 +37,9 @@
         aria-label="Search posts"
         autocomplete="off"
       />
-      <div class="kbd-shortcut">
+      <button class="close-btn" id="close-search" aria-label="Close">
         <kbd>ESC</kbd>
-      </div>
+      </button>
     </header>
     <div class="search-results" id="search-results">
       <!-- Results injected here -->
@@ -59,7 +58,7 @@
       </div>
     </div>
   </div>
-</div>
+</dialog>
 
 <script>
   import Fuse from "fuse.js";
@@ -76,8 +75,7 @@
   // DOM Elements - initialized in initSearch
   let searchInput: HTMLInputElement | null = null;
   let searchResults: HTMLElement | null = null;
-  let modal: HTMLElement | null = null;
-  let overlay: HTMLElement | null = null;
+  let modal: HTMLDialogElement | null = null;
 
   let isIndexLoaded = false;
   let activeIndex = -1;
@@ -107,11 +105,11 @@
 
   function openSearch() {
     if (!modal || !searchInput) return;
-    modal.classList.add("open");
-    modal.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
+    modal.showModal();
+    // Native dialog handles body scroll locking in most modern browsers automatically via ::backdrop
+    // but for safety we can add a class if needed. Standard `showModal` prevents interaction outside.
 
-    // Slight delay to ensure visibility before focusing
+    // Slight delay to ensure visibility before focusing input (though autofocus works too)
     setTimeout(() => {
       searchInput?.focus();
     }, 50);
@@ -121,9 +119,7 @@
 
   function closeSearch() {
     if (!modal) return;
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
+    modal.close();
     if (searchInput) searchInput.value = "";
     if (searchResults)
       searchResults.innerHTML =
@@ -205,17 +201,18 @@
       e.preventDefault();
       openSearch();
     }
-    if (e.key === "/" && !modal?.classList.contains("open")) {
+    if (e.key === "/" && !modal?.open) {
       e.preventDefault();
       openSearch();
     }
-    if (e.key === "Escape" && modal?.classList.contains("open")) {
-      closeSearch();
+    // Escape is handled natively by dialog, but we might want to clean up state
+    if (e.key === "Escape" && modal?.open) {
+      // closeSearch will be called by 'close' event listener on dialog
     }
   }
 
   function handleToggleEvent() {
-    if (modal?.classList.contains("open")) {
+    if (modal?.open) {
       closeSearch();
     } else {
       openSearch();
@@ -227,14 +224,20 @@
     activeIndex = -1;
   }
 
+  function handleDialogClick(e: MouseEvent) {
+    if (e.target === modal) {
+      closeSearch();
+    }
+  }
+
   // --- Initialization & Lifecycle ---
 
   function initSearch() {
     // 1. Refresh DOM references
     searchInput = document.getElementById("search-input") as HTMLInputElement;
     searchResults = document.getElementById("search-results");
-    modal = document.getElementById("search-modal");
-    overlay = document.getElementById("search-overlay");
+    modal = document.getElementById("search-modal") as HTMLDialogElement;
+    const closeBtn = document.getElementById("close-search");
 
     // 2. Cleanup old listeners (to avoid duplicates)
     document.removeEventListener("keydown", handleDocumentKeydown);
@@ -246,14 +249,21 @@
 
     // 4. Attach element-specific listeners
     if (searchInput) {
-      // Remove old listeners by cloning (simple wipe) or just adding new ones if we are careful.
-      // Since references are fresh, adding is fine.
       searchInput.addEventListener("input", handleInput);
       searchInput.addEventListener("keydown", handleKeyNavigation);
     }
 
-    if (overlay) {
-      overlay.addEventListener("click", closeSearch);
+    if (modal) {
+      modal.addEventListener("click", handleDialogClick);
+      modal.addEventListener("close", () => {
+        // Ensure cleanup happens even if closed via Esc or other means
+        if (searchInput) searchInput.value = "";
+        activeIndex = -1;
+      });
+    }
+
+    if (closeBtn) {
+      closeBtn.addEventListener("click", closeSearch);
     }
   }
 
@@ -271,34 +281,57 @@
 
 <style>
   .search-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 1000;
-    display: flex;
+    padding: 0;
+    border: none;
+    background: transparent;
+    max-width: 100vw;
+    max-height: 100vh;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+
+    /* Flex container for positioning the inner box */
+    /* display: flex;  <-- REMOVED: This was overriding native display:none */
     justify-content: center;
     align-items: flex-start;
     padding-top: 15vh;
-    visibility: hidden;
+
+    /* Animation */
     opacity: 0;
-    transition: all 0.2s ease-in-out;
+    transition:
+      opacity 0.2s ease-in-out,
+      display 0.2s ease-in-out allow-discrete;
   }
 
-  .search-modal.open {
-    visibility: visible;
+  /* When open */
+  .search-modal[open] {
+    opacity: 1;
+    display: flex; /* Restore flex display ONLY when open */
+  }
+
+  /* Backdrop styles (Native Overlay) */
+  .search-modal::backdrop {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    opacity: 0;
+    transition:
+      opacity 0.2s ease-in-out,
+      display 0.2s ease-in-out allow-discrete;
+  }
+
+  .search-modal[open]::backdrop {
     opacity: 1;
   }
 
-  .search-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(4px);
+  /* Starting styles for animation (Chrome 117+) */
+  @starting-style {
+    .search-modal[open] {
+      opacity: 0;
+    }
+    .search-modal[open]::backdrop {
+      opacity: 0;
+    }
   }
 
   .search-container {
@@ -315,10 +348,18 @@
     display: flex;
     flex-direction: column;
     max-height: 70vh;
+    /* Ensure it works within flex dialog */
+    margin: 0 var(--space-4);
   }
 
-  .search-modal.open .search-container {
+  .search-modal[open] .search-container {
     transform: scale(1);
+  }
+
+  @starting-style {
+    .search-modal[open] .search-container {
+      transform: scale(0.95);
+    }
   }
 
   .search-header {

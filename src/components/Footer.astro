@@ -113,56 +113,41 @@ const { breadcrumbs = [] } = Astro.props;
 </script>
 
 <style>
+  /* 
+   * Main Footer Container
+   * Compact design with minimal spacing as requested
+   */
   .site-footer {
     display: flex;
-    flex-direction: column;
-    gap: var(--space-8); /* Increased gap */
-    padding: var(--space-12) var(--space-6); /* Significantly increased vertical padding */
-    margin-top: var(--space-16); /* More space before footer starts */
+    justify-content: center;
+    padding: var(--space-2) var(--space-4); /* Minimal padding */
+    margin-top: var(--space-4); /* Closer to content */
     border-top: 1px solid var(--color-border);
     max-width: var(--max-width);
     margin-left: auto;
     margin-right: auto;
   }
 
+  /* Flex row for content alignment */
   .footer-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    gap: var(--space-8); /* Increased spacing between breadcrumb and switcher */
+    gap: var(--space-2); /* Tight gap */
   }
 
-  @media (max-width: 640px) {
-    .site-footer {
-      padding: var(--space-8) var(--space-4); /* More mobile padding too */
-    }
-    .theme-switcher-pill label {
-      padding: 8px 16px 8px 30px;
-    }
-    .footer-row {
-      flex-direction: column;
-      gap: var(--space-8);
-    }
-    /* Left align breadcrumb explicitly on mobile */
-    .breadcrumb {
-      align-self: flex-start;
-      width: 100%;
-    }
-    /* Center switcher explicitly */
-    .theme-switcher-pill {
-      align-self: center;
-    }
-  }
-
+  /* 
+   * Breadcrumb Navigation
+   * Left-aligned, subtle text
+   */
   .breadcrumb {
     display: flex;
     align-items: center;
     gap: var(--space-2);
     font-size: var(--text-sm);
     color: var(--color-text-muted);
-    flex: 1;
-    min-width: 0;
+    flex: 1; /* Takes available space to push switcher to right/center */
   }
 
   .breadcrumb a {
@@ -171,89 +156,74 @@ const { breadcrumbs = [] } = Astro.props;
     text-underline-offset: 2px;
     transition: color var(--transition-fast);
   }
-
   .breadcrumb a:hover {
     color: var(--color-accent);
   }
-
-  .breadcrumb .separator {
-    opacity: 0.5;
-    font-size: var(--text-xs);
-  }
-
+  .breadcrumb .separator,
   .breadcrumb .current {
-    color: var(--color-text);
-    font-weight: 500;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 180px;
+    opacity: 0.8;
   }
 
-  /* --- Theme Switcher Radio Pill --- */
+  /* 
+   * Theme Switcher (Radio Pill)
+   * Centered or Right aligned depending on space
+   */
   .theme-switcher-pill {
     display: flex;
-    border: 0;
+    border: none;
     padding: 0;
     margin: 0;
-    gap: 4px;
+    gap: 2px; /* Very tight button gap */
     background: var(--color-surface);
-    border-radius: 9999px;
+    border-radius: 99px;
   }
 
-  .theme-switcher-pill input[type="radio"] {
+  /* Hide default radio inputs */
+  .theme-switcher-pill input {
     position: absolute;
-    visibility: hidden;
-    display: none;
     opacity: 0;
-    z-index: -1;
+    pointer-events: none;
   }
 
+  /* Labels act as buttons */
   .theme-switcher-pill label {
-    position: relative;
-    padding: 6px 14px 6px 28px;
-    cursor: pointer;
-    border-radius: 20px;
-    color: var(--color-text-muted);
-    font-weight: 600;
+    padding: 4px 10px; /* Compact button size */
     font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    border-radius: 16px;
     text-transform: uppercase;
-    transition: all 0.25s ease;
-    border: 1px solid transparent;
+    transition: all 0.2s ease;
   }
 
-  .theme-switcher-pill label::before {
-    box-sizing: border-box;
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    width: 10px;
-    height: 10px;
-    border: 2px solid var(--color-text-muted);
-    border-radius: 50%;
-    transition: all 0.25s ease;
-  }
-
-  .theme-switcher-pill input[type="radio"]:checked + label {
-    color: white;
+  /* Active State (Checked) */
+  .theme-switcher-pill input:checked + label {
     background: var(--color-accent);
-    box-shadow: 0 2px 8px
-      color-mix(in srgb, var(--color-accent) 40%, transparent);
+    color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
 
-  .theme-switcher-pill input[type="radio"]:checked + label::before {
-    background: white;
-    border-color: white;
-  }
-
-  .theme-switcher-pill input[type="radio"]:not(:checked) + label:hover {
+  /* Hover State (Unchecked) */
+  .theme-switcher-pill input:not(:checked) + label:hover {
     background: var(--color-bg);
     color: var(--color-text);
   }
 
-  .theme-switcher-pill input[type="radio"]:not(:checked) + label:hover::before {
-    border-color: var(--color-accent);
+  /* Mobile Responsive adjustments */
+  @media (max-width: 640px) {
+    .site-footer {
+      padding: var(--space-2);
+    }
+    .footer-row {
+      flex-direction: column;
+      gap: var(--space-2);
+      align-items: flex-start;
+    }
+    .theme-switcher-pill {
+      align-self: center; /* Center switcher on mobile */
+      /* Removed width: 100% to prevent stretching */
+      justify-content: center;
+    }
   }
 </style>

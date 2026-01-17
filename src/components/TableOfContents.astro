@@ -40,17 +40,22 @@ const hasTocItems = tocItems.length > 0;
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
+            aria-hidden="true"
           >
             <polyline points="6 9 12 15 18 9" />
           </svg>
         </span>
       </summary>
 
-      <nav class="toc-content">
+      <nav class="toc-content" aria-label="Table of Contents">
         <ul class="toc-list">
           {tocItems.map((heading) => (
             <li class={`toc-item depth-${heading.depth}`}>
-              <a href={`#${heading.slug}`} class="toc-link">
+              <a
+                href={`#${heading.slug}`}
+                class="toc-link"
+                aria-label={`Go to section: ${heading.text}`}
+              >
                 {heading.text}
               </a>
             </li>

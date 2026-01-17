@@ -254,31 +254,10 @@ function isActive(href: string): boolean {
 
 <script>
   /**
-   * Initialize Dock - updates active state based on current URL
-   * Needed for ViewTransitions navigation
+   * Initialize Dock
+   * Only needed for the Search button listener
    */
   function initDock() {
-    const currentPath = window.location.pathname;
-    const dockItems = document.querySelectorAll(".dock-item[href]");
-
-    dockItems.forEach((item) => {
-      const href = item.getAttribute("href");
-      if (!href || href.startsWith("mailto:")) return;
-
-      let isActive = false;
-      if (href === "/") {
-        isActive = currentPath === "/";
-      } else {
-        isActive = currentPath.startsWith(href);
-      }
-
-      if (isActive) {
-        item.classList.add("active");
-      } else {
-        item.classList.remove("active");
-      }
-    });
-
     // Attach Search Listener
     const searchBtn = document.querySelector(".search-dock-btn");
     if (searchBtn) {

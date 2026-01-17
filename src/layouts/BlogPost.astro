@@ -30,6 +30,7 @@ const {
   updatedDate,
   headings = [],
   tags = [],
+  heroImage,
 } = Astro.props;
 
 // Breadcrumb data for footer
@@ -38,9 +39,26 @@ const breadcrumbs = [
   { label: "Blog", href: "/blog" },
   { label: title },
 ];
+
+const schema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: title,
+  description: description,
+  datePublished: pubDate.toISOString(),
+  ...(updatedDate && { dateModified: updatedDate.toISOString() }),
+  featuredImage: heroImage,
+  author: {
+    "@type": "Person",
+    name: "Aleks", // TODO: Pull from config
+  },
+});
 ---
 
 <BaseLayout title={title} description={description}>
+  <slot slot="head">
+    <script type="application/ld+json" set:html={schema} />
+  </slot>
   <main id="main-content">
     <article class="blog-post">
       <!-- Header -->
@@ -90,7 +108,7 @@ const breadcrumbs = [
 <style>
   main {
     padding-top: var(--space-12);
-    padding-bottom: var(--space-16);
+    padding-bottom: var(--space-8); /* Reduced from space-16 */
     max-width: 680px;
     margin: 0 auto;
   }
