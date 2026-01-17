@@ -56,9 +56,9 @@ const schema = JSON.stringify({
 ---
 
 <BaseLayout title={title} description={description}>
-  <slot slot="head">
+  <Fragment slot="head">
     <script type="application/ld+json" set:html={schema} />
-  </slot>
+  </Fragment>
   <main id="main-content">
     <article class="blog-post">
       <!-- Header -->

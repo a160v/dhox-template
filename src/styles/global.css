@@ -155,6 +155,8 @@ body {
   /* Prevent horizontal scrolling and overscroll bounce on mobile */
   overflow-x: hidden;
   overscroll-behavior: none; /* Prevents pull-to-refresh and rubber banding */
+  /* FOUC prevention: This overrides the inline opacity: 0 once CSS loads */
+  opacity: 1;
 }
 
 /* ==========================================

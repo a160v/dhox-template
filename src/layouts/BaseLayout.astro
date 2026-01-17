@@ -87,6 +87,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         }
       })();
     </script>
+
+    <!-- Critical CSS: Hide body until main stylesheet loads -->
+    <style is:inline>
+      body {
+        opacity: 0;
+      }
+    </style>
     <slot name="head" />
   </head>
   <body>
