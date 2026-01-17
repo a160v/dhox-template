@@ -1,0 +1,34 @@
+# Cloudflare Pages / Netlify Headers Configuration
+# This file tells the CDN which HTTP headers to send to the browser for security and performance.
+
+# Apply these headers to ALL routes (/*)
+/*
+  # 1. Content Security Policy (CSP)
+  # Restricts sources for scripts, styles, and images to prevent XSS attacks.
+  # - script-src: 'self' 'unsafe-inline' (needed for Astro inline scripts)
+  # - style-src: 'self' 'unsafe-inline' plus Google Fonts
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;
+
+  # 2. X-Frame-Options
+  # Prevents your site from being embedded in iframes (Clickjacking protection).
+  X-Frame-Options: DENY
+
+  # 3. X-Content-Type-Options
+  # Prevents browsers from MIME-sniffing a response away from the declared content-type.
+  X-Content-Type-Options: nosniff
+
+  # 4. Referrer Policy
+  # Controls how much referrer information is sent to other sites.
+  Referrer-Policy: strict-origin-when-cross-origin
+
+  # 5. Permissions Policy
+  # Disables access to sensitive features like location, camera, etc.
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=()
+
+  # 6. Strict Transport Security (HSTS)
+  # Forces the browser to use HTTPS for the next year (31536000 seconds).
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+  # 7. Cross-Origin Opener Policy (COOP)
+  # Isolates the browsing context to prevent cross-origin attacks (Spectre).
+  Cross-Origin-Opener-Policy: same-origin

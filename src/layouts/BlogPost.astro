@@ -62,7 +62,7 @@ const schema = JSON.stringify({
   <main id="main-content">
     <article class="blog-post">
       <!-- Header -->
-      <header class="post-header reveal">
+      <header class="post-header">
         <h1 class="post-title">{title}</h1>
         {description && <p class="post-description">{description}</p>}
         <div class="post-meta">
@@ -83,7 +83,7 @@ const schema = JSON.stringify({
       </header>
 
       <!-- Content -->
-      <div class="prose reveal">
+      <div class="prose">
         <!-- Table of Contents Accordion -->
         {headings.length > 0 && <TableOfContents headings={headings} />}
 

@@ -16,7 +16,7 @@
  *   <slot />
  * </BaseLayout>
  */
-import { ViewTransitions } from "astro:transitions";
+
 import Dock from "../components/Dock.astro";
 import Search from "../components/Search.astro";
 import "../styles/global.css";
@@ -43,6 +43,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
 
+    <!-- Fonts (Preloaded to prevent FOUC/Chains) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- RSS & Sitemap -->
     <link
       rel="alternate"
@@ -66,9 +74,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-    <!-- Smooth page transitions -->
-    <ViewTransitions />
 
     <!-- Prevent FOUC for themes -->
     <script is:inline>

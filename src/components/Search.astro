@@ -61,7 +61,8 @@
 </dialog>
 
 <script>
-  import Fuse from "fuse.js";
+  // Remove static import to reduce initial bundle size
+  // import Fuse from "fuse.js";
 
   interface SearchResult {
     title: string;
@@ -71,7 +72,8 @@
     tags: string[];
   }
 
-  let fuse: Fuse<SearchResult>;
+  // Use 'any' type for Fuse instance since we're importing dynamically
+  let fuse: any;
   // DOM Elements - initialized in initSearch
   let searchInput: HTMLInputElement | null = null;
   let searchResults: HTMLElement | null = null;
@@ -84,8 +86,13 @@
     if (isIndexLoaded) return;
 
     try {
-      const response = await fetch("/search.json");
+      const [response, FuseModule] = await Promise.all([
+        fetch("/search.json"),
+        import("fuse.js"),
+      ]);
+
       const list = await response.json();
+      const Fuse = FuseModule.default;
 
       fuse = new Fuse(list, {
         keys: [
@@ -145,7 +152,7 @@
     }
 
     searchResults.innerHTML = results
-      .map(({ item }, index) => {
+      .map(({ item }: { item: SearchResult }, index: number) => {
         return `
         <a href="${item.slug}" class="search-result-item" data-index="${index}">
           <div class="result-content">
@@ -166,6 +173,13 @@
       `;
       })
       .join("");
+
+    // Add click handler to close modal before navigation
+    searchResults.querySelectorAll(".search-result-item").forEach((link) => {
+      link.addEventListener("click", () => {
+        closeSearch();
+      });
+    });
   }
 
   function handleKeyNavigation(e: KeyboardEvent) {
