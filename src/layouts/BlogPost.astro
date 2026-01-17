@@ -17,10 +17,13 @@ import type { CollectionEntry } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import TableOfContents from "../components/TableOfContents.astro";
+import PostNavigation from "../components/PostNavigation.astro";
 import Footer from "../components/Footer.astro";
 
 type Props = CollectionEntry<"blog">["data"] & {
   headings?: { depth: number; slug: string; text: string }[];
+  prevPost?: { slug: string; title: string } | null;
+  nextPost?: { slug: string; title: string } | null;
 };
 
 const {
@@ -31,6 +34,8 @@ const {
   headings = [],
   tags = [],
   heroImage,
+  prevPost = null,
+  nextPost = null,
 } = Astro.props;
 
 // Breadcrumb data for footer
@@ -99,6 +104,9 @@ const schema = JSON.stringify({
         <slot />
       </div>
     </article>
+
+    <!-- Previous/Next Post Navigation -->
+    <PostNavigation prevPost={prevPost} nextPost={nextPost} />
 
     <!-- Footer with breadcrumb and datetime -->
     <Footer breadcrumbs={breadcrumbs} />

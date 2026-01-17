@@ -3,8 +3,10 @@
    ========================================== */
 :root {
   /* Font Families */
-  --font-sans: "Atkinson Hyperlegible", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: "Geist", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  --font-serif-forum: "Forum", serif;
+  --font-serif-bentham: "Bentham", serif;
 
   /* Font Sizes */
   --text-xs: 0.75rem;
@@ -178,6 +180,8 @@ h1 {
   font-size: var(--text-hero);
   font-weight: 700;
   letter-spacing: -0.03em;
+  /* font-family: var(--font-serif-forum); */
+  font-family: var(--font-serif-bentham);
 }
 h2 {
   font-size: var(--text-3xl);
@@ -429,10 +433,6 @@ img {
   color: var(--color-text-muted);
 }
 
-.text-center {
-  text-align: center;
-}
-
 /* ==========================================
    SHARED COMPONENTS
    ========================================== */
@@ -473,6 +473,34 @@ img {
   border: none;
 }
 
+
+/* Surface Container (Reusable box with bg, border, radius) */
+.surface-box {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+/* Pill Button (Rounded, hover-inverts) */
+.pill-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  text-decoration: none;
+  transition: all var(--transition-base);
+  cursor: pointer;
+}
+.pill-btn:hover {
+  background: var(--color-text);
+  color: var(--color-bg);
+  border-color: transparent;
+}
 
 /* Cards */
 .card {

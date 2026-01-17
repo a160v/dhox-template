@@ -11,10 +11,11 @@ import eiffelTowerGif from "../assets/sparkling_tour_eiffel_at_night.gif";
     <div class="content-wrapper">
       <h1 class="error-code">Error 404</h1>
       <p class="error-message">
-        Sorry for the inconvenience, please check your URL or go home.
+        Sorry for the inconvenience, please check the URL or use the dock below
+        to navigate.
         <br />
         <br />
-        Meanwhile, enjoy a nice view of the Tour Eiffel.
+        Meanwhile, enjoy a nice view <i>de la Tour Eiffel</i>.
       </p>
 
       <div class="eiffel-wrapper">
@@ -110,20 +111,6 @@ import eiffelTowerGif from "../assets/sparkling_tour_eiffel_at_night.gif";
     color: var(--color-bg);
     box-shadow: var(--shadow-md);
     border-color: transparent;
-  }
-
-  /* Reveal Animation */
-  .reveal {
-    opacity: 0;
-    transform: translateY(20px);
-    transition:
-      opacity 0.6s ease-out,
-      transform 0.6s ease-out;
-  }
-
-  .reveal.revealed {
-    opacity: 1;
-    transform: translateY(0);
   }
 
   @media (max-width: 640px) {
