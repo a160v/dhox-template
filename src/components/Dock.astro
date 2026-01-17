@@ -74,7 +74,7 @@ function isActive(href: string): boolean {
         </a>
       ))
     }
-    {
+    <!-- {
       (
         /* Analogue Clock */
         <div
@@ -85,10 +85,10 @@ function isActive(href: string): boolean {
           <AnalogueClock />
         </div>
       )
-    }
+    } -->
     {
-      /* Search Action (Only on Blog) */
-      currentPath.startsWith("/blog") && (
+      (
+        /* Search Action (Global) */
         <button class="dock-item search-dock-btn" aria-label="Search">
           <span class="dock-icon">
             <span
@@ -182,15 +182,23 @@ function isActive(href: string): boolean {
     cursor: default;
   }
 
-  .clock-dock-item:hover {
-    transform: scale(1.15) translateY(-5px);
-    z-index: 10;
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  @media (hover: hover) {
+    .clock-dock-item:hover {
+      transform: scale(1.15) translateY(-5px);
+      z-index: 10;
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .dock-item:hover {
+      transform: scale(1.15) translateY(-5px);
+      z-index: 10;
+    }
   }
 
-  .dock-item:hover {
-    transform: scale(1.15) translateY(-5px);
-    z-index: 10;
+  /* Active state for touch feedback */
+  .dock-item:active,
+  .clock-dock-item:active {
+    transform: scale(0.95);
   }
 
   /* Active Indicator Dot */

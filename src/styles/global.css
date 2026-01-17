@@ -153,12 +153,9 @@ body {
     color var(--transition-smooth);
   min-height: 100vh;
   min-height: 100dvh; /* Dynamic viewport height for mobile - accounts for browser UI */
-  padding-bottom: calc(var(--dock-height) + var(--space-8));
-  /* Prevent horizontal scrolling and overscroll bounce on mobile */
-  overflow-x: hidden;
+  overflow-x: hidden; /* Prevent horizontal scrolling and overscroll bounce on mobile */
   overscroll-behavior: none; /* Prevents pull-to-refresh and rubber banding */
-  /* FOUC prevention: This overrides the inline opacity: 0 once CSS loads */
-  opacity: 1;
+  opacity: 1; /* FOUC prevention: This overrides the inline opacity: 0 once CSS loads */
 }
 
 /* ==========================================
@@ -227,7 +224,6 @@ main {
   width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: var(--space-8) var(--space-6);
 }
 
 /* ==========================================
