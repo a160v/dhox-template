@@ -1,17 +1,28 @@
 ---
+/**
+ * FormattedDate Component
+ * Displays a date in a human-readable format
+ *
+ * @features
+ * - Uses HTML5 <time> element for semantic correctness
+ * - Standardized long date format (e.g., "August 15, 2023")
+ *
+ * @usage
+ * <FormattedDate date={new Date()} />
+ */
 interface Props {
-	date: Date;
+  date: Date;
 }
 
 const { date } = Astro.props;
 ---
 
 <time datetime={date.toISOString()}>
-	{
-		date.toLocaleDateString('en-us', {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
-		})
-	}
+  {
+    date.toLocaleDateString("en-us", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    })
+  }
 </time>

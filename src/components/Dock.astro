@@ -1,5 +1,28 @@
 ---
+/**
+ * Dock Component
+ * macOS-style navigation dock at bottom of screen
+ *
+ * @features
+ * - App-style colored icons with gradients
+ * - CSS Mask icons for crisp rendering (no pixelation)
+ * - Active indicator dots
+ * - Hover animations (magnification)
+ * - ViewTransitions persistence
+ *
+ * TABLE OF CONTENTS
+ * -----------------
+ * 1. Imports & Config
+ * 2. Component Logic (Active state check)
+ * 3. HTML Template
+ * 4. Styles (Glassmorphism, Gradients, Masks)
+ * 5. Scripts (Active state updates)
+ *
+ * @usage
+ * <Dock />
+ */
 import { SITE_CONFIG } from "../consts";
+import AnalogueClock from "./AnalogueClock.astro";
 
 const currentPath = Astro.url.pathname;
 
@@ -20,6 +43,11 @@ const dockItems: DockItem[] = [
   },
 ];
 
+/**
+ * Check if a dock item is active based on current path
+ * @param {string} href - The link of the dock item
+ * @returns {boolean} - True if active
+ */
 function isActive(href: string): boolean {
   if (href === "/") {
     return currentPath === "/";
@@ -28,7 +56,7 @@ function isActive(href: string): boolean {
 }
 ---
 
-<nav class="dock" id="dock" transition:persist>
+<nav class="dock" id="dock">
   <div class="dock-container">
     {
       dockItems.map((item) => (
@@ -38,58 +66,40 @@ function isActive(href: string): boolean {
           aria-label={item.label}
         >
           <span class="dock-icon">
-            <img
-              src={item.imgSrc}
-              alt={item.label}
+            <span
               class="nav-icon"
-              width="24"
-              height="24"
+              style={`mask-image: url(${item.imgSrc}); -webkit-mask-image: url(${item.imgSrc});`}
             />
           </span>
         </a>
       ))
     }
+    {
+      /* Search Action (Only on Blog) */
+      currentPath.startsWith("/blog") && (
+        <button class="dock-item search-dock-btn" aria-label="Search">
+          <span class="dock-icon">
+            <span
+              class="nav-icon"
+              style="mask-image: url(/search.svg); -webkit-mask-image: url(/search.svg);"
+            />
+          </span>
+        </button>
+      )
+    }
 
-    <div class="separator"></div>
-
-    <div class="dock-extras">
-      <!-- Theme Cycler Button (Light → Reader → Dark → Light...) -->
-      <button
-        class="dock-item theme-toggle"
-        id="theme-toggle"
-        aria-label="Change theme"
-      >
-        <span class="dock-icon">
-          <!-- Sun icon for Light mode -->
-          <img
-            src="/sun.svg"
-            alt="Light mode"
-            class="theme-icon"
-            id="icon-light"
-            width="24"
-            height="24"
-          />
-          <!-- Eye icon for Reader/Sepia mode -->
-          <img
-            src="/eye-open.svg"
-            alt="Reader mode"
-            class="theme-icon"
-            id="icon-sepia"
-            width="24"
-            height="24"
-          />
-          <!-- Moon icon for Dark mode -->
-          <img
-            src="/moon.svg"
-            alt="Dark mode"
-            class="theme-icon"
-            id="icon-dark"
-            width="24"
-            height="24"
-          />
-        </span>
-      </button>
-    </div>
+    {
+      (
+        /* Analogue Clock */
+        <div
+          class="clock-dock-item"
+          aria-label="Central European Time"
+          title="Central European Time"
+        >
+          <AnalogueClock />
+        </div>
+      )
+    }
   </div>
 </nav>
 
@@ -105,27 +115,14 @@ function isActive(href: string): boolean {
   .dock-container {
     display: flex;
     align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-2) var(--space-3);
+    gap: var(--space-2);
+    padding: var(--space-2);
     background: var(--dock-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--dock-border);
-    border-radius: 20px; /* macOS style radius */
+    border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  }
-
-  .separator {
-    width: 1px;
-    height: 32px;
-    background-color: var(--color-text);
-    margin: 0 var(--space-1);
-    opacity: 0.1;
-  }
-
-  .dock-extras {
-    display: flex;
-    gap: var(--space-3);
   }
 
   .dock-item {
@@ -134,13 +131,13 @@ function isActive(href: string): boolean {
     justify-content: center;
     width: 48px;
     height: 48px;
-    border-radius: 12px; /* Squaricle */
-    color: white; /* Icons are always white inside color blocks */
+    border-radius: 12px;
+    color: white;
     text-decoration: none;
     transition:
       transform var(--transition-base),
       box-shadow var(--transition-base);
-    background: linear-gradient(135deg, #8e8e93, #636366); /* Default grey */
+    background: linear-gradient(135deg, #8e8e93, #636366);
     border: none;
     cursor: pointer;
     font-family: inherit;
@@ -149,43 +146,47 @@ function isActive(href: string): boolean {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
   }
 
-  /* Specific App Gradients */
+  /* App Gradients */
   :global(a[href="/"].dock-item) {
-    background: linear-gradient(
-      180deg,
-      #30d2ff 0%,
-      #007aff 100%
-    ); /* Finder Blue */
+    background: linear-gradient(180deg, #30d2ff 0%, #007aff 100%);
   }
   :global(a[href="/about"].dock-item) {
-    background: linear-gradient(
-      180deg,
-      #ff9f0a 0%,
-      #ff6b00 100%
-    ); /* Warm Orange */
+    background: linear-gradient(180deg, #ff9f0a 0%, #ff6b00 100%);
   }
   :global(a[href="/blog"].dock-item) {
-    background: linear-gradient(
-      180deg,
-      #bf5af2 0%,
-      #5e5ce6 100%
-    ); /* Purple/Indigo */
+    background: linear-gradient(180deg, #bf5af2 0%, #5e5ce6 100%);
   }
   :global(a[href^="mailto"].dock-item) {
-    background: linear-gradient(
-      180deg,
-      #34c759 0%,
-      #30b0c7 100%
-    ); /* Green/Teal */
+    background: linear-gradient(180deg, #34c759 0%, #30b0c7 100%);
   }
 
-  /* Settings Icons (Theme) */
-  :global(.dock-item.theme-toggle) {
-    background: linear-gradient(
-      180deg,
-      #636366 0%,
-      #2c2c2e 100%
-    ); /* System Grey */
+  /* Search Item (only on blog) */
+  :global(button.dock-item.search-dock-btn) {
+    background: linear-gradient(180deg, #32ade6 0%, #007aff 100%);
+  }
+
+  /* Clock Item */
+  .clock-dock-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border-radius: 12px;
+    background: transparent; /* Clock has its own bg */
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    transition:
+      transform var(--transition-base),
+      box-shadow var(--transition-base);
+    cursor: default;
+  }
+
+  .clock-dock-item:hover {
+    transform: scale(1.15) translateY(-5px);
+    z-index: 10;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
   }
 
   .dock-item:hover {
@@ -193,80 +194,55 @@ function isActive(href: string): boolean {
     z-index: 10;
   }
 
-  .dock-item.active {
-    /* bg handled by gradient */
-  }
-
   /* Active Indicator Dot */
-  .dock-item.active::after {
+  .dock-item::after {
     content: "";
     position: absolute;
-    bottom: -10px;
+    bottom: -8px;
     left: 50%;
     transform: translateX(-50%);
     width: 4px;
     height: 4px;
-    background-color: var(--color-text);
+    background: var(--color-text);
     border-radius: 50%;
-    opacity: 0.6;
-  }
-
-  /* Navigation icons color adaptation */
-  .nav-icon {
-    box-sizing: border-box;
-    padding: 8px; /* Room inside the squaricle */
-    width: 100%;
-    height: 100%;
-    transition: filter var(--transition-base);
-    filter: invert(1) brightness(10); /* Force White Icons everywhere */
-  }
-
-  /* Theme icons needs to be white too inside grey blocks */
-  .theme-icon {
-    position: absolute;
     opacity: 0;
-    transition:
-      transform var(--transition-spring),
-      opacity var(--transition-base);
-    transform: scale(0.5);
-    width: 100%;
-    height: 100%;
-    padding: 10px;
-    filter: invert(1) brightness(10);
+    transition: opacity var(--transition-base);
   }
 
-  /* In dark mode, icons are already white, but the filters above force it. 
-     We need to ensure content is white regardless of theme because backgrounds are colored. */
-  :global([data-theme="dark"]) .nav-icon,
-  :global([data-theme="dark"]) .theme-icon {
-    filter: invert(1) brightness(10);
+  .dock-item.active::after {
+    opacity: 1;
   }
-
-  /* Except light mode... svg's are likely black. 
-     invert(1) makes them white. 
-     So we always want invert(1) on these black SVGs. */
 
   .dock-icon {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Icons using CSS Masks for crisp rendering */
+  .nav-icon {
+    display: block;
     width: 100%;
     height: 100%;
-    transition: transform var(--transition-spring);
-    position: relative;
+    background-color: white;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: contain;
   }
 
-  .theme-icon.visible {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  /* Responsive - keep same design on mobile as it's compact now */
+  /* Mobile */
   @media (max-width: 480px) {
+    .dock {
+      bottom: var(--space-4);
+    }
     .dock-container {
-      padding: var(--space-2);
-      border-radius: 16px;
       gap: var(--space-2);
+      padding: var(--space-2);
     }
     .dock-item {
       width: 40px;
@@ -277,44 +253,11 @@ function isActive(href: string): boolean {
 </style>
 
 <script>
-  // Theme cycle: Light → Sepia (Reader) → Dark → Light...
-  const themeCycle = ["light", "sepia", "dark"] as const;
-  type Theme = (typeof themeCycle)[number];
-
-  function getStoredTheme(): Theme {
-    const stored = localStorage.getItem("theme") as Theme | null;
-    if (stored && themeCycle.includes(stored)) return stored;
-    return "light"; // Default to light
-  }
-
-  function setTheme(theme: Theme) {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-    updateThemeIcon(theme);
-  }
-
-  function updateThemeIcon(theme: Theme) {
-    // Hide all icons
-    document.querySelectorAll(".theme-icon").forEach((icon) => {
-      icon.classList.remove("visible");
-    });
-
-    // Show the icon for current theme
-    const activeIcon = document.getElementById(`icon-${theme}`);
-    activeIcon?.classList.add("visible");
-  }
-
-  function cycleTheme() {
-    const currentTheme = getStoredTheme();
-    const currentIndex = themeCycle.indexOf(currentTheme);
-    const nextIndex = (currentIndex + 1) % themeCycle.length;
-    const nextTheme = themeCycle[nextIndex];
-    setTheme(nextTheme);
-  }
-
-  // Initialize Dock - called on page load and ViewTransitions navigation
+  /**
+   * Initialize Dock - updates active state based on current URL
+   * Needed for ViewTransitions navigation
+   */
   function initDock() {
-    // Update active state based on current URL (needed for ViewTransitions)
     const currentPath = window.location.pathname;
     const dockItems = document.querySelectorAll(".dock-item[href]");
 
@@ -322,7 +265,6 @@ function isActive(href: string): boolean {
       const href = item.getAttribute("href");
       if (!href || href.startsWith("mailto:")) return;
 
-      // Check if this item should be active
       let isActive = false;
       if (href === "/") {
         isActive = currentPath === "/";
@@ -337,13 +279,17 @@ function isActive(href: string): boolean {
       }
     });
 
-    // Initialize theme and icon
-    const initialTheme = getStoredTheme();
-    setTheme(initialTheme);
+    // Attach Search Listener
+    const searchBtn = document.querySelector(".search-dock-btn");
+    if (searchBtn) {
+      // Clone to remove old listeners (simplest way to prevent duplicates)
+      const newBtn = searchBtn.cloneNode(true);
+      searchBtn.parentNode?.replaceChild(newBtn, searchBtn);
 
-    // Theme toggle button - cycles through themes on click
-    const themeToggle = document.getElementById("theme-toggle");
-    themeToggle?.addEventListener("click", cycleTheme);
+      newBtn.addEventListener("click", () => {
+        window.dispatchEvent(new CustomEvent("search:toggle"));
+      });
+    }
   }
 
   // Run on initial load

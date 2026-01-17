@@ -1,6 +1,24 @@
 ---
+/**
+ * BaseLayout
+ * The root layout template for all pages
+ *
+ * @features
+ * - HEAD Setup: Meta tags, SEO, OpenGraph, Twitter Cards
+ * - Theme Initialization (script to prevent FOUC)
+ * - Accessibility: Skip link, semantic HTML structure
+ * - ViewTransitions integration
+ * - Core styles import (global.css)
+ * - Global Dock component integration
+ *
+ * @usage
+ * <BaseLayout title="Page Title" description="Page Desc">
+ *   <slot />
+ * </BaseLayout>
+ */
 import { ViewTransitions } from "astro:transitions";
 import Dock from "../components/Dock.astro";
+import Search from "../components/Search.astro";
 import "../styles/global.css";
 
 interface Props {
@@ -69,6 +87,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <!-- Skip link for keyboard navigation -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <slot />
+    <Search />
     <Dock />
 
     <!-- Scroll reveal animation - re-runs on ViewTransitions navigation -->

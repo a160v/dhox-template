@@ -24,15 +24,13 @@ export const SITE_CONFIG = {
   },
 
   // Navigation
-  nav: {
-    // Tags shown in blog submenu (must match tags used in blog posts)
-    blogTags: ["blog", "notes", "talks"],
-  },
+  nav: {},
 };
 
 // Legacy exports for backwards compatibility
 export const SITE_TITLE = SITE_CONFIG.title;
 export const SITE_DESCRIPTION = SITE_CONFIG.description;
+export const SITE_URL = SITE_CONFIG.url;
 export const AUTHOR_NAME = SITE_CONFIG.author.name;
 export const AUTHOR_EMAIL = SITE_CONFIG.author.email;
 export const SOCIAL_LINKS = SITE_CONFIG.social;

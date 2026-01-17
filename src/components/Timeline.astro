@@ -2,6 +2,21 @@
 /**
  * Timeline Component
  * Vertical timeline for storytelling with alternating left/right content
+ *
+ * @features
+ * - Alternating Left/Right alignment
+ * - Responsive Mobile Layout (Stack vertically)
+ * - Variant support (Default, Highlight, Milestone)
+ * - Content sanitization (via set:html)
+ *
+ * TABLE OF CONTENTS
+ * -----------------
+ * 1. Interfaces (TimelineEntry, Props)
+ * 2. HTML Template (Loop rendering)
+ * 3. Styles (Timeline Structure, Dots, Connectors)
+ *
+ * @usage
+ * <Timeline entries={[ { date: "2024", title: "Event", content: "Desc" } ]} />
  */
 interface TimelineEntry {
   date: string;

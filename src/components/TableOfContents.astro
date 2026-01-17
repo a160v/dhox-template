@@ -1,7 +1,16 @@
 ---
 /**
- * Table of Contents Component
- * Native HTML accordion using details/summary - no JavaScript needed!
+ * TableOfContents Component
+ * Collapsible accordion for blog post navigation
+ *
+ * @features
+ * - Automatically generates links from H2/H3 headings
+ * - Collapsible implementation using <details>/<summary>
+ * - Sticky positioning support (via parent container)
+ * - Smooth scroll behavior
+ *
+ * @usage
+ * <TableOfContents headings={[{ depth: 2, slug: "intro", text: "Introduction" }]} />
  */
 interface Props {
   headings: { depth: number; slug: string; text: string }[];

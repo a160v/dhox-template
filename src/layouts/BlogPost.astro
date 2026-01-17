@@ -1,4 +1,18 @@
 ---
+/**
+ * BlogPost Layout
+ * Layout for individual blog post pages
+ *
+ * @features
+ * - Hero Header: Title, Description, Tags, Date
+ * - Automatic Table of Contents generation
+ * - Prose styling for Markdown content
+ * - Footer integration with specific breadcrumb path
+ * - Scroll reveal animations
+ *
+ * @usage
+ * Used automatically by content collections for .md/.mdx files
+ */
 import type { CollectionEntry } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import FormattedDate from "../components/FormattedDate.astro";
@@ -34,10 +48,7 @@ const breadcrumbs = [
         <h1 class="post-title">{title}</h1>
         {description && <p class="post-description">{description}</p>}
         <div class="post-meta">
-          <a
-            href={tags.length > 0 ? `/blog/tag/${tags[0]}` : "/blog"}
-            class="post-type"
-          >
+          <span class="post-type">
             {
               tags.length > 0
                 ? tags
@@ -45,7 +56,7 @@ const breadcrumbs = [
                     .join(", ")
                 : "Article"
             }
-          </a>
+          </span>
           <span class="separator">·</span>
           <time datetime={pubDate.toISOString()}>
             <FormattedDate date={pubDate} />

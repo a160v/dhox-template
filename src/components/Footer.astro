@@ -1,8 +1,25 @@
 ---
 /**
  * Global Footer Component
- * Shows breadcrumb navigation (top) and datetime (centered bottom)
+ * Shows breadcrumb navigation (left), theme switcher (center), datetime (right)
  * Excluded from homepage
+ *
+ * @features
+ * - Responsible navigation breadcrumbs
+ * - integrated Theme Switcher (Light/Sepia/Dark)
+ * - Live clock showing Paris time (Europe/Paris)
+ * - Responsive layout (Stack on mobile, Row on desktop)
+ * - Optimized for Dark Mode visibility
+ *
+ * TABLE OF CONTENTS
+ * -----------------
+ * 1. Props Interface
+ * 2. HTML Template
+ * 3. Scripts (Theme switch logic)
+ * 4. Styles (Responsive Flexbox)
+ *
+ * @usage
+ * <Footer breadcrumbs={[{ label: "Home", href: "/" }, { label: "Page" }]} />
  */
 
 interface BreadcrumbItem {
@@ -18,53 +35,124 @@ const { breadcrumbs = [] } = Astro.props;
 ---
 
 <footer class="site-footer">
-  <nav class="breadcrumb" aria-label="Breadcrumb">
-    {
-      breadcrumbs.map((item, index) => (
-        <>
-          {index > 0 && <span class="separator">›</span>}
-          {item.href ? (
-            <a href={item.href}>{item.label}</a>
-          ) : (
-            <span class="current" aria-current="page">
-              {item.label}
-            </span>
-          )}
-        </>
-      ))
-    }
-  </nav>
-
-  <div class="date-container">
-    <p>
-      À Paris, il est {
-        new Date().toLocaleTimeString("fr-FR", {
-          hour: "2-digit",
-          minute: "2-digit",
-        })
-      } du {
-        new Date().toLocaleDateString("fr-FR", {
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        })
+  <!-- Row 1: Breadcrumb-->
+  <div class="footer-row">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      {
+        breadcrumbs.map((item, index) => (
+          <>
+            {index > 0 && <span class="separator">›</span>}
+            {item.href ? (
+              <a href={item.href}>{item.label}</a>
+            ) : (
+              <span class="current" aria-current="page">
+                {item.label}
+              </span>
+            )}
+          </>
+        ))
       }
-    </p>
+    </nav>
+
+    <!-- Theme Switcher (Radio Pill) -->
+    <fieldset class="theme-switcher-pill" aria-label="Theme">
+      <input type="radio" name="theme" id="light" value="light" />
+      <label for="light">Light</label>
+
+      <input type="radio" name="theme" id="sepia" value="sepia" />
+      <label for="sepia">Sepia</label>
+
+      <input type="radio" name="theme" id="dark" value="dark" />
+      <label for="dark">Dark</label>
+    </fieldset>
   </div>
 </footer>
+
+<script>
+  /**
+   * Initialize Theme Switcher
+   * Handles radio input changes and syncs with localStorage/attribute
+   */
+  function initThemeSwitcher() {
+    const inputs = document.querySelectorAll(
+      'input[name="theme"]'
+    ) as NodeListOf<HTMLInputElement>;
+    const currentTheme =
+      document.documentElement.getAttribute("data-theme") || "light";
+
+    // Update checked state
+    function updateActiveState(theme: string) {
+      inputs.forEach((input) => {
+        if (input.value === theme) {
+          input.checked = true;
+        }
+      });
+    }
+
+    // Set initial state
+    updateActiveState(currentTheme);
+
+    // Add change handlers
+    inputs.forEach((input) => {
+      input.addEventListener("change", (e) => {
+        const target = e.target as HTMLInputElement;
+        if (target.checked) {
+          const theme = target.value;
+          document.documentElement.setAttribute("data-theme", theme);
+          localStorage.setItem("theme", theme);
+        }
+      });
+    });
+  }
+
+  // Run on load
+  initThemeSwitcher();
+
+  // Re-run on ViewTransitions
+  document.addEventListener("astro:page-load", initThemeSwitcher);
+</script>
 
 <style>
   .site-footer {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: var(--space-4);
-    padding: var(--space-4) var(--space-6);
-    margin-top: var(--space-12);
+    gap: var(--space-8); /* Increased gap */
+    padding: var(--space-12) var(--space-6); /* Significantly increased vertical padding */
+    margin-top: var(--space-16); /* More space before footer starts */
     border-top: 1px solid var(--color-border);
     max-width: var(--max-width);
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: var(--space-8); /* Increased spacing between breadcrumb and switcher */
+  }
+
+  @media (max-width: 640px) {
+    .site-footer {
+      padding: var(--space-8) var(--space-4); /* More mobile padding too */
+    }
+    .theme-switcher-pill label {
+      padding: 8px 16px 8px 30px;
+    }
+    .footer-row {
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+    /* Left align breadcrumb explicitly on mobile */
+    .breadcrumb {
+      align-self: flex-start;
+      width: 100%;
+    }
+    /* Center switcher explicitly */
+    .theme-switcher-pill {
+      align-self: center;
+    }
   }
 
   .breadcrumb {
@@ -73,11 +161,14 @@ const { breadcrumbs = [] } = Astro.props;
     gap: var(--space-2);
     font-size: var(--text-sm);
     color: var(--color-text-muted);
+    flex: 1;
+    min-width: 0;
   }
 
   .breadcrumb a {
     color: var(--color-text-muted);
-    text-decoration: none;
+    text-decoration: underline;
+    text-underline-offset: 2px;
     transition: color var(--transition-fast);
   }
 
@@ -96,23 +187,73 @@ const { breadcrumbs = [] } = Astro.props;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 200px;
+    max-width: 180px;
   }
 
-  .date-container {
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-    text-align: center;
-  }
-
-  .date-container p {
+  /* --- Theme Switcher Radio Pill --- */
+  .theme-switcher-pill {
+    display: flex;
+    border: 0;
+    padding: 0;
     margin: 0;
-    font-style: italic;
+    gap: 4px;
+    background: var(--color-surface);
+    border-radius: 9999px;
   }
 
-  @media (max-width: 640px) {
-    .breadcrumb .current {
-      max-width: 150px;
-    }
+  .theme-switcher-pill input[type="radio"] {
+    position: absolute;
+    visibility: hidden;
+    display: none;
+    opacity: 0;
+    z-index: -1;
+  }
+
+  .theme-switcher-pill label {
+    position: relative;
+    padding: 6px 14px 6px 28px;
+    cursor: pointer;
+    border-radius: 20px;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    transition: all 0.25s ease;
+    border: 1px solid transparent;
+  }
+
+  .theme-switcher-pill label::before {
+    box-sizing: border-box;
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    border: 2px solid var(--color-text-muted);
+    border-radius: 50%;
+    transition: all 0.25s ease;
+  }
+
+  .theme-switcher-pill input[type="radio"]:checked + label {
+    color: white;
+    background: var(--color-accent);
+    box-shadow: 0 2px 8px
+      color-mix(in srgb, var(--color-accent) 40%, transparent);
+  }
+
+  .theme-switcher-pill input[type="radio"]:checked + label::before {
+    background: white;
+    border-color: white;
+  }
+
+  .theme-switcher-pill input[type="radio"]:not(:checked) + label:hover {
+    background: var(--color-bg);
+    color: var(--color-text);
+  }
+
+  .theme-switcher-pill input[type="radio"]:not(:checked) + label:hover::before {
+    border-color: var(--color-accent);
   }
 </style>

@@ -1,0 +1,169 @@
+---
+/**
+ * AnalogueClock Component
+ * A functional analogue clock utilizing SVG and CSS for smooth animations.
+ * Fits within the Dock icon constraints.
+ */
+---
+
+<div class="analogue-clock" aria-label="Current Time">
+  <svg viewBox="0 0 100 100" class="clock-face">
+    <!-- Face Background -->
+    <circle cx="50" cy="50" r="48" class="clock-bg"></circle>
+
+    <!-- Hour Marks -->
+    <g class="marks">
+      {
+        Array.from({ length: 12 }).map((_, i) => (
+          <line
+            x1="50"
+            y1="6"
+            x2="50"
+            y2="12"
+            transform={`rotate(${i * 30} 50 50)`}
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        ))
+      }
+    </g>
+
+    <!-- Hands -->
+    <line x1="50" y1="50" x2="50" y2="25" class="hand hour-hand"></line>
+    <line x1="50" y1="50" x2="50" y2="15" class="hand minute-hand"></line>
+    <line x1="50" y1="50" x2="50" y2="15" class="hand second-hand"></line>
+
+    <!-- Center Dot -->
+    <circle cx="50" cy="50" r="3" class="center-dot"></circle>
+  </svg>
+</div>
+
+<script>
+  function initClock() {
+    const clocks = document.querySelectorAll(".analogue-clock");
+
+    if (clocks.length === 0) return;
+
+    function update() {
+      const now = new Date();
+      // Get Paris time
+      const parts = new Intl.DateTimeFormat("en-US", {
+        timeZone: "Europe/Paris",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: false,
+      }).formatToParts(now);
+
+      const h = parseInt(parts.find((p) => p.type === "hour")?.value || "0");
+      const m = parseInt(parts.find((p) => p.type === "minute")?.value || "0");
+      const s = parseInt(parts.find((p) => p.type === "second")?.value || "0");
+
+      const hourDeg = (h % 12) * 30 + m * 0.5;
+      const minuteDeg = m * 6;
+      const secondDeg = s * 6;
+
+      clocks.forEach((clock) => {
+        const hourHand = clock.querySelector(".hour-hand") as SVGLineElement;
+        const minuteHand = clock.querySelector(
+          ".minute-hand"
+        ) as SVGLineElement;
+        const secondHand = clock.querySelector(
+          ".second-hand"
+        ) as SVGLineElement;
+
+        if (hourHand) hourHand.style.transform = `rotate(${hourDeg}deg)`;
+        if (minuteHand) minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
+        if (secondHand) secondHand.style.transform = `rotate(${secondDeg}deg)`;
+      });
+    }
+
+    // Initial update
+    update();
+
+    // Update every second
+    const interval = setInterval(update, 1000);
+
+    // Cleanup on navigation
+    document.addEventListener(
+      "astro:before-swap",
+      () => clearInterval(interval),
+      { once: true }
+    );
+  }
+
+  // Init on load
+  initClock();
+  document.addEventListener("astro:page-load", initClock);
+</script>
+
+<style>
+  .analogue-clock {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px; /* Match icon shape */
+    background: white;
+    overflow: hidden;
+  }
+
+  .clock-face {
+    width: 90%;
+    height: 90%;
+  }
+
+  .clock-bg {
+    fill: white;
+    stroke: none;
+  }
+
+  .marks line {
+    stroke: #333;
+    opacity: 0.5;
+  }
+
+  .hand {
+    stroke-linecap: round;
+    transform-origin: 50px 50px;
+    transition: transform 0.1s cubic-bezier(0.4, 2.08, 0.55, 0.44);
+  }
+
+  .hour-hand {
+    stroke: #000;
+    stroke-width: 4;
+  }
+
+  .minute-hand {
+    stroke: #000;
+    stroke-width: 3;
+  }
+
+  .second-hand {
+    stroke: var(--color-accent); /* Use site accent color */
+    stroke-width: 1.5;
+  }
+
+  .center-dot {
+    fill: var(--color-accent);
+  }
+
+  /* Dark mode support */
+  :global([data-theme="dark"]) .analogue-clock {
+    background: #1c1c1e;
+  }
+
+  :global([data-theme="dark"]) .clock-bg {
+    fill: #1c1c1e;
+  }
+
+  :global([data-theme="dark"]) .marks line {
+    stroke: #e5e5e5;
+  }
+
+  :global([data-theme="dark"]) .hour-hand,
+  :global([data-theme="dark"]) .minute-hand {
+    stroke: white;
+  }
+</style>

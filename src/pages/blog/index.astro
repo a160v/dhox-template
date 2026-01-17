@@ -3,7 +3,6 @@ import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
-import TagNav from "../../components/TagNav.astro";
 import Footer from "../../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
 
@@ -24,9 +23,7 @@ const [featuredPost, ...restPosts] = posts;
   description={`Blog – ${SITE_DESCRIPTION}`}
 >
   <main id="main-content">
-    <header class="blog-header reveal">
-      <TagNav />
-    </header>
+    <header class="blog-header reveal"></header>
 
     {
       featuredPost && (
@@ -204,6 +201,7 @@ const [featuredPost, ...restPosts] = posts;
 
   .featured-excerpt {
     font-size: var(--text-base);
+    font-weight: 700;
     color: var(--color-text-muted);
     line-height: 1.7;
     margin: 0 0 var(--space-4) 0;
