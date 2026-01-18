@@ -449,15 +449,38 @@
 
   @media (max-width: 640px) {
     .search-modal {
-      padding-top: 0;
-      align-items: flex-end;
+      padding-top: 15vh; /* Match desktop top padding */
+      align-items: flex-start; /* Align to top instead of bottom */
     }
+
     .search-container {
       max-width: 100%;
-      height: 90vh;
-      max-height: 90vh;
-      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-      margin: 0;
+      height: auto;
+      max-height: 75vh;
+      border-radius: var(--radius-xl); /* Full rounded corners */
+      margin: 0 var(--space-4); /* Add side margins */
+    }
+
+    /* Hide keyboard hints on mobile */
+    .close-btn,
+    .search-footer {
+      display: none;
+    }
+
+    /* Make results scrollable if content exceeds limits, but don't force height */
+    .search-results {
+      padding: var(--space-3);
+      max-height: 45vh; /* Ensure we still have room for keyboard */
+    }
+
+    /* Larger touch targets for mobile */
+    .search-results :global(.search-result-item) {
+      padding: var(--space-4) var(--space-4);
+    }
+
+    /* Consistent header padding */
+    .search-header {
+      padding: var(--space-4);
     }
   }
 </style>

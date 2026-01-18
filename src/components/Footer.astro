@@ -214,19 +214,29 @@ const { breadcrumbs = [] } = Astro.props;
   @media (max-width: 640px) {
     .site-footer {
       padding: var(--space-6);
-      padding-bottom: var(--space-10); /* Minimal clearance above fixed Dock */
+      padding-bottom: var(
+        --space-20
+      ); /* Enough clearance for fixed Dock (approx 120px to be safe) */
     }
     .footer-row {
       flex-direction: column;
-      gap: var(--space-2);
+      gap: var(--space-4); /* Increased gap between breadcrumb and switcher */
       align-items: center;
     }
     .breadcrumb {
       width: 100%;
+      justify-content: center; /* Center breadcrumbs on mobile */
     }
+
     .theme-switcher-pill {
-      align-self: center; /* Center switcher on mobile */
+      align-self: center;
       justify-content: center;
+      margin-top: var(--space-2);
+    }
+
+    .theme-switcher-pill label {
+      padding: 8px 16px;
+      font-size: var(--text-sm);
     }
   }
 </style>
