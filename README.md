@@ -6,13 +6,15 @@
 
 ## 🌟 Features
 
-- **Apple-Style Design**: Glassmorphic dock, smooth scaling animations, and squaricle iconography.
+- **Sublime Design**: Glassmorphic dock, smooth scaling animations, and squaricle iconography.
 - **Theme System**: Light, Dark, and Sepia modes with persistent state and seamless transitions.
 - **Fluid Navigation**: ViewTransitions API integration for an app-like feel.
 - **Vertical Timeline**: Custom component for visualizing your history or resume.
 - **Markdown & MDX**: Write posts in Markdown or MDX with built-in syntax highlighting.
 - **SEO Optimized**: Automatic sitemap, RSS feed, Open Graph tags, and semantic HTML.
-- **Privacy Focused**: No external tracking scripts included by default.
+- **Responsive Components**: Mobile-optimized Footer, Dock, and Search layouts.
+- **Improved Typography**: Clean Geist and Monospace font stack.
+- **Search**: Built-in search modal with keyboard shortcuts (with Fuse.js).
 
 ## 🚀 Quick Start
 
@@ -62,7 +64,7 @@ export const SITE_DESCRIPTION = "Your tagline here.";
 
 ### 2. Branding (Colors & Fonts)
 Edit `src/styles/global.css` to modify CSS variables for colors, spacing, and typography.
-- **Fonts**: We use *Atkinson Hyperlegible* by default.
+- **Fonts**: We use *Geist* and *Monospace*.
 - **Themes**: Adjust specific color tokens in the `:root`, `[data-theme="sepia"]`, and `[data-theme="dark"]` blocks.
 
 ### 3. Dock Icons
@@ -77,17 +79,25 @@ Add new posts to `src/content/blog/`. The frontmatter requires:
 title: "My New Post"
 description: "A short summary"
 pubDate: "Jul 15 2024"
-heroImage: "/blog-placeholder.jpg"
 tags: ["tech", "life"]
 ---
 ```
+
+## 🗺️ Roadmap (To-Do)
+
+- [ ] **Draft Support**: Add `draft: z.boolean().optional()` to content schema.
+- [ ] **Featured Posts**: Add `featured: z.boolean().optional()` to pin posts.
+- [ ] **Marketing Integration**: Add Brevo marketing (see [Merox Erudite](https://github.com/meroxdotdev/merox-erudite?tab=readme-ov-file)).
+- [ ] **About Page**: Improve layout and content.
+- [ ] **Contact Page**: Decide on inclusion (form vs email link).
+- [ ] **RSS Feed**: Ensure robust RSS features (Completed basic integration).
 
 ## 📄 License
 This project is open-source and available under the [MIT License](LICENSE).
 
 ## 🌍 Deployment & SEO
 
-This template is optimized for easy deployment on **Vercel**, **Netlify**, or **Cloudflare Pages**.
+This template is optimized for easy deployment on major platforms like **Cloudflare Pages** or **Vercel**.
 
 1.  **Push to GitHub**.
 2.  **Connect to Host** and import your repo.
@@ -100,6 +110,6 @@ This template is optimized for easy deployment on **Vercel**, **Netlify**, or **
 ## 🙏 Credits
 
 - Built with [Astro](https://astro.build)
-- Icons by [Remix Icon](https://remixicon.com) or similar
-- Font: [Atkinson Hyperlegible](https://brailleinstitute.org/freefont)
-- Theme Toggle Design by [nhfiz](https://uiverse.io/nhfiz/old-lion-54) (Abu Shafiyya)
+- Icons by [Remix Icon](https://remixicon.com/)
+- Font: [Geist](https://vercel.com/font)
+- Search: [Fuse.js](https://fusejs.io)

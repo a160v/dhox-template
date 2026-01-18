@@ -1,0 +1,39 @@
+---
+interface Props {
+  icon: string;
+  color?: string;
+  size?: string;
+  class?: string;
+}
+
+const {
+  icon,
+  color = "currentColor",
+  size = "24px",
+  class: className,
+} = Astro.props;
+
+const maskUrl = `url(/${icon.replace(/^\//, "")})`; // Ensure clean path
+---
+
+<span
+  class:list={["icon", className]}
+  style={`--icon-mask: ${maskUrl}; --icon-color: ${color}; --icon-size: ${size};`}
+></span>
+
+<style>
+  .icon {
+    display: inline-block;
+    width: var(--icon-size);
+    height: var(--icon-size);
+    background-color: var(--icon-color);
+    mask-image: var(--icon-mask);
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+    -webkit-mask-image: var(--icon-mask);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: contain;
+  }
+</style>

@@ -126,7 +126,11 @@
       item.tags?.length > 0
         ? `<span class="result-tag">#${item.tags[0]}</span>`
         : "";
-    const dateStr = new Date(item.pubDate).toLocaleDateString();
+    const dateStr = new Date(item.pubDate).toLocaleDateString("en-GB", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
 
     return `
       <a href="${item.slug}" class="search-result-item" data-index="${index}">

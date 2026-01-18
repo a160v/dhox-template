@@ -33,7 +33,6 @@ const {
   updatedDate,
   headings = [],
   tags = [],
-  heroImage,
   prevPost = null,
   nextPost = null,
 } = Astro.props;
@@ -52,7 +51,6 @@ const schema = JSON.stringify({
   description: description,
   datePublished: pubDate.toISOString(),
   ...(updatedDate && { dateModified: updatedDate.toISOString() }),
-  featuredImage: heroImage,
   author: {
     "@type": "Person",
     name: "Aleks", // TODO: Pull from config

@@ -27,19 +27,25 @@ import AnalogueClock from "./AnalogueClock.astro";
 const currentPath = Astro.url.pathname;
 
 interface DockItem {
-  href: string;
+  href?: string;
   label: string;
   imgSrc: string;
+  action?: string; // e.g., 'search', 'email'
 }
 
 const dockItems: DockItem[] = [
-  { href: "/", label: "Home", imgSrc: "/home.svg" },
-  { href: "/about", label: "About", imgSrc: "/person.svg" },
-  { href: "/blog", label: "Blog", imgSrc: "/pencil-2.svg" },
+  { href: "/", label: "Home", imgSrc: "/home-smile-line.svg" },
+  { href: "/about", label: "About", imgSrc: "/user-line.svg" },
+  { href: "/blog", label: "Blog", imgSrc: "/sticky-note-line.svg" },
   {
     href: `mailto:${SITE_CONFIG.author.email}`,
     label: "Email",
-    imgSrc: "/chat-bubble.svg",
+    imgSrc: "/mail-send-line.svg",
+  },
+  {
+    label: "Search",
+    imgSrc: "/search-line.svg",
+    action: "search",
   },
 ];
 
@@ -48,7 +54,8 @@ const dockItems: DockItem[] = [
  * @param {string} href - The link of the dock item
  * @returns {boolean} - True if active
  */
-function isActive(href: string): boolean {
+function isActive(href?: string): boolean {
+  if (!href) return false;
   if (href === "/") {
     return currentPath === "/";
   }
@@ -59,44 +66,37 @@ function isActive(href: string): boolean {
 <nav class="dock" id="dock">
   <div class="dock-container">
     {
-      dockItems.map((item) => (
-        <a
-          href={item.href}
-          class:list={["dock-item", { active: isActive(item.href) }]}
-          aria-label={item.label}
-        >
-          <span class="dock-icon">
-            <span
-              class="nav-icon"
-              style={`mask-image: url(${item.imgSrc}); -webkit-mask-image: url(${item.imgSrc});`}
-            />
-          </span>
-        </a>
-      ))
-    }
-    <!-- {
-      (
-        /* Analogue Clock */
-        <div
-          class="clock-dock-item"
-          aria-label="Central European Time"
-          title="Central European Time"
-        >
-          <AnalogueClock />
-        </div>
-      )
-    } -->
-    {
-      (
-        /* Search Action (Global) */
-        <button class="dock-item search-dock-btn" aria-label="Search">
-          <span class="dock-icon">
-            <span
-              class="nav-icon"
-              style="mask-image: url(/search.svg); -webkit-mask-image: url(/search.svg);"
-            />
-          </span>
-        </button>
+      dockItems.map((item) =>
+        item.href ? (
+          <a
+            href={item.href}
+            class:list={["dock-item", { active: isActive(item.href) }]}
+            aria-label={item.label}
+          >
+            <span class="dock-icon">
+              <span
+                class="nav-icon"
+                style={`mask-image: url(${item.imgSrc}); -webkit-mask-image: url(${item.imgSrc});`}
+              />
+            </span>
+          </a>
+        ) : (
+          <button
+            class:list={[
+              "dock-item",
+              item.action === "search" ? "search-dock-btn" : "",
+            ]}
+            aria-label={item.label}
+            data-action={item.action}
+          >
+            <span class="dock-icon">
+              <span
+                class="nav-icon"
+                style={`mask-image: url(${item.imgSrc}); -webkit-mask-image: url(${item.imgSrc});`}
+              />
+            </span>
+          </button>
+        )
       )
     }
   </div>
@@ -272,9 +272,9 @@ function isActive(href: string): boolean {
    */
   function initDock() {
     // Attach Search Listener
-    const searchBtn = document.querySelector(".search-dock-btn");
+    const searchBtn = document.querySelector('[data-action="search"]');
     if (searchBtn) {
-      // Clone to remove old listeners (simplest way to prevent duplicates)
+      // Clone to remove old listeners
       const newBtn = searchBtn.cloneNode(true);
       searchBtn.parentNode?.replaceChild(newBtn, searchBtn);
 

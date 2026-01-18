@@ -1,12 +1,11 @@
 ---
-title: "Welcome to Dhox: A Sublime Astro Theme"
-description: "A minimal, Apple-inspired personal website theme for Astro. Designed for storytelling, built for performance."
+title: "Welcome to Dhox: a sublime theme"
+description: "A sublime personal website with a blog, built with Astro."
 pubDate: "Jan 17 2026"
-heroImage: "../../assets/blog-placeholder-about.jpg"
 tags: ["blog", "astro", "design"]
 ---
 
-Welcome to **Dhox**. This isn't just another blog theme; it's a digital sanctuary designed to let your stories breathe. Inspired by the fluidity of Apple's design language, Dhox combines minimalism with delightful interactions.
+Welcome to **Dhox**, a delightful theme rich with smooth interactions.
 
 ## 🌟 Core Philosophy
 
@@ -29,19 +28,25 @@ Dhox comes with three distinct modes, toggled via the footer:
 - **Sepia**: Warm, low-contrast, easy on the eyes. Ideal for longform reading.
 - **Dark**: Deep, immersive, OLED-friendly.
 
-### 3. Vertical Timeline
+### 3. Integrated Search
+Looking for something specific? Just hit `Cmd+K` (or tap the search icon in the dock) to instantly filter through all posts.
+
+### 4. Dynamic Dock
+A MacOS-style navigation hub that floats at the bottom. It scales smoothly on interaction and adapts its size for mobile devices.
+
+### 5. Vertical Timeline
 Tell your story chronologically. The custom `<Timeline />` component allows you to visualize your journey (see the [About page](/about) for a demo).
 
 ```astro
 <Timeline
   entries={[
-    { date: "2024", title: "Launch", content: "Dhox is born." }
+    { date: "2026", title: "Launch", content: "Dhox is born." }
   ]}
 />
 ```
 
-### 4. Smart Typography
-We use **Atkinson Hyperlegible** as the primary typeface—designed for maximum readability. The layout automatically adjusts line heights and spacing for an optimal reading experience.
+### 6. Smart Typography
+We use **Geist** (Sans) and **Monospace** for a modern, high-readability reading experience. The layout automatically adjusts line heights and spacing.
 
 ---
 
@@ -72,5 +77,3 @@ Want to make this yours? It's simple.
 Check out `src/consts.ts` to update your site title, description, and social links in one place.
 
 Happy writing! ✍️
-
-

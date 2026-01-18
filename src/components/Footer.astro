@@ -1,25 +1,18 @@
 ---
 /**
- * Global Footer Component
- * Shows breadcrumb navigation (left), theme switcher (center), datetime (right)
+ * GLOBAL FOOTER COMPONENT
+ * Shows breadcrumb, theme switcher, and RSS feed
  * Excluded from homepage
- *
- * @features
- * - Responsible navigation breadcrumbs
- * - integrated Theme Switcher (Light/Sepia/Dark)
- * - Live clock showing Paris time (Europe/Paris)
- * - Responsive layout (Stack on mobile, Row on desktop)
- * - Optimized for Dark Mode visibility
- *
+ */
+import Icon from "./Icon.astro";
+
+/**
  * TABLE OF CONTENTS
  * -----------------
  * 1. Props Interface
  * 2. HTML Template
  * 3. Scripts (Theme switch logic)
  * 4. Styles (Responsive Flexbox)
- *
- * @usage
- * <Footer breadcrumbs={[{ label: "Home", href: "/" }, { label: "Page" }]} />
  */
 
 interface BreadcrumbItem {
@@ -35,36 +28,51 @@ const { breadcrumbs = [] } = Astro.props;
 ---
 
 <footer class="site-footer">
-  <!-- Row 1: Breadcrumb-->
-  <div class="footer-row">
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      {
-        breadcrumbs.map((item, index) => (
-          <>
-            {index > 0 && <span class="separator">›</span>}
-            {item.href ? (
-              <a href={item.href}>{item.label}</a>
-            ) : (
-              <span class="current" aria-current="page">
-                {item.label}
-              </span>
-            )}
-          </>
-        ))
-      }
-    </nav>
+  <div class="footer-content">
+    <!-- Primary Section: Breadcrumbs -->
+    <div class="footer-breadcrumb">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        {
+          breadcrumbs.map((item, index) => (
+            <>
+              {index > 0 && <span class="separator">›</span>}
+              {item.href ? (
+                <a href={item.href}>{item.label}</a>
+              ) : (
+                <span class="current" aria-current="page">
+                  {item.label}
+                </span>
+              )}
+            </>
+          ))
+        }
+      </nav>
+    </div>
 
-    <!-- Theme Switcher (Radio Pill) -->
-    <fieldset class="theme-switcher-pill" aria-label="Theme">
-      <input type="radio" name="theme" id="light" value="light" />
-      <label for="light">Light</label>
+    <!-- Secondary Section: Controls (Theme & RSS) -->
+    <div class="footer-theme-switcher">
+      <!-- Theme Switcher -->
+      <fieldset class="theme-switcher-pill" aria-label="Theme">
+        <input type="radio" name="theme" id="light" value="light" />
+        <label for="light">Light</label>
 
-      <input type="radio" name="theme" id="sepia" value="sepia" />
-      <label for="sepia">Sepia</label>
+        <input type="radio" name="theme" id="sepia" value="sepia" />
+        <label for="sepia">Sepia</label>
 
-      <input type="radio" name="theme" id="dark" value="dark" />
-      <label for="dark">Dark</label>
-    </fieldset>
+        <input type="radio" name="theme" id="dark" value="dark" />
+        <label for="dark">Dark</label>
+      </fieldset>
+
+      <!-- RSS Feed Link -->
+      <a
+        href="/rss.xml"
+        class="rss-link"
+        aria-label="RSS Feed"
+        title="Subscribe to RSS"
+      >
+        <Icon icon="rss-line.svg" size="20px" />
+      </a>
+    </div>
   </div>
 </footer>
 
@@ -114,40 +122,88 @@ const { breadcrumbs = [] } = Astro.props;
 
 <style>
   /* 
-   * Main Footer Container
-   * More spacious design
+   * Main Footer Layout
    */
   .site-footer {
-    display: flex;
-    justify-content: center;
-    padding: var(--space-8) var(--space-4); /* Increased padding */
-    margin-top: var(--space-12); /* More separation from content */
+    padding: var(--space-8) var(--space-4);
+    margin-top: var(--space-12);
     border-top: 1px solid var(--color-border);
     max-width: var(--max-width);
     margin-left: auto;
     margin-right: auto;
+    padding-bottom: var(--space-20);
   }
 
-  /* Flex row for content alignment */
-  .footer-row {
+  /* Mobile Responsive */
+  @media (max-width: 640px) {
+    .site-footer {
+      padding-top: var(--space-6);
+      padding-bottom: var(--space-20);
+    }
+
+    .footer-content {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-4);
+    }
+
+    .footer-breadcrumb {
+      width: 100%;
+      justify-content: flex-start;
+      overflow: hidden; /* Ensure truncation works */
+    }
+
+    /* Truncate breadcrumbs on mobile to 1 line */
+    .breadcrumb {
+      width: 100%;
+      justify-content: flex-start;
+      margin-right: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+    }
+
+    .breadcrumb a,
+    .breadcrumb span {
+      display: inline-block;
+    }
+
+    .footer-theme-switcher {
+      width: 100%;
+      justify-content: center;
+      gap: var(--space-12);
+    }
+
+    .theme-switcher-pill label {
+      padding: 8px 16px;
+      font-size: var(--text-sm);
+    }
+  }
+
+  .footer-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    gap: var(--space-2); /* Tight gap */
+    gap: var(--space-4);
   }
 
   /* 
-   * Breadcrumb Navigation
-   * Left-aligned, subtle text
+   * breadcrumb Section (Breadcrumbs)
    */
+  .footer-breadcrumb {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
   .breadcrumb {
     display: flex;
     align-items: center;
     gap: var(--space-2);
     font-size: var(--text-sm);
     color: var(--color-text-muted);
-    flex: 1; /* Takes available space to push switcher to right/center */
   }
 
   .breadcrumb a {
@@ -165,29 +221,33 @@ const { breadcrumbs = [] } = Astro.props;
   }
 
   /* 
-   * Theme Switcher (Radio Pill)
-   * Centered or Right aligned depending on space
+   * theme-switcher Section (Theme + RSS)
    */
+  .footer-theme-switcher {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  /* Theme Switcher */
   .theme-switcher-pill {
     display: flex;
     border: none;
     padding: 0;
     margin: 0;
-    gap: 2px; /* Very tight button gap */
+    gap: 2px;
     background: var(--color-surface);
     border-radius: 99px;
   }
 
-  /* Hide default radio inputs */
   .theme-switcher-pill input {
     position: absolute;
     opacity: 0;
     pointer-events: none;
   }
 
-  /* Labels act as buttons */
   .theme-switcher-pill label {
-    padding: 4px 10px; /* Compact button size */
+    padding: 4px 10px;
     font-size: var(--text-xs);
     font-weight: 600;
     color: var(--color-text-muted);
@@ -210,33 +270,36 @@ const { breadcrumbs = [] } = Astro.props;
     color: var(--color-text);
   }
 
-  /* Mobile Responsive adjustments */
-  @media (max-width: 640px) {
-    .site-footer {
-      padding: var(--space-6);
-      padding-bottom: var(
-        --space-20
-      ); /* Enough clearance for fixed Dock (approx 120px to be safe) */
-    }
-    .footer-row {
-      flex-direction: column;
-      gap: var(--space-4); /* Increased gap between breadcrumb and switcher */
-      align-items: center;
-    }
-    .breadcrumb {
-      width: 100%;
-      justify-content: center; /* Center breadcrumbs on mobile */
-    }
+  .footer-controls {
+    width: 100%;
+    justify-content: center;
+    margin-top: var(--space-2);
+  }
 
-    .theme-switcher-pill {
-      align-self: center;
-      justify-content: center;
-      margin-top: var(--space-2);
-    }
+  .theme-switcher-pill,
+  .rss-link {
+    margin-top: 0;
+    align-self: auto;
+  }
 
-    .theme-switcher-pill label {
-      padding: 8px 16px;
-      font-size: var(--text-sm);
-    }
+  /* RSS Link Styles */
+  .rss-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast);
+    padding: 6px;
+    border-radius: 50%;
+  }
+
+  .rss-link:hover {
+    color: var(--color-accent);
+    background: var(--color-surface);
+  }
+
+  .rss-icon {
+    width: 20px;
+    height: 20px;
   }
 </style>
