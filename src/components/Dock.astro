@@ -73,6 +73,7 @@ function isActive(href?: string): boolean {
             class:list={["dock-item", { active: isActive(item.href) }]}
             aria-label={item.label}
           >
+            <span class="dock-tooltip">{item.label}</span>
             <span class="dock-icon">
               <span
                 class="nav-icon"
@@ -89,6 +90,7 @@ function isActive(href?: string): boolean {
             aria-label={item.label}
             data-action={item.action}
           >
+            <span class="dock-tooltip">{item.label}</span>
             <span class="dock-icon">
               <span
                 class="nav-icon"
@@ -262,6 +264,52 @@ function isActive(href?: string): boolean {
       width: 26px; /* Scale icon content proportionally */
       height: 26px;
     }
+
+    /* Hide tooltips on touch devices */
+    .dock-tooltip {
+      display: none;
+    }
+  }
+
+  /* Tooltip Styles */
+  .dock-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin-bottom: 12px;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 20;
+  }
+
+  .dock-item:hover .dock-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Tooltip Arrow */
+  .dock-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 4px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
   }
 </style>
 
