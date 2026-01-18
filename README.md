@@ -1,8 +1,6 @@
 # Dhox - Sublime Personal Website Template
 
-![Dhox Banner](/public/blog-placeholder-about.jpg)
-
-**Dhox** is a sublime and playful website template with a blog, built with [Astro](https://astro.build). Designed for readability, fluidity, and storytelling.
+**Dhox** is a sublime and playful website template with a blog, built with [Astro](https://astro.build). Designed for beauty, readability, fluidity, and storytelling.
 
 ## 🌟 Features
 
