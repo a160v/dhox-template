@@ -1,4 +1,4 @@
-# Dhox - Sublime Personal Website Template
+# Dhox - Sublime personal website with blog
 
 **Dhox** is a sublime and playful website template with a blog, built with [Astro](https://astro.build). Designed for beauty, readability, fluidity, and storytelling.
 
