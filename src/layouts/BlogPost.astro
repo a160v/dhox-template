@@ -18,6 +18,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import TableOfContents from "../components/TableOfContents.astro";
 import PostNavigation from "../components/PostNavigation.astro";
+import PostCopyright from "../components/PostCopyright.astro";
 import Footer from "../components/Footer.astro";
 
 type Props = CollectionEntry<"blog">["data"] & {
@@ -102,6 +103,9 @@ const schema = JSON.stringify({
         <slot />
       </div>
     </article>
+
+    <!-- Copyright & Share Info -->
+    <PostCopyright title={title} pubDate={pubDate} />
 
     <!-- Previous/Next Post Navigation -->
     <PostNavigation prevPost={prevPost} nextPost={nextPost} />

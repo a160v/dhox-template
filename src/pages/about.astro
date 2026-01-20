@@ -3,7 +3,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Timeline from "../components/Timeline.astro";
 import Footer from "../components/Footer.astro";
 import Icon from "../components/Icon.astro";
-import { SITE_TITLE, SOCIAL_LINKS, AUTHOR_EMAIL } from "../consts";
+import ObfuscatedEmailLink from "../components/ObfuscatedEmailLink.astro";
+import { SITE_TITLE, SOCIAL_LINKS } from "../consts";
 
 // Breadcrumb data for footer
 const breadcrumbs = [{ label: "Home", href: "/" }, { label: "About" }];
@@ -119,7 +120,7 @@ const aboutData = {
           class="lead"
           set:html={aboutData.intro?.replace(
             /\*\*(.*?)\*\*/g,
-            "<strong>$1</strong>"
+            "<strong>$1</strong>",
           )}
         />
       </section>
@@ -138,7 +139,7 @@ const aboutData = {
               <li
                 set:html={skill.replace(
                   /\*\*(.*?)\*\*/g,
-                  "<strong>$1</strong>"
+                  "<strong>$1</strong>",
                 )}
               />
             ))
@@ -155,7 +156,7 @@ const aboutData = {
                     {lang.name}
                     {lang.level !== "native" ? ` (${lang.level})` : ""}
                   </span>
-                )
+                ),
               )
             }
           </p>
@@ -169,7 +170,7 @@ const aboutData = {
           class="conclusion"
           set:html={aboutData.conclusion?.replace(
             /\*\*(.*?)\*\*/g,
-            "<strong>$1</strong>"
+            "<strong>$1</strong>",
           )}
         />
       </section>
@@ -210,7 +211,7 @@ const aboutData = {
             </span>
           </a>
 
-          <a href={`mailto:${AUTHOR_EMAIL}`} class="social-link">
+          <ObfuscatedEmailLink class="social-link" ariaLabel="Send email">
             <span class="social-icon">
               <Icon icon="mail-send-line.svg" size="24px" />
             </span>
@@ -218,7 +219,7 @@ const aboutData = {
               <span class="social-name">Email</span>
               <span class="social-handle">Get in touch</span>
             </span>
-          </a>
+          </ObfuscatedEmailLink>
         </div>
       </section>
     </article>

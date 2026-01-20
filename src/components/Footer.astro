@@ -74,6 +74,13 @@ const { breadcrumbs = [] } = Astro.props;
       </a>
     </div>
   </div>
+
+  <!-- Copyright / Credits -->
+  <div class="footer-copyright">
+    <p>
+      Made proudly in the EU by Aleks Vangjelofski © {new Date().getFullYear()}
+    </p>
+  </div>
 </footer>
 
 <script>
@@ -83,7 +90,7 @@ const { breadcrumbs = [] } = Astro.props;
    */
   function initThemeSwitcher() {
     const inputs = document.querySelectorAll(
-      'input[name="theme"]'
+      'input[name="theme"]',
     ) as NodeListOf<HTMLInputElement>;
     const currentTheme =
       document.documentElement.getAttribute("data-theme") || "light";
@@ -117,7 +124,7 @@ const { breadcrumbs = [] } = Astro.props;
   initThemeSwitcher();
 
   // Re-run on ViewTransitions
-  document.addEventListener("astro:page-load", initThemeSwitcher);
+  // document.addEventListener("astro:page-load", initThemeSwitcher);
 </script>
 
 <style>
@@ -301,5 +308,12 @@ const { breadcrumbs = [] } = Astro.props;
   .rss-icon {
     width: 20px;
     height: 20px;
+  }
+
+  .footer-copyright {
+    text-align: center;
+    margin-top: var(--space-8);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
   }
 </style>

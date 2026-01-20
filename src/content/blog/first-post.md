@@ -3,6 +3,7 @@ title: "Welcome to Dhox: a sublime theme"
 description: "A sublime personal website with a blog, built with Astro."
 pubDate: "Jan 17 2026"
 tags: ["blog", "astro", "design"]
+author: "Aleks Vangjelofski"
 ---
 
 Welcome to **Dhox**, a delightful theme rich with smooth interactions.
@@ -47,6 +48,16 @@ Tell your story chronologically. The custom `<Timeline />` component allows you 
 
 ### 6. Smart Typography
 We use **Geist** (Sans) and **Monospace** for a modern, high-readability reading experience. The layout automatically adjusts line heights and spacing.
+
+### 7. Post Copyright & Sharing
+At the bottom of every post, a beautiful component displays:
+- Post metadata (author, date, CC license)
+- **Copy link** button with tooltip feedback
+- **Share to LinkedIn** and **Bluesky**
+- **Comment via email** with obfuscated email protection
+
+### 8. Email Obfuscation
+All email links are protected from scrapers using Base64 encoding. The email is only reconstructed via JavaScript when the user clicks—no plaintext emails in HTML source.
 
 ---
 

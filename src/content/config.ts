@@ -4,7 +4,7 @@ import { AUTHOR_NAME } from '../consts';
 const blog = defineCollection({
 	type: 'content',
 	// Type-check frontmatter using a schema
-	schema: ({ image }) => z.object({
+	schema: z.object({
 		author: z.string().default(AUTHOR_NAME),
 		title: z.string(),
 		description: z.string(),

@@ -1,0 +1,94 @@
+---
+/**
+ * ObfuscatedEmailLink Component
+ * A reusable email link that prevents scraping
+ *
+ * @usage
+ * <ObfuscatedEmailLink>
+ *   <span>Click to email</span>
+ * </ObfuscatedEmailLink>
+ *
+ * @usage (with subject/body for blog comments)
+ * <ObfuscatedEmailLink subject="Feedback" body="Hello...">
+ *   Email Me
+ * </ObfuscatedEmailLink>
+ */
+import { getObfuscatedEmail } from "../utils/email";
+
+interface Props {
+  class?: string;
+  subject?: string;
+  body?: string;
+  ariaLabel?: string;
+}
+
+const {
+  class: className,
+  subject,
+  body,
+  ariaLabel = "Send email",
+} = Astro.props;
+const { encodedUser, encodedDomain } = getObfuscatedEmail();
+---
+
+<a
+  href="javascript:void(0)"
+  class:list={["obfuscated-email", className]}
+  data-u={encodedUser}
+  data-d={encodedDomain}
+  data-subject={subject}
+  data-body={body}
+  aria-label={ariaLabel}
+  role="button"
+>
+  <slot />
+</a>
+
+<script>
+  function initObfuscatedEmails() {
+    const emailLinks = document.querySelectorAll(".obfuscated-email");
+
+    emailLinks.forEach((link) => {
+      const el = link as HTMLAnchorElement;
+      const newEl = el.cloneNode(true) as HTMLAnchorElement;
+      el.parentNode?.replaceChild(newEl, el);
+
+      newEl.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const u = newEl.dataset.u;
+        const d = newEl.dataset.d;
+        if (!u || !d) return;
+
+        // Decode email at runtime
+        const email = atob(u) + "@" + atob(d);
+
+        // Build mailto URL
+        let mailto = `mailto:${email}`;
+        const params: string[] = [];
+
+        if (newEl.dataset.subject) {
+          params.push(`subject=${encodeURIComponent(newEl.dataset.subject)}`);
+        }
+        if (newEl.dataset.body) {
+          params.push(`body=${encodeURIComponent(newEl.dataset.body)}`);
+        }
+
+        if (params.length > 0) {
+          mailto += "?" + params.join("&");
+        }
+
+        window.location.href = mailto;
+      });
+    });
+  }
+
+  initObfuscatedEmails();
+  document.addEventListener("astro:page-load", initObfuscatedEmails);
+</script>
+
+<style>
+  .obfuscated-email {
+    cursor: pointer;
+  }
+</style>

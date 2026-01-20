@@ -15,6 +15,8 @@
 - **Responsive Components**: Mobile-optimized Footer, Dock, and Search layouts.
 - **Improved Typography**: Clean Geist and Monospace font stack.
 - **Search**: Built-in search modal with keyboard shortcuts (with Fuse.js).
+- **Post Copyright**: Beautiful share component with copy link tooltip, LinkedIn, and Bluesky sharing.
+- **Email Obfuscation**: Anti-scraping protection using Base64 encoding - decoded only on click.
 
 ## 🚀 Quick Start
 
@@ -45,11 +47,12 @@
 /
 ├── public/           # Static assets (fonts, icons)
 ├── src/
-│   ├── components/   # Reusable UI components (Dock, Footer, Timeline)
+│   ├── components/   # Reusable UI components (Dock, Footer, Timeline, PostCopyright)
 │   ├── content/      # Markdown content (blog posts)
 │   ├── layouts/      # Page templates (Base, BlogPost)
 │   ├── pages/        # Route definitions
-│   └── styles/       # Global CSS and tokens
+│   ├── styles/       # Global CSS and tokens
+│   └── utils/        # Shared utilities (email obfuscation)
 └── astro.config.mjs  # Configuration
 ```
 
@@ -88,12 +91,13 @@ tags: ["tech", "life"]
 - [ ] **Draft Support**: Add `draft: z.boolean().optional()` to content schema.
 - [ ] **Featured Posts**: Add `featured: z.boolean().optional()` to pin posts.
 - [ ] **Marketing Integration**: Add Brevo marketing (see [Merox Erudite](https://github.com/meroxdotdev/merox-erudite?tab=readme-ov-file)).
-- [ ] **About Page**: Improve layout and content.
-- [ ] **Contact Page**: Decide on inclusion (form vs email link).
+- [x] **About Page**: Improved layout with timeline and skills.
+- [x] **Post Copyright**: Share component with social links and email comment.
+- [x] **Email Obfuscation**: Anti-scraping protection across site.
 - [ ] **RSS Feed**: Ensure robust RSS features (Completed basic integration).
 
 ## 📄 License
-This project is open-source and available under the [MIT License](LICENSE).
+This project is open-source and available under the European Union Public Licence (EUPL) v1.2.
 
 ## 🌍 Deployment & SEO
 

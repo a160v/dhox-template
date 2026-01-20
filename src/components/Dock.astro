@@ -22,9 +22,11 @@
  * <Dock />
  */
 import { SITE_CONFIG } from "../consts";
+import { getObfuscatedEmail } from "../utils/email";
 import AnalogueClock from "./AnalogueClock.astro";
 
 const currentPath = Astro.url.pathname;
+const { encodedUser, encodedDomain } = getObfuscatedEmail();
 
 interface DockItem {
   href?: string;
@@ -38,9 +40,9 @@ const dockItems: DockItem[] = [
   { href: "/about", label: "About", imgSrc: "/user-line.svg" },
   { href: "/blog", label: "Blog", imgSrc: "/sticky-note-line.svg" },
   {
-    href: `mailto:${SITE_CONFIG.author.email}`,
     label: "Email",
     imgSrc: "/mail-send-line.svg",
+    action: "email",
   },
   {
     label: "Search",
@@ -86,9 +88,12 @@ function isActive(href?: string): boolean {
             class:list={[
               "dock-item",
               item.action === "search" ? "search-dock-btn" : "",
+              item.action === "email" ? "email-dock-btn" : "",
             ]}
             aria-label={item.label}
             data-action={item.action}
+            data-u={item.action === "email" ? encodedUser : undefined}
+            data-d={item.action === "email" ? encodedDomain : undefined}
           >
             <span class="dock-tooltip">{item.label}</span>
             <span class="dock-icon">
@@ -98,7 +103,7 @@ function isActive(href?: string): boolean {
               />
             </span>
           </button>
-        )
+        ),
       )
     }
   </div>
@@ -164,6 +169,11 @@ function isActive(href?: string): boolean {
   /* Search Item (only on blog) */
   :global(button.dock-item.search-dock-btn) {
     background: linear-gradient(180deg, #32ade6 0%, #007aff 100%);
+  }
+
+  /* Email Item (obfuscated) */
+  :global(button.dock-item.email-dock-btn) {
+    background: linear-gradient(180deg, #34c759 0%, #30b0c7 100%);
   }
 
   /* Clock Item */
@@ -316,18 +326,33 @@ function isActive(href?: string): boolean {
 <script>
   /**
    * Initialize Dock
-   * Only needed for the Search button listener
+   * Handles Search and Email button listeners
    */
   function initDock() {
     // Attach Search Listener
     const searchBtn = document.querySelector('[data-action="search"]');
     if (searchBtn) {
-      // Clone to remove old listeners
       const newBtn = searchBtn.cloneNode(true);
       searchBtn.parentNode?.replaceChild(newBtn, searchBtn);
-
       newBtn.addEventListener("click", () => {
         window.dispatchEvent(new CustomEvent("search:toggle"));
+      });
+    }
+
+    // Attach Email Listener (obfuscated)
+    const emailBtn = document.querySelector(
+      '[data-action="email"]',
+    ) as HTMLButtonElement;
+    if (emailBtn) {
+      const newBtn = emailBtn.cloneNode(true) as HTMLButtonElement;
+      emailBtn.parentNode?.replaceChild(newBtn, emailBtn);
+      newBtn.addEventListener("click", () => {
+        const u = newBtn.dataset.u;
+        const d = newBtn.dataset.d;
+        if (!u || !d) return;
+        // Decode email at runtime
+        const email = atob(u) + "@" + atob(d);
+        window.location.href = `mailto:${email}`;
       });
     }
   }

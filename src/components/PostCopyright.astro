@@ -1,0 +1,373 @@
+---
+/**
+ * PostCopyright Component
+ * Displays copyright info, share links, and copy URL functionality
+ * Positioned between article content and prev/next navigation
+ */
+import Icon from "./Icon.astro";
+import FormattedDate from "./FormattedDate.astro";
+import { getObfuscatedEmail } from "../utils/email";
+
+interface Props {
+  title: string;
+  pubDate: Date;
+  author?: string;
+}
+
+const { title, pubDate, author = "Aleks Vangjelofski" } = Astro.props;
+
+const pageUrl = Astro.url.href;
+
+const shares = {
+  linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}`,
+  bluesky: `https://bsky.app/intent/compose?text=${encodeURIComponent(title)}%0A${encodeURIComponent(pageUrl)}`,
+};
+
+// Use shared email obfuscation utility
+const { encodedUser, encodedDomain } = getObfuscatedEmail();
+---
+
+<div class="post-copyright">
+  <!-- Main Content (Left) -->
+  <div class="copyright-main">
+    <!-- Title & URL -->
+    <div class="copyright-header">
+      <div class="copyright-title">{title}</div>
+      <div class="copyright-url">{pageUrl}</div>
+    </div>
+
+    <!-- Metadata -->
+    <div class="copyright-meta">
+      <div class="meta-item">
+        <span class="meta-label">Author</span>
+        <span class="meta-value">{author}</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Published at</span>
+        <span class="meta-value"><FormattedDate date={pubDate} /></span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Copyright</span>
+        <a
+          class="meta-value license-link"
+          href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+          target="_blank"
+          rel="noopener"
+        >
+          CC BY-NC-SA 4.0
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions (Right) -->
+  <div class="copyright-right">
+    <!-- Email CTA - Obfuscated -->
+    <button
+      id="email-contact-btn"
+      class="email-cta"
+      data-u={encodedUser}
+      data-d={encodedDomain}
+      data-t={title}
+      data-url={pageUrl}
+      aria-label="Send feedback via email"
+      title="Comment on this post"
+    >
+      <Icon icon="at-line.svg" size="18px" />
+      <span>Comment</span>
+    </button>
+
+    <!-- Share Buttons -->
+    <div class="copyright-actions">
+      <div class="copy-btn-wrapper">
+        <button
+          id="copy-link-btn"
+          class="action-btn"
+          aria-label="Copy link"
+          title="Copy link"
+        >
+          <Icon icon="link-line.svg" size="16px" />
+        </button>
+        <span class="copy-tooltip" id="copy-tooltip">Link copied!</span>
+      </div>
+      <a
+        href={shares.linkedin}
+        target="_blank"
+        rel="noopener"
+        class="action-btn"
+        aria-label="Share to LinkedIn"
+        title="Share to LinkedIn"
+      >
+        <Icon icon="linkedin-line.svg" size="16px" />
+      </a>
+      <a
+        href={shares.bluesky}
+        target="_blank"
+        rel="noopener"
+        class="action-btn"
+        aria-label="Share to Bluesky"
+        title="Share to Bluesky"
+      >
+        <Icon icon="bluesky-line.svg" size="16px" />
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .post-copyright {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    margin-top: var(--space-10);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+  }
+
+  .copyright-main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    flex: 1;
+  }
+
+  .copyright-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    flex-shrink: 0;
+  }
+
+  .email-cta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    color: var(--color-accent);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .email-cta:hover {
+    background: var(--color-accent);
+    color: white;
+    border-color: var(--color-accent);
+  }
+
+  .watermark {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    opacity: 0.08;
+    pointer-events: none;
+  }
+
+  .copyright-header {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .copyright-title {
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: var(--text-base);
+  }
+
+  .copyright-url {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    word-break: break-all;
+  }
+
+  .copyright-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .meta-label {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .meta-value {
+    font-size: var(--text-sm);
+    color: var(--color-text);
+  }
+
+  .license-link {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .license-link:hover {
+    color: var(--color-accent-hover);
+  }
+
+  .copyright-actions {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .copy-btn-wrapper {
+    position: relative;
+  }
+
+  .copy-tooltip {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-text);
+    color: var(--color-bg);
+    font-size: var(--text-xs);
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-fast);
+  }
+
+  .copy-tooltip.visible {
+    opacity: 1;
+  }
+
+  .action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--color-bg);
+    border: none;
+    border-radius: var(--radius-full);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-decoration: none;
+  }
+
+  .action-btn:hover {
+    color: var(--color-accent);
+    background: var(--color-surface);
+  }
+
+  @media (max-width: 640px) {
+    .post-copyright {
+      flex-direction: column;
+      align-items: stretch;
+      padding: var(--space-3) var(--space-4);
+    }
+
+    .copyright-right {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: var(--space-2);
+    }
+
+    .email-cta {
+      flex: 1;
+      justify-content: center;
+    }
+
+    .copyright-actions {
+      justify-content: flex-end;
+    }
+
+    .watermark {
+      display: none;
+    }
+
+    .copyright-meta {
+      gap: var(--space-4);
+    }
+
+    .meta-item {
+      flex-direction: row;
+      gap: var(--space-2);
+      align-items: center;
+    }
+
+    .meta-label {
+      font-size: var(--text-xs);
+    }
+  }
+</style>
+
+<script>
+  function initCopyLink() {
+    const copyBtn = document.getElementById("copy-link-btn");
+    const tooltip = document.getElementById("copy-tooltip");
+
+    copyBtn?.addEventListener("click", () => {
+      navigator.clipboard.writeText(window.location.href);
+      // Show tooltip
+      tooltip?.classList.add("visible");
+      copyBtn.style.color = "var(--color-accent)";
+
+      setTimeout(() => {
+        tooltip?.classList.remove("visible");
+        copyBtn.style.color = "";
+      }, 1500);
+    });
+  }
+
+  function initEmailContact() {
+    const emailBtn = document.getElementById("email-contact-btn");
+
+    emailBtn?.addEventListener("click", () => {
+      // Decode obfuscated email parts from Base64
+      const u = emailBtn.dataset.u;
+      const d = emailBtn.dataset.d;
+      const title = emailBtn.dataset.t;
+      const url = emailBtn.dataset.url;
+
+      if (!u || !d) return;
+
+      // Reconstruct email at runtime (not in HTML source)
+      const email = atob(u) + "@" + atob(d);
+
+      // Construct mailto with subject and body
+      const subject = encodeURIComponent(
+        "Feedback on " + title || "Blog feedback",
+      );
+      const body = encodeURIComponent(
+        `Hello Aleks,\n\nI am writing you regarding your blog post "${title}" (${url}).\n\n`,
+      );
+
+      // Open mail client
+      window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+    });
+  }
+
+  initCopyLink();
+  initEmailContact();
+  document.addEventListener("astro:page-load", () => {
+    initCopyLink();
+    initEmailContact();
+  });
+</script>

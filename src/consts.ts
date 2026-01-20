@@ -5,14 +5,14 @@
 
 export const SITE_CONFIG = {
   // Basic Site Info
-  title: "About blog",
-  description: "Personal website and blog",
-  url: "https://example.com", // TODO: Update with your deployed URL
+  title: "About Aleks' blog",
+  description: "Aleks Vangjelofski's personal website and blog",
+  url: "https://a160v.me", // TODO: Update with your deployed URL
 
   // Author Info
   author: {
     name: "Aleks",
-    email: "hello@example.com", // TODO: Update with your email
+    email: "aleks@a160v.me", // TODO: Update with your email
   },
 
   // Social Links
