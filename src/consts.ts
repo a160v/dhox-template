@@ -5,22 +5,23 @@
 
 export const SITE_CONFIG = {
   // Basic Site Info
-  title: "About Aleks' blog",
-  description: "Aleks Vangjelofski's personal website and blog",
-  url: "https://a160v.me", // TODO: Update with your deployed URL
+  title: "Your Name", // TODO: Update with your name
+  description: "Personal website and blog", // TODO: Update with your tagline
+  url: "https://example.com", // TODO: Update with your deployed URL
 
   // Author Info
   author: {
-    name: "Aleks",
-    email: "aleks@a160v.me", // TODO: Update with your email
+    name: "Your Name", // TODO: Update with your name
+    email: "hello@example.com", // TODO: Update with your email
   },
 
   // Social Links
   social: {
-    github: "https://github.com/a160v",
-    linkedin: "https://linkedin.com/in/e-aleks/",
+    github: "https://github.com/yourusername", // TODO: Update with your GitHub
+    linkedin: "https://linkedin.com/in/yourusername", // TODO: Update with your LinkedIn
     // Add more as needed:
     // mastodon: "https://mastodon.social/@yourusername",
+    // twitter: "https://twitter.com/yourusername",
   },
 
   // Navigation

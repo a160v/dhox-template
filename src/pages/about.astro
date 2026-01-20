@@ -9,87 +9,63 @@ import { SITE_TITLE, SOCIAL_LINKS } from "../consts";
 // Breadcrumb data for footer
 const breadcrumbs = [{ label: "Home", href: "/" }, { label: "About" }];
 
-// About page content - edit this data to update your story
-// (Also mirrored in /src/content/about.md for reference)
+// ==============================================
+// TODO: Edit this data to tell YOUR story
+// ==============================================
 const aboutData = {
-  title: "My Story: A Wildcard's Journey",
-  subtitle:
-    "It's not linear, and it doesn't fit into a single job title. But it makes perfect sense once you understand what drives me.",
+  title: "My Story", // TODO: Your headline
+  subtitle: "A brief tagline about yourself and what drives you.", // TODO: Your subtitle
   intro:
-    "Let me tell you my story. It's not linear, and it doesn't fit into a single job title. But it makes perfect sense once you understand what drives me: <strong>diving headfirst into complex problems at the intersection of technology, policy, and international coordination</strong>.",
+    "Let me tell you my story. <strong>This is where you introduce yourself</strong> and explain what makes you unique.", // TODO: Your intro
 
+  // TODO: Replace with your own timeline entries
   timeline: [
     {
-      date: "2024 – 2025",
-      title: "Coming Full Circle",
+      date: "2024 – Present",
+      title: "Current Role or Project",
       variant: "default",
       content:
-        "Enrolled in the <strong>Master of Arts in European Transformation and Integration</strong> at the College of Europe in Tirana, Albania, focusing my thesis on Digital Transformation of Public Administration.",
+        "Describe what you're currently working on. Use <strong>bold</strong> for emphasis.",
     },
     {
-      date: "2023 – 2024",
-      title: "Becoming Bilingual in Policy and Code",
+      date: "2022 – 2024",
+      title: "Previous Experience",
       variant: "default",
       content:
-        "Completed a 9-week coding bootcamp at <strong>Le Wagon in Zurich</strong>. Worked as Software Consultant at <strong>Imperium Code</strong>, supporting research on <strong>Article 40 of the Digital Services Act</strong>.",
+        "Describe a previous role, education, or significant life event.",
     },
     {
-      date: "2021 – 2022",
-      title: "Berlin: Thriving in Chaos",
+      date: "2020 – 2022",
+      title: "Another Milestone",
       variant: "default",
-      content:
-        "At <strong>Gorillas Technologies</strong>, became Product Operations Manager during hypergrowth. Reduced country launch time from 8 weeks to 4 weeks—a <strong>50% improvement</strong>.",
+      content: "Continue building your story with key moments that shaped you.",
     },
     {
-      date: "2019 – 2020",
-      title: "The Entrepreneurial Detour",
+      date: "2018 – 2020",
+      title: "The Beginning",
       variant: "default",
       content:
-        "Pursued digital entrepreneurship at <strong>Université Sorbonne Paris Nord</strong>. Worked at <strong>Fempo</strong> as IT Project Coordinator, deploying Odoo ERP. Moved to Berlin to found a startup.",
-    },
-    {
-      date: "2017 – 2019",
-      title: "Master's in International Public Management",
-      variant: "default",
-      content:
-        "Continued at <strong>Sciences Po Paris</strong> for a Master of Arts. Served as Event Manager at Young European Federalists (JEF).",
-    },
-    {
-      date: "2016",
-      title: "Cultural Immersion in China",
-      variant: "default",
-      content:
-        "Studied Modern Chinese Culture and language at <strong>Nanjing University</strong>. Volunteered as an English teacher with AIESEC.",
-    },
-    {
-      date: "2014 – 2017",
-      title: "The Foundation",
-      variant: "default",
-      content:
-        "Started at <strong>Sciences Po Paris</strong>, obtaining a Bachelor of Arts in Social Sciences and Humanities, focusing on Central and Eastern European Studies.",
+        "Where did your journey start? Education, first job, or a pivotal moment.",
     },
   ],
 
+  // TODO: List your key skills
   skills: [
-    "<strong>EU governance and legislative processes</strong>, particularly EU digital policy",
-    "<strong>Policy monitoring and analysis</strong>, synthesising complex regulatory frameworks into clear insights",
-    "<strong>Stakeholder coordination</strong> in multi-actor and multicultural environments",
-    "<strong>Clear written communication</strong>—translating technical and policy complexity into accessible language",
+    "<strong>Skill Category 1</strong>, with specific expertise",
+    "<strong>Skill Category 2</strong>, describing your capability",
+    "<strong>Skill Category 3</strong>, what you bring to the table",
+    "<strong>Skill Category 4</strong>, your unique strength",
   ],
 
+  // TODO: List your languages (or remove if not relevant)
   languages: [
-    { name: "Italian", level: "native" },
-    { name: "Albanian", level: "native" },
-    { name: "Macedonian", level: "native" },
-    { name: "English", level: "C2" },
-    { name: "French", level: "C2" },
-    { name: "Spanish", level: "B1" },
-    { name: "German", level: "A2" },
-    { name: "Chinese", level: "A2" },
+    { name: "English", level: "native" },
+    { name: "Spanish", level: "B2" },
+    { name: "French", level: "A2" },
   ],
 
   conclusion:
-    "I thrive at the intersection of technology, policy, and international coordination. I'm at my best with complex, ambiguous problems requiring simultaneous understanding of multiple domains. <strong>I'm a wildcard, and being hard to categorise is my greatest strength.</strong>",
+    "Wrap up your story here. <strong>What makes you unique?</strong> What are you looking for?", // TODO: Your conclusion
 } as const;
 ---
 
@@ -192,7 +168,7 @@ const aboutData = {
             </span>
             <span class="social-label">
               <span class="social-name">GitHub</span>
-              <span class="social-handle">@a160v</span>
+              <span class="social-handle">@yourusername</span>
             </span>
           </a>
 
@@ -207,7 +183,7 @@ const aboutData = {
             </span>
             <span class="social-label">
               <span class="social-name">LinkedIn</span>
-              <span class="social-handle">e-aleks</span>
+              <span class="social-handle">yourusername</span>
             </span>
           </a>
 
@@ -380,12 +356,14 @@ const aboutData = {
     color: var(--color-accent);
   }
 
+  .lang-tag.b2,
   .lang-tag.b1 {
     background: var(--color-border);
     color: var(--color-text);
   }
 
-  .lang-tag.a2 {
+  .lang-tag.a2,
+  .lang-tag.a1 {
     background: var(--color-code-bg);
     color: var(--color-text-muted);
   }

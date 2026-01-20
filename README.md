@@ -1,4 +1,4 @@
-# Dhox - Sublime personal website with blog
+# Dhox - Sublime Personal Website Template
 
 **Dhox** is a sublime and playful website template with a blog, built with [Astro](https://astro.build). Designed for beauty, readability, fluidity, and storytelling.
 
@@ -20,8 +20,8 @@
 
 1.  **Clone the repository**:
     ```bash
-    git clone https://github.com/yourusername/Dhox
-    cd Dhox
+    git clone https://github.com/yourusername/dhox
+    cd dhox
     ```
 
 2.  **Install dependencies**:
@@ -38,6 +38,19 @@
     ```bash
     npm run build
     ```
+
+## ⚙️ Personalization
+
+After cloning, update these files with your information:
+
+| File | What to update |
+|------|----------------|
+| `src/consts.ts` | Site title, name, email, social links |
+| `src/pages/about.astro` | Your timeline, skills, languages |
+| `src/components/Footer.astro` | Footer copyright text |
+| `src/content/blog/*.md` | Your blog posts |
+
+> **Tip**: Search for `TODO:` comments throughout the codebase to find all placeholder content.
 
 ## 📂 Project Structure
 
@@ -56,24 +69,17 @@
 
 ## 🛠️ Customization
 
-### 1. Configuration
-Open `src/consts.ts` to update global site settings:
-```typescript
-export const SITE_TITLE = "Your Name";
-export const SITE_DESCRIPTION = "Your tagline here.";
-```
-
-### 2. Branding (Colors & Fonts)
+### Colors & Fonts
 Edit `src/styles/global.css` to modify CSS variables for colors, spacing, and typography.
 - **Fonts**: We use *Geist* and *Monospace*.
-- **Themes**: Adjust specific color tokens in the `:root`, `[data-theme="sepia"]`, and `[data-theme="dark"]` blocks.
+- **Themes**: Adjust color tokens in `:root`, `[data-theme="sepia"]`, and `[data-theme="dark"]`.
 
-### 3. Dock Icons
-The dock icons are located in `src/components/Dock.astro`. They use CSS masks for crisp rendering. To change an icon:
+### Dock Icons
+The dock icons are in `src/components/Dock.astro`. They use CSS masks for crisp rendering. To change an icon:
 1.  Add your SVG to `/public/`.
 2.  Update the `dockItems` array in `Dock.astro` with the new path.
 
-### 4. Blog Posts
+### Blog Posts
 Add new posts to `src/content/blog/`. The frontmatter requires:
 ```yaml
 ---
@@ -81,33 +87,23 @@ title: "My New Post"
 description: "A short summary"
 pubDate: "Jul 15 2024"
 tags: ["tech", "life"]
+author: "Your Name"
 ---
 ```
 
-## 🗺️ Roadmap (To-Do)
+## 🌍 Deployment
 
-- [ ] **Draft Support**: Add `draft: z.boolean().optional()` to content schema.
-- [ ] **Featured Posts**: Add `featured: z.boolean().optional()` to pin posts.
-- [ ] **Marketing Integration**: Add Brevo marketing (see [Merox Erudite](https://github.com/meroxdotdev/merox-erudite?tab=readme-ov-file)).
-- [x] **About Page**: Improved layout with timeline and skills.
-- [x] **Post Copyright**: Share component with social links and email comment.
-- [x] **Email Obfuscation**: Anti-scraping protection across site.
-- [ ] **RSS Feed**: Ensure robust RSS features (Completed basic integration).
+This template is optimized for **Cloudflare Pages**, **Vercel**, or **Netlify**.
+
+1.  Push to GitHub.
+2.  Connect to your hosting platform.
+3.  It will auto-detect Astro and run `npm run build`.
+
+**SEO Note**: Submit your `/sitemap-index.xml` to [Google Search Console](https://search.google.com/search-console) after deployment.
 
 ## 📄 License
+
 This project is open-source and available under the European Union Public Licence (EUPL) v1.2.
-
-## 🌍 Deployment & SEO
-
-This template is optimized for easy deployment on major platforms like **Cloudflare Pages** or **Vercel**.
-
-1.  **Push to GitHub**.
-2.  **Connect to Host** and import your repo.
-3.  **Build it**: it will automatically detect `Astro` and run `npm run build`.
-
-**SEO Check:**
-- `robots.txt` and `sitemap-index.xml` are generated automatically.
-- Submit your `/sitemap-index.xml` to [Google Search Console](https://search.google.com/search-console) after deployment to speed up indexing.
 
 ## 🙏 Credits
 

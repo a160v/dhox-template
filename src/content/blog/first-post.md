@@ -1,5 +1,5 @@
 ---
-author: Aleks Vangjelofski
+author: Your Name
 title: "Welcome to Dhox: a sublime theme"
 description: "A sublime personal website with a blog, built with Astro."
 pubDate: "Jan 17 2026"
