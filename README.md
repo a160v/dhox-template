@@ -111,3 +111,4 @@ This project is open-source and available under the European Union Public Licenc
 - Icons by [Remix Icon](https://remixicon.com/)
 - Font: [Geist](https://vercel.com/font)
 - Search: [Fuse.js](https://fusejs.io)
+- Copyright component inspired by [Astro Pure](https://astro-pure.js.org/search)
